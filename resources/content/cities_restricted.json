@@ -1,0 +1,30 @@
+[
+    {
+        "region_code": "LT",
+        "city_name": "Douala"
+    },
+    {
+        "region_code": "OU",
+        "city_name": "Dschang"
+    },
+    {
+        "region_code": "OU",
+        "city_name": "Bafoussam"
+    },
+    {
+        "region_code": "SW",
+        "city_name": "Buea"
+    },
+    {
+        "region_code": "NW",
+        "city_name": "Bamenda"
+    },
+    {
+        "region_code": "CE",
+        "city_name": "Yaoundé"
+    },
+    {
+        "region_code": "SU",
+        "city_name": "Kribi"
+    }
+]

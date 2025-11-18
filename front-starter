@@ -1,0 +1,9 @@
+- Add FileField
+- Add support for file into use-simple-form
+- Add support for phone number into use-simple-form
+- Add support file file field into createFormData
+- Add getFormData to use-simple-form
+- Add picking on error
+- Add select-resource component feature
+- Create a new way of displaying resource-details
+- Add has errors to the use-errors hooks linked to the errors store.
