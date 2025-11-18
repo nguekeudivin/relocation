@@ -21,7 +21,7 @@ class ChangeUserProfile extends Controller
                 return redirect()->to('admin/dashboard');
                 break;
             default:
-                return redirect()->to('member/dashboard');
+                return redirect()->to('member/profile');
         }
     }
 }

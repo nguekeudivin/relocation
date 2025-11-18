@@ -11,52 +11,30 @@ export default function SettingsPage() {
     const store = useAppStore();
 
     const form = useSimpleForm({
-        monthly_contribution_amount: '',
-        monthly_contribution_due_days: '',
-        adhesion_contribution_amount: '',
-        adhesion_payment_due_days: '',
-        help_transaction_due_days: '',
-        meeting_support_amount: '',
+        price_per_hour: '',
+        price_per_worker: '',
+        price_per_car: '',
     });
 
     // Fetch settings on mount
     useEffect(() => {
-        store.setting
-            .queryFetch({
-                code: '',
-                name: '',
-                value: '',
-            })
-            .then((items: any) => {
-                const settings = getSettingObject(items);
+        store.setting.queryFetch({ code: '', name: '', value: '' }).then((items: any) => {
+            const settings = getSettingObject(items);
 
-                form.setValues(() => ({
-                    monthly_contribution_amount: settings?.monthly_contribution_amount || '',
-                    monthly_contribution_due_days: settings?.monthly_contribution_due_days || '',
-                    adhesion_contribution_amount: settings?.adhesion_contribution_amount || '',
-                    adhesion_payment_due_days: settings?.adhesion_payment_due_days || '',
-                    help_transaction_due_days: settings?.help_transaction_due_days || '',
-                    meeting_support_amount: settings?.meeting_support_amount || '',
-                }));
-            });
+            form.setValues(() => ({
+                price_per_hour: settings?.price_per_hour || '',
+                price_per_worker: settings?.price_per_worker || '',
+                price_per_car: settings?.price_per_car || '',
+            }));
+        });
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         store.errors.reset();
 
-        // Validation rules for days
-        const daysFields = ['monthly_contribution_due_days', 'adhesion_payment_due_days', 'help_transaction_due_days'];
-        daysFields.forEach((field) => {
-            const value = form.values[field];
-            if (value < 1 || value > 30) {
-                store.errors.set(field, 'Cette valeur doit être comprise entre 1 et 30');
-            }
-        });
-
         if (store.errors.hasErrors()) return;
 
-        // Save all settings
         store.setting
             .save({ settings: form.values })
             .then((res) => {
@@ -66,85 +44,50 @@ export default function SettingsPage() {
     };
 
     return (
-        <>
-            <AppLayout breadcrumbds={[]}>
-                <section className="mx-auto max-w-5xl">
-                    <PageTitle title="Paramètres" />
+        <AppLayout breadcrumbds={[]}>
+            <section className="mx-auto max-w-5xl">
+                <PageTitle title="Paramètres" />
 
-                    <form onSubmit={handleSubmit} className="mt-4 rounded-lg border border-gray-200">
-                        <header className="border-b border-gray-200 px-4 py-2 text-lg font-semibold">Contributions</header>
-                        <div className="p-4">
-                            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                                <InputField
-                                    label="Montant de la contribution mensuelle"
-                                    name="monthly_contribution_amount"
-                                    type="number"
-                                    value={form.values.monthly_contribution_amount}
-                                    onChange={form.handleChange}
-                                    error={store.errors.values.monthly_contribution_amount}
-                                    placeholder="Saisir le montant"
-                                />
-
-                                <InputField
-                                    label="Jour d’échéance de la contribution mensuelle"
-                                    name="monthly_contribution_due_days"
-                                    type="number"
-                                    value={form.values.monthly_contribution_due_days}
-                                    onChange={form.handleChange}
-                                    error={store.errors.values.monthly_contribution_due_days}
-                                    placeholder="Saisir le jour d’échéance (ex : 15)"
-                                />
-
-                                <InputField
-                                    label="Montant de l’adhésion"
-                                    name="adhesion_contribution_amount"
-                                    type="number"
-                                    value={form.values.adhesion_contribution_amount}
-                                    onChange={form.handleChange}
-                                    error={store.errors.values.adhesion_contribution_amount}
-                                    placeholder="Saisir le montant"
-                                />
-
-                                <InputField
-                                    label="Jour d’échéance du paiement d’adhésion"
-                                    name="adhesion_payment_due_days"
-                                    type="number"
-                                    value={form.values.adhesion_payment_due_days}
-                                    onChange={form.handleChange}
-                                    error={store.errors.values.adhesion_payment_due_days}
-                                    placeholder="Saisir le jour d’échéance (ex : 7)"
-                                />
-
-                                <InputField
-                                    label="Jour d’échéance pour le paiement des aides"
-                                    name="help_transaction_due_days"
-                                    type="number"
-                                    value={form.values.help_transaction_due_days}
-                                    onChange={form.handleChange}
-                                    error={store.errors.values.help_transaction_due_days}
-                                    placeholder="Saisir le jour d’échéance (ex : 7)"
-                                />
-
-                                <InputField
-                                    label="Montant de soutien aux réunions"
-                                    name="meeting_support_amount"
-                                    type="number"
-                                    value={form.values.meeting_support_amount}
-                                    onChange={form.handleChange}
-                                    error={store.errors.values.meeting_support_amount}
-                                    placeholder="Saisir le montant"
-                                />
-                            </div>
+                <form onSubmit={handleSubmit} className="mt-4 rounded-lg border border-gray-200">
+                    <div className="p-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                            <InputField
+                                label="Prix par heure"
+                                name="price_per_hour"
+                                type="number"
+                                value={form.values.price_per_hour}
+                                onChange={form.handleChange}
+                                error={store.errors.values.price_per_hour}
+                                placeholder="Saisir le prix par heure"
+                            />
+                            <InputField
+                                label="Prix par travailleur"
+                                name="price_per_worker"
+                                type="number"
+                                value={form.values.price_per_worker}
+                                onChange={form.handleChange}
+                                error={store.errors.values.price_per_worker}
+                                placeholder="Saisir le prix par travailleur"
+                            />
+                            <InputField
+                                label="Prix par véhicule"
+                                name="price_per_car"
+                                type="number"
+                                value={form.values.price_per_car}
+                                onChange={form.handleChange}
+                                error={store.errors.values.price_per_car}
+                                placeholder="Saisir le prix par véhicule"
+                            />
                         </div>
+                    </div>
 
-                        <footer className="flex justify-end border-t border-gray-200 px-4 py-4">
-                            <Button type="submit" disabled={store.loading.status.setting}>
-                                Enregistrer
-                            </Button>
-                        </footer>
-                    </form>
-                </section>
-            </AppLayout>
-        </>
+                    <footer className="flex justify-end border-t border-gray-200 px-4 py-4">
+                        <Button type="submit" disabled={store.loading.status.setting}>
+                            Enregistrer
+                        </Button>
+                    </footer>
+                </form>
+            </section>
+        </AppLayout>
     );
 }

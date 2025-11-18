@@ -2,102 +2,76 @@
 
 use Illuminate\Support\Facades\Route;
 
-// use App\Http\Controllers\Payment\CreateCredit;
-// use App\Http\Controllers\Payment\CreateDebit;
-// use App\Http\Controllers\Payment\SimulateCredit;
-// use App\Http\Controllers\Payment\SimulateDebit;
-// use App\Http\Controllers\Payment\GetPayment;
-// use App\Http\Controllers\Payment\GetPayments;
+use App\Http\Controllers\User\GetUsers;
+use App\Http\Controllers\User\CreateUser;
+use App\Http\Controllers\User\UpdateUser;
+use App\Http\Controllers\User\GetUser;
 
-// use App\Http\Controllers\User\GetUsers;
-// use App\Http\Controllers\User\CreateUser;
-// use App\Http\Controllers\User\UpdateUser;
-// use App\Http\Controllers\User\GetUser;
+use App\Http\Controllers\Setting\SaveManySettings;
 
-// use App\Http\Controllers\Setting\SaveManySettings;
+use App\Http\Controllers\Slot\GetSlots;
+use App\Http\Controllers\Slot\CreateSlot;
+use App\Http\Controllers\Slot\UpdateSlot;
+use App\Http\Controllers\Slot\DeleteSlot;
 
-// use App\Http\Controllers\Meeting\GetMeetings;
-// use App\Http\Controllers\Meeting\CreateMeeting;
-// use App\Http\Controllers\Meeting\UpdateMeeting;
-// use App\Http\Controllers\Meeting\DeleteMeeting;
-
-// use App\Http\Controllers\Finance\GetFinanceAccounts;
-// use App\Http\Controllers\Finance\CreateFinanceAccount;
-// use App\Http\Controllers\Finance\UpdateFinanceAccount;
-// use App\Http\Controllers\Finance\ShowFinanceAccount;
-// use App\Http\Controllers\Finance\DeleteFinanceAccount;
-
-// use App\Http\Controllers\Finance\GetTransactions;
-// use App\Http\Controllers\Finance\CreateTransaction;
-// use App\Http\Controllers\Finance\UpdateTransaction;
-// use App\Http\Controllers\Finance\CancelTransaction;
-
-// use App\Http\Controllers\Stats\UserStats;
-// use App\Http\Controllers\Stats\ContributionStats;
-// use App\Http\Controllers\Stats\TransactionStats;
-// use App\Http\Controllers\Stats\HelpStats;
+use App\Http\Controllers\Stats\UserStats;
 
 // use App\Http\Controllers\Notification\GetNotifications;
 // use App\Http\Controllers\Notification\MarkAsRead;
 // use App\Http\Controllers\Notification\DeleteNotification;
 
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageReadController;
+use App\Http\Controllers\MessageReceiveController;
+use App\Http\Controllers\NotificationController;
+
 // Routes
 Route::middleware('auth:sanctum')->group(function () { 
  });
 
-// Route::prefix('/stats')->group(function(){
-//     Route::get('/user', UserStats::class);
-//     Route::get('/transaction', TransactionStats::class);
-//     Route::get('/help', HelpStats::class);
-//     Route::get('/contribution', ContributionStats::class);
-// });
+Route::prefix('/stats')->group(function(){
+    Route::get('/user', UserStats::class);
+});
 
-// Route::prefix('financial-accounts')->group(function () {
-//     Route::get('/', GetFinanceAccounts::class);
-//     Route::post('/', CreateFinanceAccount::class);
-//     Route::put('/{FinanceAccount}', UpdateFinanceAccount::class);
-//     Route::delete('/{FinanceAccount}', DeleteFinanceAccount::class);
-// });
+Route::prefix('users')->group(function () {
+    Route::get('/', GetUsers::class);
+    Route::post('/', CreateUser::class);
+    Route::put('/{user}', UpdateUser::class);
+    Route::get('/{user}', GetUser::class);
+});
 
-// Route::prefix('/transactions')->group(function(){
-//     Route::get('/', GetTransactions::class);
-//     Route::post('/', CreateTransaction::class);
-//     Route::put('/{transaction}',UpdateTransaction::class);
-// });
-
-// Route::prefix('payments')->group(function () {
-//     Route::get('/', GetPayments::class);
-//     Route::post('/credit', CreateCredit::class);
-//     Route::post('/debit', CreateDebit::class);
-//     Route::post('/simulate/credit', SimulateCredit::class);
-//     Route::post('/simulate/debit', SimulateDebit::class);
-//     Route::get('/{payment}', GetPayment::class);
-// });
-
-// Route::prefix('users')->group(function () {
-//     Route::get('/', GetUsers::class);
-//     Route::post('/', CreateUser::class);
-//     Route::put('/{user}', UpdateUser::class);
-//     Route::get('/{user}', GetUser::class);
-// });
+Route::prefix('settings')->group(function(){
+    Route::post('/many', SaveManySettings::class);
+});
 
 
-// Route::prefix('settings')->group(function(){
-//     Route::post('/many', SaveManySettings::class);
-// });
+Route::prefix('/stols')->group(function(){
+    Route::get('/', GetSlots::class);
+    Route::post('/', CreateSlot::class);
+    Route::put('/{slot}', UpdateSlot::class);
+    Route::delete('/{slot}', DeleteSlot::class);
+});
 
+Route::post('/chats', [ChatController::class, 'store']);
+Route::get('/user/chats', [ChatController::class,'userChats']);
 
+Route::post('/messages', [MessageController::class, 'send']);
+Route::post('/messages/read', [MessageController::class, 'markAsRead']);
+Route::post('/messages/receive', [MessageController::class, 'markAsReceive']);
+Route::delete('/messages/{message}', [MessageController::class,'destroy']);
 
-// Route::prefix('/disponibilities')->group(function(){
-//     Route::get('/', GetMeetings::class);
-//     Route::post('/', CreateMeeting::class);
-//     Route::put('/{disponibility}', UpdateMeeting::class);
-//     Route::delete('/{disponibility}', DeleteMeeting::class);
-// });
+Route::get('/message-reads/{messageRead}', [MessageReadController::class, 'show']);
+Route::post('/message-reads/{chat}/latest', [MessageReadController::class,'latestOf']);
 
+Route::get('/message-receives/{messageReceive}', [MessageReceiveController::class,'show']);
+Route::post('/message-receives/lastest', [MessageReceiveController::class,'storeLatest']);
 
-// Route::prefix('notifications')->group(function () {
-//     Route::get('/', GetNotifications::class)->name('notifications.index');
-//     Route::post('/mark-as-read', MarkAsRead::class)->name('notifications.markAsRead');
-//     Route::post('/remove', DeleteNotification::class)->name("notifications.deleteNotification");
-// });
+Route::post('/get/chats', [ChatController::class, 'getChatsByIds']);
+Route::get('/chats/{chatId}', [ChatController::class, 'show']);
+Route::get('/chats/{chat}/users', [ChatController::class, 'getUsers']);
+Route::get('/chats/{chat}/messages', [ChatController::class, 'getMessages']);
+
+Route::get('/notifications', [NotificationController::class,'index']);
+Route::get('/notifications/{notification}/read', [NotificationController::class,'read']);
+Route::get('/notifications/{notification}', [NotificationController::class,'show']);
+

@@ -17,8 +17,16 @@ class UserPages extends Controller
             case 'admin':
                 return redirect()->to('admin/dashboard');
             default:
-                return redirect()->to('member/dashboard');
+                return redirect()->to('user/profile');
         }
+    }
+
+    public function bookings(){
+        return Inertia::render('user/my-bookings');
+    }
+
+    public function profile(){
+        return Inertia::render('user/profile');
     }
    
 }

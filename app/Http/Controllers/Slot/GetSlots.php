@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Meeting;
+namespace App\Http\Controllers\Slot;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Meeting;
+use App\Models\Slot;
 
-class GetMeetings extends Controller
+class GetSlots extends Controller
 {
     public function __invoke(Request $request)
     {
@@ -14,7 +14,7 @@ class GetMeetings extends Controller
         $userId  = $request->input('user_id');
         $date    = $request->input('date');
 
-        $query = Meeting::with(['user']);
+        $query = Slot::with(['user']);
 
         if ($keyword) {
             $query->where(function ($q) use ($keyword) {

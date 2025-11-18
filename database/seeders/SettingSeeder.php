@@ -17,41 +17,23 @@ class SettingSeeder extends Seeder
         
         $settings = [
             [
-                'name' => 'Montant contribution mensuel',
-                'code' => 'monthly_contribution_amount',
-                'description' => "Le montant qu'il faut verser pour une contribution mensuel",
+                'name' => 'Price per hour',
+                'code' => 'price_per_hour',
+                'description' => "price_per_four",
                 'value' => '10000',
             ],
             [
-                'name' => 'Date limite contribution mensuel',
-                'code' => 'monthly_contribution_due_days',
-                'description' => 'Date limite des contributions mensuel. Une fois passe cette date les contributions sont marques impayes',
+                'name' => 'Price per worker',
+                'code' => 'price_per_worker',
+                'description' => 'Price per worker',
                 'value' => '15'
             ],
             [
-                'name' => "Montant de l'adhesion",
-                'code' => 'adhesion_contribution_amount',
-                'description' => "Le montant qu'il faut payer pour adherer ou avoir acces a la reuinion",
+                'name' => "Price per Vehicule",
+                'code' => 'price_per_car',
+                'description' => "Price per car",
                 'value' => '10000'
             ],
-            [
-                'name' => "Adhesion paiment due days",
-                'code' => 'adhesion_payment_due_days',
-                'description' => "Le nombre de jour d'echeance pour payer l'adhesion une fois enregistrer",
-                'value' => '7'
-            ],
-            [
-                'name' => "Help transaction due days",
-                'code' => 'help_transaction_due_days',
-                'description' => "Le nombre de jour d'echeance pour transferer les fonds de l'entraide",
-                'value' => '7'
-            ],
-            [
-                'name' => "Meeting support amount",
-                'code' => 'meeting_support_amount',
-                'description' => "Le montant a payer ",
-                'value' => '2000'
-            ]
         ];
 
         DB::table('settings')->insert($settings);
