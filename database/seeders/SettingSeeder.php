@@ -20,19 +20,19 @@ class SettingSeeder extends Seeder
                 'name' => 'Price per hour',
                 'code' => 'price_per_hour',
                 'description' => "price_per_four",
-                'value' => '10000',
+                'value' => '200',
             ],
             [
                 'name' => 'Price per worker',
                 'code' => 'price_per_worker',
                 'description' => 'Price per worker',
-                'value' => '15'
+                'value' => '500'
             ],
             [
                 'name' => "Price per Vehicule",
                 'code' => 'price_per_car',
                 'description' => "Price per car",
-                'value' => '10000'
+                'value' => '1000'
             ],
         ];
 

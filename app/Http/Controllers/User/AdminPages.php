@@ -11,30 +11,30 @@ class AdminPages extends Controller
 {
     public function dashboard()
     {
-        return Inertia::render('admin/dashboard/page');
+        return Inertia::render('admin/dashboard');
     }
 
     public function users(){
-        return Inertia::render('admin/users/page');
+        return Inertia::render('admin/users');
     }
 
     public function bookings(){
-        return Inertia::render('admin/bookings/page');
+        return Inertia::render('admin/bookings');
     }
 
     public function payments(){
-        return Inertia::render('admin/payments/page');
+        return Inertia::render('admin/payments');
     }
 
     public function calendar(){
-        return Inertia::render('admin/calendar/page');
+        return Inertia::render('admin/calendar');
     }
 
     public function settings(){
-        return Inertia::render('admin/settings/page');
+        return Inertia::render('admin/settings');
     }
 
     public function notifications(){
-        return Inertia::render('admin/notifications/page');
+        return Inertia::render('admin/notifications');
     }
 }

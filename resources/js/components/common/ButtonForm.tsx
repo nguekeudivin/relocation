@@ -30,4 +30,27 @@ export const ButtonForm = forwardRef<HTMLButtonElement, ButtonFormProps>(({ data
     );
 });
 
+export const SimpleButtonForm = forwardRef<HTMLButtonElement, ButtonFormProps>(({ data, children, route, options = {}, ...buttonProps }, ref) => {
+    const { post, processing, transform } = useForm();
+
+    return (
+        <form
+            method="post"
+            onSubmit={(e) => {
+                e.preventDefault();
+                transform(() => ({
+                    ...data,
+                }));
+                post(route, options);
+            }}
+        >
+            <button {...buttonProps} type="submit" ref={ref} className={`${buttonProps.className || ''}`}>
+                {children}
+            </button>
+        </form>
+    );
+});
+
+SimpleButtonForm.displayName = 'SimpleButtonForm';
+
 ButtonForm.displayName = 'ButtonForm';

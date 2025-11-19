@@ -20,7 +20,7 @@ interface PaymentStore extends ResourceStore<Payment> {
     getStats: (year: string) => Promise<any>;
 }
 
-export const useBooking = createResourceStore<Payment, PaymentStore>('payments', (set, get) => ({
+export const usePayment = createResourceStore<Payment, PaymentStore>('payments', (set, get) => ({
     stats: {},
     getStats: (year: string) => {
         return apiClient()

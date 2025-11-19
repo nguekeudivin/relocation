@@ -8,7 +8,6 @@ import { MenuItemType } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { BanknoteIcon, CalendarDays, Caravan, CircleDollarSign, HeartHandshake, LayoutDashboard, LogOut, Settings, Users } from 'lucide-react';
 import { Menu } from './menu';
-import MobileMenu from './mobile-menu';
 import TopBar from './top-bar';
 
 interface AppSidebarProps {
@@ -129,8 +128,6 @@ export default function AppLayout({ breadcrumbds, children }: AppSidebarProps) {
                     <Menu menu={menuBottom} className="mt-4" />
                 </div>
             </div>
-
-            <MobileMenu />
 
             <main
                 className={cn('pl-0 md:pl-[250px]', {

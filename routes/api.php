@@ -14,6 +14,10 @@ use App\Http\Controllers\Slot\CreateSlot;
 use App\Http\Controllers\Slot\UpdateSlot;
 use App\Http\Controllers\Slot\DeleteSlot;
 
+use App\Http\Controllers\Booking\GetBookings;
+use App\Http\Controllers\Payment\GetPayments;
+
+use App\Http\Controllers\Setting\GetSettings;
 use App\Http\Controllers\Stats\UserStats;
 
 // use App\Http\Controllers\Notification\GetNotifications;
@@ -35,15 +39,14 @@ Route::prefix('/stats')->group(function(){
 
 Route::prefix('users')->group(function () {
     Route::get('/', GetUsers::class);
-    Route::post('/', CreateUser::class);
     Route::put('/{user}', UpdateUser::class);
     Route::get('/{user}', GetUser::class);
 });
 
 Route::prefix('settings')->group(function(){
     Route::post('/many', SaveManySettings::class);
+    Route::get('/', GetSettings::class);
 });
-
 
 Route::prefix('/stols')->group(function(){
     Route::get('/', GetSlots::class);
@@ -51,6 +54,15 @@ Route::prefix('/stols')->group(function(){
     Route::put('/{slot}', UpdateSlot::class);
     Route::delete('/{slot}', DeleteSlot::class);
 });
+
+Route::prefix('/bookings')->group(function(){
+    Route::get('/', GetBookings::class);
+});
+
+Route::prefix('/payments')->group(function(){
+    Route::get('/', GetPayments::class);
+});
+
 
 Route::post('/chats', [ChatController::class, 'store']);
 Route::get('/user/chats', [ChatController::class,'userChats']);

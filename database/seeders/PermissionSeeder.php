@@ -14,9 +14,9 @@ class PermissionSeeder extends Seeder
 
         $permissions = [
             // Instutitions
-            ['name' => 'member.view', 'description' => 'View informations of a member'],
-            ['name' => 'member.update', 'description' => 'Update informations of a member'],
-            ['name' => 'member.delete', 'description' => 'Delete a member'],
+            ['name' => 'user.view', 'description' => 'View informations of a user'],
+            ['name' => 'user.update', 'description' => 'Update informations of a user'],
+            ['name' => 'user.delete', 'description' => 'Delete a member'],
         ];
 
         foreach ($permissions as $permission) {

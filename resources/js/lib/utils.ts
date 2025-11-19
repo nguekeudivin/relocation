@@ -58,6 +58,19 @@ export function pickMember<T extends object, K extends keyof T>(obj: T, keys: K 
     return picked;
 }
 
+export function unPick(obj: any, keys: string | string[]) {
+    const keysToRemove = Array.isArray(keys) ? keys : [keys];
+    const result: any = {};
+
+    for (const key in obj) {
+        if (!keysToRemove.includes(key)) {
+            result[key] = obj[key];
+        }
+    }
+
+    return result;
+}
+
 export function generateRandomString(length: number = 10) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

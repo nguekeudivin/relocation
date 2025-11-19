@@ -4,7 +4,7 @@ import { ChangeEvent, FC, FocusEvent } from 'react';
 interface TextAreaFieldProps {
     id?: string;
     name?: string;
-    label: string;
+    label?: string;
     error?: string | string[];
     labelClass?: string;
     inputClass?: string;
@@ -39,9 +39,11 @@ export const TextAreaField: FC<TextAreaFieldProps> = ({
 
     return (
         <div className={cn('relative', className)}>
-            <label htmlFor={generatedId} className={cn('mb-1.5 block text-sm font-medium text-gray-900', labelClass)}>
-                {label}
-            </label>
+            {label && (
+                <label htmlFor={generatedId} className={cn('mb-1.5 block text-sm font-medium text-gray-900', labelClass)}>
+                    {label}
+                </label>
+            )}
 
             <textarea
                 id={generatedId}
@@ -54,7 +56,7 @@ export const TextAreaField: FC<TextAreaFieldProps> = ({
                 onFocus={onFocus}
                 onBlur={onBlur}
                 className={cn(
-                    'block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900',
+                    'block w-full border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900',
                     'focus:ring-secondary-300 focus:border-primary-200 focus:border-blue-500 focus:border-transparent focus:ring-2 focus:outline-none',
                     {
                         'border-red-500 focus:border-red-500 focus:ring-red-500': hasError,

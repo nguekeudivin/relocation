@@ -11,7 +11,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('name')->unique();
             $table->string('code')->unique();
-            $table->enum('type', ['admin', 'member']);
+            $table->enum('type', ['admin', 'client']);
             $table->text('description')->nullable();
             $table->timestamps();
         });

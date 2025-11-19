@@ -1,8 +1,5 @@
 'use client';
 
-import { PayContributionModal } from '@/components/contributions/contributions-modals/payer-contribution-modal';
-import NotificationSheet from '@/components/notifications/notifications-sheet';
-import { Button } from '@/components/ui/button';
 import { SelectProfileModal } from '@/components/users/select-profile-modal';
 import { useDisplay } from '@/hooks/use-display';
 import { cn } from '@/lib/utils';
@@ -10,7 +7,7 @@ import useAppStore from '@/store';
 import { Profile } from '@/store/User';
 import { usePage } from '@inertiajs/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import { Bell, Coins, Menu } from 'lucide-react';
+import { Bell, Menu } from 'lucide-react';
 import { useEffect } from 'react';
 
 export default function TopBar({ className }: { className: string }) {
@@ -21,16 +18,14 @@ export default function TopBar({ className }: { className: string }) {
     const currentProfile = auth.profiles.find((item: Profile) => item.role_id == auth.user.current_user_role_id);
 
     useEffect(() => {
-        store.notification.fetch({
-            user_id: auth.user.id,
-        });
+        // store.notification.fetch({
+        //     user_id: auth.user.id,
+        // });
     }, []);
 
     return (
         <div id="topbar" className={cn(className)}>
             <SelectProfileModal />
-            <NotificationSheet />
-            <PayContributionModal />
             <div className={cn('mx-auto flex h-full max-w-7xl items-center justify-between')}>
                 <div className="flex gap-4">
                     <button
@@ -45,18 +40,6 @@ export default function TopBar({ className }: { className: string }) {
                 <div className=""></div>
 
                 <div className="flex h-full items-center space-x-6">
-                    <div className="flex items-center gap-2">
-                        <Button
-                            onClick={() => {
-                                store.display.show('pay_contribution');
-                            }}
-                            color="secondary"
-                            className="flex items-center gap-2"
-                        >
-                            <Coins className="h-5 w-5" />
-                            Payer une contribution
-                        </Button>
-                    </div>
                     <div>
                         <button
                             onClick={() => {

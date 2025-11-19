@@ -1,39 +1,179 @@
-import { Sheet } from '@/components/ui/sheet';
-import { useSimpleForm } from '@/hooks/use-simple-form';
+import { Button } from '@/components/ui/button';
+import Show from '@/components/ui/show';
+import cities from '@/config/cities.json';
+import { useSimpleForm, validateObject } from '@/hooks/use-simple-form';
 import useTranslation from '@/hooks/use-translation';
+import { cn, pick } from '@/lib/utils';
 import useAppStore from '@/store';
-import { BookingForm } from '../booking-form';
+import { router } from '@inertiajs/react';
+import { ChevronLeft, ChevronRight, Clock, Coins, FileCheck, MapPin, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { CreateBookingFormSchema } from '../booking-meta';
+import BookingDateStep from '../steps/booking-date-step';
+import BookingDetailStep from '../steps/booking-detail-step';
+import BookingLocationStep from '../steps/booking-location-step';
+import BookingRecapStep from '../steps/booking-recap-step';
 
 export function CreateBookingModal() {
     const name = 'create_booking';
     const store = useAppStore();
+
+    const display = store.display;
+    const isVisible = display.visible[name];
+    const toggleModal = () => display.toggle(name);
+
     const { t } = useTranslation();
 
     const form = useSimpleForm({
-        date: '',
-        origin_id: '',
-        destination_id: '',
+        date: new Date(),
+        time: new Date(),
+        from_city: cities[0],
+        from_street: 'Street address',
+        to_city: cities[0],
+        to_street: 'Street',
         workers: 1,
         cars: 0,
         duration: 1,
         amount: 0,
         observation: '',
+        first_name: 'Divin',
+        last_name: 'Jordan',
+        email: 'divinjordan@gmail.com',
+        phone_number: '+237655660502',
+        password: 'password',
     });
 
-    const submit = async () => {
-        await store.booking.create(form.values);
-        store.booking.fetch();
-        store.display.hide(name);
+    const [step, setStep] = useState<number>(0);
+
+    useEffect(() => {
+        if (isVisible) {
+            const scrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.left = '0';
+            document.body.style.right = '0';
+            document.body.style.overflow = 'hidden';
+        } else {
+            const scrollY = document.body.style.top;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
+            document.body.style.overflow = '';
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        }
+    }, [isVisible]);
+
+    if (!isVisible) return null;
+
+    const nextStep = () => {
+        // If the step required validation. Write the validation here.
+        store.errors.reset();
+        const schema = CreateBookingFormSchema[step];
+        if (schema) {
+            const validation = validateObject(form.values, schema);
+            if (!validation.valid) {
+                store.errors.setMany(validation.errors);
+                return;
+            }
+        }
+        setStep((prev) => Math.min(prev + 1, 3));
+    };
+    const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
+
+    const submit = () => {
+        const data = {
+            booking: pick(form.values, ['date', 'time', 'from_city', 'from_street', 'to_city', 'to_street', 'workers', 'cars', 'duration']),
+            ...pick(form.values, ['first_name', 'last_name', 'phone_number', 'email', 'password']),
+        };
+        console.log(data);
+        router.post(route('register'), data, {
+            onSuccess: (res) => {
+                console.log(res);
+            },
+            onError: (error) => {
+                console.log(error);
+            },
+        });
     };
 
     return (
-        <Sheet
-            title={t('Create Booking')}
-            name={name}
-            className="w-[900px] max-w-[95vw]"
-            footer={{ name, submit, loading: store.booking.loading('create') }}
-        >
-            <BookingForm form={form} />
-        </Sheet>
+        <div className="fixed inset-0 z-50 flex h-screen w-full items-center justify-center bg-black/50" onClick={toggleModal}>
+            <div className={cn('relative max-h-[90vh] min-w-[900px] overflow-y-auto bg-white')} onClick={(e) => e.stopPropagation()}>
+                <button
+                    className="absolute top-4 right-4 z-40"
+                    onClick={() => {
+                        store.display.hide(name);
+                    }}
+                >
+                    <X />
+                </button>
+                <div className="flex">
+                    <div className="bg-primary-500 w-[250px] shrink-0 py-6">
+                        <h3 className="text-semibold px-6 text-lg font-semibold">{t('Book a relocation prestation')}</h3>
+                        <ul className="mt-4">
+                            {[
+                                { text: t('Locations'), icon: MapPin },
+                                { text: t('Date and time'), icon: Clock },
+                                { text: t('Details'), icon: FileCheck },
+                                { text: t('Submission'), icon: Coins },
+                            ].map((item, index: number) => (
+                                <li
+                                    onClick={() => {
+                                        setStep(index);
+                                    }}
+                                    className={cn('flex cursor-pointer items-center gap-2 px-6 py-2 hover:bg-gray-800/50 hover:text-white', {
+                                        'bg-gray-800 text-white': index == step,
+                                    })}
+                                >
+                                    <item.icon className="h-4 w-4" />
+                                    <span className="text-base">{item.text}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="relative col-span-2 min-h-[600px] w-full p-8">
+                        <Show when={step == 0}>
+                            <BookingLocationStep form={form} />
+                        </Show>
+
+                        <Show when={step == 1}>
+                            <BookingDateStep form={form} />
+                        </Show>
+
+                        <Show when={step == 2}>
+                            <BookingDetailStep form={form} />
+                        </Show>
+
+                        <Show when={step == 3}>
+                            <BookingRecapStep form={form} />
+                        </Show>
+
+                        <div className="absolute bottom-6 left-8 flex gap-4">
+                            <Show when={step < 3}>
+                                {step > 0 && (
+                                    <Button color="outline" onClick={prevStep}>
+                                        {t('Back')} <ChevronLeft className="h-4 w-4" />
+                                    </Button>
+                                )}
+
+                                <Button color="dark" onClick={nextStep}>
+                                    {t('Continue')} <ChevronRight className="h-4 w-4" />
+                                </Button>
+                            </Show>
+
+                            {step == 3 && (
+                                <Button color="dark" onClick={submit}>
+                                    {t('Submit')} <ChevronRight className="h-4 w-4" />
+                                </Button>
+                            )}
+                            <Button color="dark" onClick={submit}>
+                                {t('Submit')} <ChevronRight className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }

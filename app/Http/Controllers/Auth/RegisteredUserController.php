@@ -12,51 +12,91 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Setting;
+use App\Models\Booking;
+use App\Models\Address;
+use App\Models\Role;
+use Illuminate\Support\Facades\DB; // <-- REQUIRED
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Show the registration page.
-     */
     public function create(): Response
     {
         return Inertia::render('auth/register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function store(Request $request): RedirectResponse
     {
-        $eighteenYearsAgo = now()->subYears(18)->format('Y-m-d');
-
         $request->validate([
-            'lastname' => 'required|string|max:255',
-            'firstname' => 'required|string|max:255',
-            // 'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'last_name' => 'required|string|max:255',
             'password' => ['required'],
-            'birth_date' => ['required', 'date']
         ]);
 
-        $user = User::create([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'phone_number' => $request->phone_number,
-            'password' => Hash::make($request->password),
-            'birth_date' => $request->birth_date,
-            'work_types' => json_encode([]),
-            'experiences' => json_encode([]),
-            'goals' => json_encode([]),
-            'last_online' => now(),
-            'is_online' => true
-        ]);
+        DB::beginTransaction(); // <-- FIXED
 
-        event(new Registered($user));
+        try {
+            $user = User::create([
+                'first_name'    => $request->first_name,
+                'last_name'     => $request->last_name,
+                'phone_number'  => $request->phone_number,
+                'email'         => $request->email,
+                'password'      => Hash::make($request->password),
+            ]);
+            
+            $clientRole = Role::where('code', 'client')->first();
 
-        Auth::login($user);
+            $user->attachRole($clientRole->id);
 
-        return redirect()->to('setup/location');
+            // if ($request->has('booking')) {
+            //     $settings = Setting::all()->pluck('value', 'code');
+            //     $data = $request->booking;
+
+            //     // ---- Compute Costs ----
+            //     $workersCost  = $settings['price_per_worker'] * $data['workers'];
+            //     $durationCost = $settings['price_per_hour']    * $data['duration'];
+            //     $carsCost     = $settings['price_per_car']     * $data['cars'];
+
+            //     // ---- Create Addresses ----
+            //     $origin = Address::create([
+            //         'city'   => $data['from_city'],
+            //         'street' => $data['from_street'],
+            //     ]);
+
+            //     $destination = Address::create([
+            //         'city'   => $data['to_city'],
+            //         'street' => $data['to_street'],
+            //     ]);
+
+            //     // ---- Create Booking ----
+            //     Booking::create([
+            //         'user_id'        => $user->id,
+            //         'origin_id'      => $origin->id,
+            //         'destination_id' => $destination->id, // <-- FIXED (was 'destination')
+            //         'date'           => $data['date'],
+            //         'workers'        => $data['workers'],
+            //         'duration'       => $data['duration'],
+            //         'amount'         => $workersCost + $durationCost + $carsCost,
+            //         'status'         => 'waiting_payment',
+            //     ]);
+            // }
+
+            DB::commit();
+
+            event(new Registered($user));
+            Auth::login($user);
+
+            return redirect()->route('dashboard'); // cleaner
+
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            // Optional: Log error
+            // \Log::error($e);
+
+            return redirect()
+                ->back()
+                ->withErrors(['error' => 'Registration failed. Please try again.']);
+        }
     }
 }

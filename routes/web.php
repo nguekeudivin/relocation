@@ -9,7 +9,7 @@ use App\Http\Controllers\User\ChangeUserProfile;
 use App\Http\Controllers\QueryController;
 
 Route::get('/', function () {
-   return redirect('login');
+   return Inertia::render('home');
 });
 
 Route::post('/validate/phone-number', [ValidationController::class,'phoneNumber']);
@@ -31,8 +31,10 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('user')->group(function(){
-        Route::get('/bookings', [UserPages::class,'dashboard'])->name('user.dashboard');
-        Route::get('/profile', [UserPages::class, 'contributions'])->name('user.contributions');
+        Route::get('/bookings', [UserPages::class,'bookings'])->name('user.dashboard');
+        Route::get('/profile', [UserPages::class, 'profile'])->name('user.profile');
+        Route::get('/payments', [UserPages::class, 'payments'])->name('user.payments');
+        Route::get('/messages', [UserPages::class, 'messages'])->name('user.payments');
         Route::get('/notifications', [UserPages::class, 'notifications'])->name('user.notifications');
     });
 });

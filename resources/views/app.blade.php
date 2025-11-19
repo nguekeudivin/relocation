@@ -13,11 +13,13 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet"> -->
 
-
-    @routes
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap" rel="stylesheet">
+  
+@routes
     @viteReactRefresh
     @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
     @inertiaHead

@@ -2,8 +2,9 @@ import { cn } from '@/lib/utils';
 
 export default function Logo({ className }: { className?: string }) {
     return (
-        <h2 className={cn('text-primary-600 text-center text-6xl font-semibold', className)}>
-            <img src="/images/logo.jpeg" className="rounded-full" />
+        <h2 className={cn('text-center text-2xl font-bold md:text-4xl', className)}>
+            <span className="text-primary-600">Re</span>
+            <span className="">location</span>
         </h2>
     );
 }

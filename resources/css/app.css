@@ -11,16 +11,27 @@
 
 @theme {
     /* PRIMARY – Orange-Gold (#D9A23D) */
-    --color-secondary-50: #fdf8ec;
-    --color-secondary-100: #faefd5;
-    --color-secondary-200: #f5dea6;
-    --color-secondary-300: #eec86d;
-    --color-secondary-400: #e6b74a;
-    --color-secondary-500: #d9a23d; /* base */
-    --color-secondary-600: #bf8731;
-    --color-secondary-700: #996728;
-    --color-secondary-800: #7a5223;
-    --color-secondary-900: #5f411c;
+    /* --color-primary-50: #fdf8ec;
+    --color-primary-100: #faefd5;
+    --color-primary-200: #f5dea6;
+    --color-primary-300: #eec86d;
+    --color-primary-400: #e6b74a;
+    --color-primary-500: #d9a23d; 
+    --color-primary-600: #bf8731;
+    --color-primary-700: #996728;
+    --color-primary-800: #7a5223;
+    --color-primary-900: #5f411c; */
+
+    --color-primary-50: #fffeeb;
+    --color-primary-100: #fffad8;
+    --color-primary-200: #fff3b0;
+    --color-primary-300: #ffe982;
+    --color-primary-400: #ffdd58;
+    --color-primary-500: #ffdb39; /* base */
+    --color-primary-600: #e5bf33;
+    --color-primary-700: #b39328;
+    --color-primary-800: #80671c;
+    --color-primary-900: #4d3e11;
 
     /* SECONDARY – Soft Yellow (#F2DC99) */
     --color-tertiary-50: #fffcf5;
@@ -35,16 +46,16 @@
     --color-tertiary-900: #7c6934;
 
     /* TERTIARY – Dark Neutral (#262626) */
-    --color-primary-50: #f5f5f5;
-    --color-primary-100: #e5e5e5;
-    --color-primary-200: #cfcfcf;
-    --color-primary-300: #afafaf;
-    --color-primary-400: #737373;
-    --color-primary-500: #262626; /* base */
-    --color-primary-600: #1f1f1f;
-    --color-primary-700: #1a1a1a;
-    --color-primary-800: #141414;
-    --color-primary-900: #0a0a0a;
+    --color-secondary-50: #f5f5f5;
+    --color-secondary-100: #e5e5e5;
+    --color-secondary-200: #cfcfcf;
+    --color-secondary-300: #afafaf;
+    --color-secondary-400: #737373;
+    --color-secondary-500: #262626; /* base */
+    --color-secondary-600: #1f1f1f;
+    --color-secondary-700: #1a1a1a;
+    --color-secondary-800: #141414;
+    --color-secondary-900: #0a0a0a;
 
     --color-my-dark: #262626;
     --color-my-yellow: #f2dc99;
@@ -55,6 +66,7 @@
 
 body {
     font-family: 'Source Sans 3', sans-serif;
+    /* font-family: "Google Sans Flex", sans-serif; */
     font-optical-sizing: auto;
 }
 
@@ -104,4 +116,8 @@ body {
         opacity: 0;
         clip-path: polygon(40% 40%, 60% 35%, 80% 50%, 60% 65%, 40% 60%, 20% 50%);
     }
+}
+
+.process:hover .process-index {
+    @apply text-gray-800;
 }

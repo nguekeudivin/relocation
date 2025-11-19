@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Booking;
 
 return new class extends Migration
 {
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->decimal('duration',10,2);
             $table->decimal('amount');
             $table->text('observation')->nullable();
+            $table->enum('status',Booking::STATUSES)->default('waiting_payment');
             $table->timestamps();
         });
     }

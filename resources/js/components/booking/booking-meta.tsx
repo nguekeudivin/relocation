@@ -2,6 +2,55 @@ import TableActions from '@/components/shared/table-actions';
 import useTranslation from '@/hooks/use-translation';
 import { formatDate } from '@/lib/utils';
 import { Booking } from '@/store/Booking';
+import { z } from 'zod';
+
+// --- Helpers ------------------------------------------------
+const coerceDate = z.preprocess(
+    (value) => {
+        if (value instanceof Date) return value;
+        if (typeof value === 'string' || typeof value === 'number') {
+            const d = new Date(value);
+            return isNaN(d.getTime()) ? undefined : d;
+        }
+        return undefined;
+    },
+    z.date({ required_error: 'A valid date is required.' }),
+);
+
+const requiredString = (field: string) => z.string({ required_error: `${field} is required.` }).min(1, `${field} cannot be empty.`);
+const positiveInt = (field: string) =>
+    z
+        .number({
+            required_error: `${field} is required.`,
+            invalid_type_error: `${field} must be a number.`,
+        })
+        .int(`${field} must be an integer.`);
+
+// ------------------------------------------------------------
+
+export const CreateBookingFormSchema = [
+    z.object({
+        from_city: requiredString('Origin city'),
+        from_street: requiredString('Origin address'),
+
+        to_city: requiredString('Destination city'),
+        to_street: requiredString('Destination address'),
+    }),
+    z.object({
+        // date: coerceDate.refine((d) => !!d, 'Please select a valid date.'),
+
+        time: coerceDate.refine((d) => !!d, 'Please select a valid time.'),
+    }),
+    z.object({
+        workers: positiveInt('Workers').min(1, 'At least 1 worker is required.'),
+        duration: z
+            .number({
+                required_error: 'Duration is required.',
+                invalid_type_error: 'Duration must be a number.',
+            })
+            .min(1, 'Duration must be at least 1 hour.'),
+    }),
+];
 
 // --- Table Columns (Translated - uses t() hook) ---
 export const BookingTableColumns = ({ onView, onEdit, onDelete }: { onView?: any; onEdit?: any; onDelete?: any }) => {
@@ -46,7 +95,7 @@ export const BookingTableColumns = ({ onView, onEdit, onDelete }: { onView?: any
         {
             header: t('Amount'),
             name: 'amount',
-            row: (booking: Booking) => <span className="font-semibold">{booking.amount.toFixed(2)}</span>,
+            row: (booking: Booking) => <span className="font-semibold">{booking.amount}</span>,
         },
         {
             header: t('Actions'),

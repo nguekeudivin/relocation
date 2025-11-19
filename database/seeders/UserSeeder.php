@@ -27,24 +27,23 @@ class UserSeeder extends Seeder
         $faker = Faker::create();
 
         // Get roles
-        $memberRole = Role::where('code', 'member')->first();
+        $clientRole = Role::where('code', 'client')->first();
         $adminRole = Role::where('code','admin')->first();
 
-        $country = Country::where('code','CM')->first();
 
         // Create Admin
-        $admin = User::factory()->create(['country_id' => $country->id, 'phone_number' => '+237655660502']);
-        $admin->attachRole($memberRole->id);
+        $admin = User::factory()->create(['phone_number' => '+237655660502']);
+        $admin->attachRole($clientRole->id);
         $admin->attachRole($adminRole->id);
         $admin->image()->create(Asset::getPlaceholderAvatar($admin->gender));
 
         // Create others members.
         User::factory()
-        ->count(20)
-        ->create(['country_id' => $country->id])
-        ->each(function ($user) use ($memberRole) {
+        ->count(5)
+        ->create()
+        ->each(function ($user) use ($clientRole) {
             $user->image()->create(Asset::getPlaceholderAvatar($user->gender));
-            $user->attachRole($memberRole->id);
+            $user->attachRole($clientRole->id);
         });
     }
 }

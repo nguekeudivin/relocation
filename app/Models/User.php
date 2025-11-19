@@ -86,7 +86,7 @@ class User extends Authenticatable
                     $profiles[] = [
                         'name'    => $this->first_name.' '.$this->last_name,
                         'label'   => $userRole->role->name,
-                        'type'    => 'member',
+                        'type'    => 'client',
                         'role_id' => $userRole->id, // Scoped user_role
                     ];
             }

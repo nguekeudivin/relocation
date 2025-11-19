@@ -25,6 +25,8 @@ class Booking extends Model
         'observation',
     ];
 
+    public const STATUSES = ['waiting_payment','cancelled','pending','completed'];
+
     // Attribute casting
     protected $casts = [
         'date' => 'datetime',
@@ -45,12 +47,12 @@ class Booking extends Model
     // Assuming origin and destination are stored in another table, e.g., "locations"
     public function origin()
     {
-        return $this->belongsTo(Location::class, 'origin_id');
+        return $this->belongsTo(Address::class, 'origin_id');
     }
 
     public function destination()
     {
-        return $this->belongsTo(Location::class, 'destination_id');
+        return $this->belongsTo(Address::class, 'destination_id');
     }
 
     /**

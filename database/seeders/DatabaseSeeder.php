@@ -15,12 +15,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // Add seeder here.
             CategorySeeder::class,
-            CountrySeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
             SettingSeeder::class,
-            MeetingSeeder::class,
+            BookingSeeder::class,
+            PaymentSeeder::class,
         ]);
     }
 }

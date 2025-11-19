@@ -20,12 +20,12 @@ class RoleSeeder extends Seeder
                 'code' => 'admin',
                 'type' => 'admin'
             ],
-            'Member' => [
-                'description' => 'A Member of the association',
+            'Client' => [
+                'description' => 'A client',
                 'permissions' => [
                 ],
-                'code' => 'member',
-                'type' => 'member'
+                'code' => 'client',
+                'type' => 'client'
             ],
         ];
 

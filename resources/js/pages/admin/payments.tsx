@@ -58,7 +58,7 @@ export default function PaymentPages() {
                         })}
                     />
 
-                    {store.payment.ipems.length > store.payment.pagination.per_page && (
+                    {store.payment.items.length > store.payment.pagination.per_page && (
                         <FullPagination
                             className="mt-8"
                             pagination={store.payment.pagination}

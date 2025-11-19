@@ -1,24 +1,19 @@
-import React from "react";
+import { cn } from '@/lib/utils';
 
-export default function ToggleSwitch({ checked, onChange, label }: any) {
-  return (
-    <label className="flex items-center cursor-pointer gap-2">
-      <div className="relative">
-        {/* Hidden native checkbox */}
-        <input
-          type="checkbox"
-          checked={checked}
-          onChange={(e) => onChange(e.target.checked)}
-          className="sr-only peer"
-        />
+export default function ToggleSwitch({ checked, onChange, labelClass, label }: any) {
+    return (
+        <label className="flex cursor-pointer items-center gap-2">
+            <div className="relative">
+                {/* Hidden native checkbox */}
+                <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="peer sr-only" />
 
-        {/* Track */}
-        <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-primary-600 transition-colors"></div>
+                {/* Track */}
+                <div className="peer-checked:bg-primary-600 h-6 w-11 rounded-full bg-gray-300 transition-colors"></div>
 
-        {/* Thumb */}
-        <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
-      </div>
-      {label && <span className="font-medium text-gray-700">{label}</span>}
-    </label>
-  );
+                {/* Thumb */}
+                <div className="absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white transition-transform peer-checked:translate-x-5"></div>
+            </div>
+            {label && <span className={cn('text-sm font-medium text-gray-700', labelClass)}>{label}</span>}
+        </label>
+    );
 }
