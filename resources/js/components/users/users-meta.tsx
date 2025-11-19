@@ -60,18 +60,14 @@ export const UsersTableColumns = ({ onView, onEdit, onDelete }: { onView?: any; 
             ),
         },
         {
-            header: 'Numéro de téléphone',
+            header: 'Phone number',
             name: 'phone_number',
             row: (item: User) => <span>{item.phone_number}</span>,
         },
+
         {
-            header: 'Statut',
-            name: 'status',
-            row: (item: User) => <span>{userStatusMap[item.status]}</span>,
-        },
-        {
-            header: "Date d'adhésion",
-            name: 'joined_at',
+            header: 'First booking at',
+            name: 'created_at',
             row: (item: User) => <span>{formatDate(item.created_at)}</span>,
         },
         {

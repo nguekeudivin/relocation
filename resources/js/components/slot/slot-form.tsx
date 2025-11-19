@@ -7,7 +7,7 @@ export function SlotForm({ form }: { form: any }) {
     const { t } = useTranslation();
 
     return (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-1">
             <InputField
                 label={t('Date')}
                 name="date"
@@ -38,7 +38,6 @@ export function SlotForm({ form }: { form: any }) {
                 value={form.values.description ?? ''}
                 onChange={form.handleChange}
                 error={store.errors.values.description}
-                className="md:col-span-2"
                 placeholder={t('Optional description')}
             />
         </div>

@@ -64,21 +64,6 @@ export default function MyPayments() {
                         ))}
                     </div>
 
-                    {/* <SimpleTable
-                        items={store.payment.pagination.data}
-                        columns={PaymentTableColumns({
-                            onView: (booking: any) => {
-                                store.booking.setCurrent(booking);
-                                store.display.show('view_booking');
-                            },
-
-                            onDelete: (booking: any) => {
-                                store.booking.setCurrent(booking);
-                                store.display.show('delete_booking');
-                            },
-                        })}
-                    /> */}
-
                     <FullPagination
                         className="mt-4"
                         canEdit={true}

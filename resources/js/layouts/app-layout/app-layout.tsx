@@ -1,12 +1,9 @@
 import { cn } from '@/lib/utils';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 
 import Logo from '@/components/common/Logo';
-import useAppStore from '@/store';
-import { Profile } from '@/store/User';
-import { MenuItemType } from '@/types';
-import { usePage } from '@inertiajs/react';
-import { BanknoteIcon, CalendarDays, Caravan, CircleDollarSign, HeartHandshake, LayoutDashboard, LogOut, Settings, Users } from 'lucide-react';
+import { Link } from '@inertiajs/react';
+import { BanknoteIcon, CalendarDays, Caravan, LayoutDashboard, LogOut, Settings, Users } from 'lucide-react';
 import { Menu } from './menu';
 import TopBar from './top-bar';
 
@@ -15,7 +12,7 @@ interface AppSidebarProps {
     breadcrumbds: any;
 }
 
-const adminMenu = [
+const menu = [
     {
         route: '/admin/dashboard',
         label: 'Dashboard',
@@ -37,7 +34,7 @@ const adminMenu = [
         icon: Caravan,
     },
     {
-        route: '/admin/calender',
+        route: '/admin/calendar',
         label: 'Calendrier',
         icon: CalendarDays,
     },
@@ -48,48 +45,7 @@ const adminMenu = [
     },
 ];
 
-const memberMenu = [
-    {
-        route: '/admin/dashboard',
-        label: 'Tableau de board',
-        icon: LayoutDashboard,
-    },
-    {
-        route: '/admin/members',
-        label: 'Membres',
-        icon: Users,
-    },
-    {
-        route: '/admin/contributions/listing',
-        label: 'Mes Contributions',
-        icon: CircleDollarSign,
-    },
-    {
-        route: '/admin/helps',
-        label: 'Mes Aides',
-        icon: HeartHandshake,
-    },
-
-    {
-        route: '/admin/expenses',
-        label: 'Dépenses',
-        icon: BanknoteIcon,
-    },
-    {
-        route: '/admin/meetings',
-        label: 'Réunions',
-        icon: CalendarDays,
-    },
-];
-
 export default function AppLayout({ breadcrumbds, children }: AppSidebarProps) {
-    const { auth } = usePage<any>().props;
-    const [menu, setMenu] = useState<MenuItemType[]>(memberMenu);
-    const [isReduce, setIsReduce] = useState<boolean>(false);
-    const store = useAppStore();
-
-    const currentProfile = auth.profiles.find((item: Profile) => item.role_id == auth.user.current_user_role_id);
-
     const menuBottom = [
         {
             route: '/logout',
@@ -99,28 +55,16 @@ export default function AppLayout({ breadcrumbds, children }: AppSidebarProps) {
         },
     ];
 
-    const menuTypes: Record<string, any> = {
-        admin: adminMenu,
-        member: memberMenu,
-    };
-
-    useEffect(() => {
-        setMenu(menuTypes[currentProfile.type]);
-    }, [currentProfile]);
-
     return (
         <div className="">
-            <div
-                className={cn('fixed top-0 left-0 hidden h-screen w-full border-r border-gray-200 md:block md:w-[250px]', 'bg-gray-100', {
-                    'w-[100px]': isReduce,
-                })}
-            >
-                <div className="flex items-center justify-center pt-8">
-                    <Logo className="h-36 w-36" />
+            <div className={cn('fixed top-0 left-0 hidden h-screen w-full border-r border-gray-200 md:block md:w-[250px]', 'bg-gray-100', {})}>
+                <div className="px-8 pt-8">
+                    <Link href="/">
+                        <Logo className="text-start text-2xl md:text-3xl" />
+                    </Link>
                 </div>
 
-                <div className="px-2">
-                    {/* <h3 className="px-6 text-gray-600"> Menu </h3> */}
+                <div className="mt-8 px-2">
                     <Menu menu={menu} className="" />
                 </div>
 
@@ -129,12 +73,8 @@ export default function AppLayout({ breadcrumbds, children }: AppSidebarProps) {
                 </div>
             </div>
 
-            <main
-                className={cn('pl-0 md:pl-[250px]', {
-                    'md:pl-[115px]': isReduce,
-                })}
-            >
-                <TopBar className="items-center border-b border-gray-300 bg-white px-4 py-4 md:h-16" />
+            <main className={cn('pl-0 md:pl-[250px]')}>
+                <TopBar menu={menu} className="items-center border-b border-gray-300 bg-white px-4 py-4 md:h-16" />
                 <div className={cn('mx-auto mb-12 max-w-7xl px-2 py-8 md:px-8')}>{children}</div>
             </main>
         </div>

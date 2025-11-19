@@ -2,6 +2,8 @@
 import useTranslation from '@/hooks/use-translation';
 import { cn, formatDate } from '@/lib/utils';
 import { Payment } from '@/store/Payment';
+import { getFullName } from '@/store/User';
+import Avatar from '../ui/avatar';
 
 // --- Payment Status Mappings ---
 export const PaymentStatusMap: any = {
@@ -44,6 +46,24 @@ export const PaymentTableColumns = ({ onView, onDelete }: { onView?: any; onDele
     const { t } = useTranslation();
 
     return [
+        {
+            header: t('Client'),
+            name: 'user_id',
+            row: (item: Payment) => (
+                <div className="flex items-center gap-2">
+                    <div onClick={() => onView(item)} className="cursor-pointer">
+                        <Avatar name={item.user.first_name} url={undefined} className="h-12 w-12 hover:border-1 hover:border-blue-200" />
+                    </div>
+
+                    <div className="text-gray-800">
+                        <p onClick={() => onView(item)} className="cursor-pointer hover:text-blue-800 hover:underline">
+                            {getFullName(item.user)}
+                        </p>
+                        <p className="text-gray-500"> {item.user.email}</p>
+                    </div>
+                </div>
+            ),
+        },
         {
             header: t('Amount'),
             name: 'amount',

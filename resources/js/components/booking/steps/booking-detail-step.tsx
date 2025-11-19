@@ -14,26 +14,29 @@ export default function BookingDetailStep({ form }: { form: any }) {
 
     return (
         <>
-            <h3 className="text-lg font-semibold">{t('Provide detail about the prestation')}</h3>
+            <h3 className="text-lg font-semibold">{t('Provide details about the prestation')}</h3>
+
+            <>{store.errors.render()}</>
 
             <div className="grid grid-cols-4 gap-8">
                 <div className="col-span-2 mt-4 space-y-4">
                     <InputField
                         name="workers"
-                        type="integer"
-                        label="How many workers to you need ?"
+                        type="number"
+                        label={t('How many workers do you need?')}
                         value={form.values.workers}
                         onChange={form.handleChange}
                     />
                     <InputField
                         name="duration"
-                        label="How much time the process may take (in hours)?"
+                        type="number"
+                        label={t('How long will the process take (in hours)?')}
                         value={form.values.duration}
                         onChange={form.handleChange}
                     />
                     <ToggleSwitch
                         checked={needCars}
-                        label="The process required vehicles ?"
+                        label={t('Does the process require vehicles?')}
                         onChange={(checked: boolean) => {
                             setNeedCars(checked);
                             if (!checked) {
@@ -42,7 +45,13 @@ export default function BookingDetailStep({ form }: { form: any }) {
                         }}
                     />
                     <Show when={needCars}>
-                        <InputField name="cars" label="How many vehicles are needed" value={form.values.cars} onChange={form.handleChange} />
+                        <InputField
+                            name="cars"
+                            type="number"
+                            label={t('How many vehicles are needed?')}
+                            value={form.values.cars}
+                            onChange={form.handleChange}
+                        />
                     </Show>
                 </div>
                 <div className="col-span-2">

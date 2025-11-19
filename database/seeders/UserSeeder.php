@@ -32,17 +32,14 @@ class UserSeeder extends Seeder
 
 
         // Create Admin
-        $admin = User::factory()->create(['phone_number' => '+237655660502']);
-        $admin->attachRole($clientRole->id);
+        $admin = User::factory()->create(['email' => 'admin@gmail.com']);
         $admin->attachRole($adminRole->id);
-        $admin->image()->create(Asset::getPlaceholderAvatar($admin->gender));
 
         // Create others members.
         User::factory()
         ->count(5)
         ->create()
         ->each(function ($user) use ($clientRole) {
-            $user->image()->create(Asset::getPlaceholderAvatar($user->gender));
             $user->attachRole($clientRole->id);
         });
     }

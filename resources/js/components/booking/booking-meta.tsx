@@ -41,15 +41,6 @@ export const CreateBookingFormSchema = [
 
         time: coerceDate.refine((d) => !!d, 'Please select a valid time.'),
     }),
-    z.object({
-        workers: positiveInt('Workers').min(1, 'At least 1 worker is required.'),
-        duration: z
-            .number({
-                required_error: 'Duration is required.',
-                invalid_type_error: 'Duration must be a number.',
-            })
-            .min(1, 'Duration must be at least 1 hour.'),
-    }),
 ];
 
 // --- Table Columns (Translated - uses t() hook) ---

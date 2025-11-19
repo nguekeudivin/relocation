@@ -25,7 +25,7 @@ export function DeleteSlotModal() {
                 <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
                     <TriangleAlert className="h-10 w-10 text-red-600" />
                 </div>
-                <h3 className="mt-4 text-lg font-semibold">{t('Delete Slot?')}</h3>
+                <h3 className="mt-4 text-lg font-semibold">{t('Delete disponibility?')}</h3>
                 <p className="mt-2 text-sm text-gray-600">{t('This action cannot be undone.')}</p>
                 <div className="mt-4 rounded bg-red-50 px-4 py-2 font-medium text-red-700">
                     {slot.date} • {slot.from_hour.slice(0, 5)} → {slot.to_hour.slice(0, 5)}

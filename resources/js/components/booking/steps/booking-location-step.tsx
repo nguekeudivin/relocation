@@ -9,7 +9,7 @@ export default function BookingLocationStep({ form }: { form: any }) {
     const store = useAppStore();
     return (
         <>
-            <h3 className="text-lg font-semibold">{t('What are the the addresses for the relocation ?')}</h3>
+            <h3 className="text-lg font-semibold">{t('What are the addresses for the relocation ?')}</h3>
             <ol className="relative mt-6">
                 <li className={cn('border-primary-600 border-l-4 pb-4 pl-4')}>
                     <div className="border-primary-600 absolute -start-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-2 bg-white"></div>

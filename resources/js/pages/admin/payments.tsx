@@ -1,13 +1,12 @@
 import FullPagination from '@/components/common/FullPagination';
 import PageTitle from '@/components/common/PageTitle';
-import { SearchEngine } from '@/components/common/SearchEngine';
 import { PaymentTableColumns } from '@/components/payment/payment-meta';
-import { Button } from '@/components/ui/button';
+import { SearchEngine } from '@/components/shared/search-engine';
 import SimpleTable from '@/components/ui/table';
 import { useSimpleForm } from '@/hooks/use-simple-form';
+import useTranslation from '@/hooks/use-translation';
 import AppLayout from '@/layouts/app-layout/app-layout';
 import useAppStore from '@/store';
-import { Plus } from 'lucide-react';
 import { useEffect } from 'react';
 
 export default function PaymentPages() {
@@ -22,27 +21,15 @@ export default function PaymentPages() {
         search({});
     }, []);
 
+    const { t } = useTranslation();
+
     return (
         <>
             <AppLayout breadcrumbds={[]}>
-                <section className="mx-auto max-w-5xl">
-                    <PageTitle
-                        title="Les depenses"
-                        actions={
-                            <div className="space-x-4">
-                                <Button onClick={() => store.display.show('create_expense')}>
-                                    <Plus className="h-5 w-5" />
-                                    Enregister une depense
-                                </Button>
-                                {/* <Button color="secondary" onClick={() => exportExpenses(store.transaction.items)}>
-                                    <FileText className="h-5 w-5" />
-                                    Exporter
-                                </Button> */}
-                            </div>
-                        }
-                    />
-                    <div className="mt-8"></div>
-                    <SearchEngine form={searchForm} onSubmit={() => search({})} />
+                <section className="mx-auto max-w-5xl px-4 md:px-0">
+                    <PageTitle title={t('Payments')} actions={<></>} />
+                    <div className="mt-4"></div>
+                    <SearchEngine form={searchForm} inputSize="w-full md:w-[400px]" onSubmit={undefined} selects={[]} />
 
                     <SimpleTable
                         items={store.payment.items}

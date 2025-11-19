@@ -4,8 +4,7 @@ import useAppStore from '@/store';
 import { User } from '@/store/User';
 import { useEffect } from 'react';
 import FullPagination from '../common/FullPagination';
-import { SearchEngine } from '../common/SearchEngine';
-import { SelectField } from '../ui/form';
+import { SearchEngine } from '../shared/search-engine';
 import { UsersTableColumns } from './users-meta';
 
 export default function UsersTable() {
@@ -30,15 +29,8 @@ export default function UsersTable() {
 
     return (
         <>
-            <SearchEngine form={searchForm} onSubmit={() => search({})}>
-                <SelectField
-                    label="Statut"
-                    name="status"
-                    value={searchForm.values.status}
-                    onChange={searchForm.handleChange}
-                    options={[{ label: 'Tous', value: '' }]}
-                />
-            </SearchEngine>
+            <SearchEngine form={searchForm} inputSize="w-full md:w-[400px]" onSubmit={undefined} selects={[]} />
+            <div className="mt-4"></div>
             <SimpleTable
                 headClass="bg-gray-100"
                 items={store.user.items}

@@ -38,7 +38,12 @@ export function EditSlotModal() {
     };
 
     return (
-        <Modal title={t('Edit Slot')} name={name} className="w-[700px] max-w-[95vw]" footer={{ name, submit, loading: store.slot.loading('update') }}>
+        <Modal
+            title={t('Edit disponibility')}
+            name={name}
+            className="w-[700px] max-w-[95vw]"
+            footer={{ name, submit, loading: store.slot.loading('update') }}
+        >
             <SlotForm form={form} />
         </Modal>
     );

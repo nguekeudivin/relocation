@@ -23,10 +23,10 @@ export function ViewSlotModal() {
     ];
 
     return (
-        <Modal title={t('Slot Details')} name={name} className="w-[600px] max-w-[95vw]">
+        <Modal title={t('Disponibility Details')} name={name} className="w-[600px] max-w-[95vw]">
             <div className="space-y-6">
                 <section className="rounded-lg bg-gray-50 p-5">
-                    <h3 className="mb-4 text-lg font-semibold">{t('Slot Information')}</h3>
+                    <h3 className="mb-4 text-lg font-semibold">{t('Disponibility Information')}</h3>
                     <ul className="grid grid-cols-2 gap-4 text-sm">
                         {details.map((d) => (
                             <InfoElement key={d.label} detail={d} />

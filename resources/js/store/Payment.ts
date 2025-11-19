@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/http';
 import { createResourceStore, ResourceStore } from '@/lib/resource';
+import { User } from './User';
 
 export interface Payment {
     id: number; // Internal DB ID
@@ -13,6 +14,7 @@ export interface Payment {
     callback?: Record<string, any> | null; // Optional JSON callback data
     created_at?: string | Date;
     updated_at?: string | Date;
+    user: User;
 }
 
 interface PaymentStore extends ResourceStore<Payment> {

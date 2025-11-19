@@ -1,4 +1,4 @@
-import { Sheet } from '@/components/ui/sheet';
+import { Modal } from '@/components/ui/modal';
 import { useSimpleForm } from '@/hooks/use-simple-form';
 import useTranslation from '@/hooks/use-translation';
 import useAppStore from '@/store';
@@ -23,13 +23,13 @@ export function CreateSlotModal() {
     };
 
     return (
-        <Sheet
-            title={t('Create Slot')}
+        <Modal
+            title={t('Add disponibility')}
             name={name}
-            className="w-[700px] max-w-[95vw]"
+            className="w-[450px] max-w-[95vw]"
             footer={{ name, submit, loading: store.slot.loading('create') }}
         >
             <SlotForm form={form} />
-        </Sheet>
+        </Modal>
     );
 }

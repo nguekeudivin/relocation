@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('current_user_role_id')->nullable();
+            $table->string('lang')->default('en');
             $table->rememberToken();
             $table->timestamps();
         });

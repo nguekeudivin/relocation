@@ -6,7 +6,7 @@ import useTranslation from '@/hooks/use-translation';
 import { cn, pick } from '@/lib/utils';
 import useAppStore from '@/store';
 import { router } from '@inertiajs/react';
-import { ChevronLeft, ChevronRight, Clock, Coins, FileCheck, MapPin, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock, FileCheck, MapPinHouse, NotepadText, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { CreateBookingFormSchema } from '../booking-meta';
 import BookingDateStep from '../steps/booking-date-step';
@@ -28,19 +28,19 @@ export function CreateBookingModal() {
         date: new Date(),
         time: new Date(),
         from_city: cities[0],
-        from_street: 'Street address',
+        from_street: '',
         to_city: cities[0],
-        to_street: 'Street',
+        to_street: '',
         workers: 1,
         cars: 0,
         duration: 1,
         amount: 0,
         observation: '',
-        first_name: 'Divin',
-        last_name: 'Jordan',
-        email: 'divinjordan@gmail.com',
-        phone_number: '+237655660502',
-        password: 'password',
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone_number: '',
+        password: '',
     });
 
     const [step, setStep] = useState<number>(0);
@@ -86,13 +86,12 @@ export function CreateBookingModal() {
             booking: pick(form.values, ['date', 'time', 'from_city', 'from_street', 'to_city', 'to_street', 'workers', 'cars', 'duration']),
             ...pick(form.values, ['first_name', 'last_name', 'phone_number', 'email', 'password']),
         };
-        console.log(data);
         router.post(route('register'), data, {
             onSuccess: (res) => {
-                console.log(res);
+                store.display.hide(name);
             },
             onError: (error) => {
-                console.log(error);
+                store.errors.setMany(error);
             },
         });
     };
@@ -109,14 +108,17 @@ export function CreateBookingModal() {
                     <X />
                 </button>
                 <div className="flex">
-                    <div className="bg-primary-500 w-[250px] shrink-0 py-6">
-                        <h3 className="text-semibold px-6 text-lg font-semibold">{t('Book a relocation prestation')}</h3>
-                        <ul className="mt-4">
+                    <div className="bg-primary-600/50 w-[250px] shrink-0 py-6">
+                        <h3 className="text-semibold px-6 text-2xl font-semibold">
+                            <span className="font-light">{t('Book a relocation')} </span>
+                            <span>{t('prestation')}</span>
+                        </h3>
+                        <ul className="mt-6">
                             {[
-                                { text: t('Locations'), icon: MapPin },
+                                { text: t('Locations'), icon: MapPinHouse },
                                 { text: t('Date and time'), icon: Clock },
                                 { text: t('Details'), icon: FileCheck },
-                                { text: t('Submission'), icon: Coins },
+                                { text: t('Submission'), icon: NotepadText },
                             ].map((item, index: number) => (
                                 <li
                                     onClick={() => {
@@ -167,9 +169,6 @@ export function CreateBookingModal() {
                                     {t('Submit')} <ChevronRight className="h-4 w-4" />
                                 </Button>
                             )}
-                            <Button color="dark" onClick={submit}>
-                                {t('Submit')} <ChevronRight className="h-4 w-4" />
-                            </Button>
                         </div>
                     </div>
                 </div>

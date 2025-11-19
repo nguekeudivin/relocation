@@ -2,6 +2,7 @@ import PageTitle from '@/components/common/PageTitle';
 import { SlotModals } from '@/components/slot/slot-modals';
 import { Button } from '@/components/ui/button';
 import Calendar from '@/components/ui/calendar/calendar';
+import useTranslation from '@/hooks/use-translation';
 import AppLayout from '@/layouts/app-layout/app-layout';
 import useAppStore from '@/store';
 import { getFullName } from '@/store/User';
@@ -9,8 +10,10 @@ import { format } from 'date-fns';
 import { Plus } from 'lucide-react';
 import { ReactNode, useEffect } from 'react';
 
-export default function MeetingsPage() {
+export default function CalendarPage() {
     const store = useAppStore();
+
+    const { t } = useTranslation();
 
     const renderItemComponent = (item: any, index: number): ReactNode => (
         <div
@@ -38,17 +41,14 @@ export default function MeetingsPage() {
         <>
             <SlotModals />
             <AppLayout breadcrumbds={[]}>
-                <section className="mx-auto max-w-6xl">
+                <section className="mx-auto max-w-6xl px-4 md:px-0">
                     <PageTitle
-                        title="Reuinions"
+                        title={t('Calendar')}
                         actions={
                             <div className="flex items-center gap-2">
-                                <Button
-                                    onClick={() => store.display.show('create_meeting')}
-                                    className="bg-primary-600 flex cursor-pointer items-center gap-2 rounded-full px-4 py-2 text-white"
-                                >
+                                <Button onClick={() => store.display.show('create_slot')} className="">
                                     <Plus className="h-5 w-5" />
-                                    Programmer une reuinion
+                                    {t('Add disponibility')}
                                 </Button>
                                 {/* <Button
                                     onClick={() => store.display.show('generate_meeting')}

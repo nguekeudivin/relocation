@@ -28,6 +28,8 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
+            'email' => 'required|string|max:255|unique:users,email',
+            'phone_number' => 'required|max:255|unique:users,phone_number',
             'last_name' => 'required|string|max:255',
             'password' => ['required'],
         ]);
@@ -47,38 +49,38 @@ class RegisteredUserController extends Controller
 
             $user->attachRole($clientRole->id);
 
-            // if ($request->has('booking')) {
-            //     $settings = Setting::all()->pluck('value', 'code');
-            //     $data = $request->booking;
+            if ($request->has('booking')) {
+                $settings = Setting::all()->pluck('value', 'code');
+                $data = $request->booking;
 
-            //     // ---- Compute Costs ----
-            //     $workersCost  = $settings['price_per_worker'] * $data['workers'];
-            //     $durationCost = $settings['price_per_hour']    * $data['duration'];
-            //     $carsCost     = $settings['price_per_car']     * $data['cars'];
+                // ---- Compute Costs ----
+                $workersCost  = $settings['price_per_worker'] * $data['workers'];
+                $durationCost = $settings['price_per_hour']    * $data['duration'];
+                $carsCost     = $settings['price_per_car']     * $data['cars'];
 
-            //     // ---- Create Addresses ----
-            //     $origin = Address::create([
-            //         'city'   => $data['from_city'],
-            //         'street' => $data['from_street'],
-            //     ]);
+                // ---- Create Addresses ----
+                $origin = Address::create([
+                    'city'   => $data['from_city'],
+                    'street' => $data['from_street'],
+                ]);
 
-            //     $destination = Address::create([
-            //         'city'   => $data['to_city'],
-            //         'street' => $data['to_street'],
-            //     ]);
+                $destination = Address::create([
+                    'city'   => $data['to_city'],
+                    'street' => $data['to_street'],
+                ]);
 
-            //     // ---- Create Booking ----
-            //     Booking::create([
-            //         'user_id'        => $user->id,
-            //         'origin_id'      => $origin->id,
-            //         'destination_id' => $destination->id, // <-- FIXED (was 'destination')
-            //         'date'           => $data['date'],
-            //         'workers'        => $data['workers'],
-            //         'duration'       => $data['duration'],
-            //         'amount'         => $workersCost + $durationCost + $carsCost,
-            //         'status'         => 'waiting_payment',
-            //     ]);
-            // }
+                // ---- Create Booking ----
+                Booking::create([
+                    'user_id'        => $user->id,
+                    'origin_id'      => $origin->id,
+                    'destination_id' => $destination->id, // <-- FIXED (was 'destination')
+                    'date'           => $data['date'],
+                    'workers'        => $data['workers'],
+                    'duration'       => $data['duration'],
+                    'amount'         => $workersCost + $durationCost + $carsCost,
+                    'status'         => 'waiting_payment',
+                ]);
+            }
 
             DB::commit();
 

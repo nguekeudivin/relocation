@@ -4,20 +4,15 @@ import useTranslation from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import useAppStore from '@/store';
 import { format } from 'date-fns';
-import { useEffect, useState } from 'react';
 import BookingCostCard from './booking-cost-card';
 
 export default function BookingRecapStep({ form }: { form: any }) {
     const { t } = useTranslation();
     const store = useAppStore();
 
-    const [withAccount, setWithAccount] = useState<boolean>(true);
-    useEffect(() => {}, []);
-
     return (
         <>
             <h3 className="text-lg font-semibold">{t('Submission')}</h3>
-
             <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                 <aside className="">
                     <div className="border-primary-500 mb-4 border p-4">
@@ -52,14 +47,14 @@ export default function BookingRecapStep({ form }: { form: any }) {
                     name="first_name"
                     value={form.values.first_name}
                     onChange={form.handleChange}
-                    label={t('Your firstname')}
+                    label={t('Your first name')}
                     error={store.errors.values.first_name}
                 />
                 <InputField
-                    name="first_name"
-                    value={form.values.first_name}
+                    name="last_name"
+                    value={form.values.last_name}
                     onChange={form.handleChange}
-                    label={t('Your lastname')}
+                    label={t('Your last name')}
                     error={store.errors.values.last_name}
                 />
 
