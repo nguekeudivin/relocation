@@ -18,7 +18,7 @@ export default function BookingDetailStep({ form }: { form: any }) {
 
             <>{store.errors.render()}</>
 
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div className="col-span-2 mt-4 space-y-4">
                     <InputField
                         name="workers"
@@ -59,7 +59,7 @@ export default function BookingDetailStep({ form }: { form: any }) {
                 </div>
             </div>
 
-            <div className="h-20"></div>
+            <div className="h-8 md:h-20"></div>
         </>
     );
 }

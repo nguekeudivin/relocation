@@ -9,7 +9,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const colorClasses: Record<NonNullable<ButtonProps['color']>, string> = {
-    default: 'text-gray-900 bg-primary-500 hover:bg-primary-600 focus:ring-blue-300',
+    default: 'text-white bg-primary-500 hover:bg-primary-400 focus:ring-blue-300',
     secondary: 'text-white bg-secondary-700 hover:bg-secondary-800 focus:ring-secondary-300',
     neutral: 'text-white bg-gray-500 hover:bg-dray-300',
     outline: ' border-2 border-gray-900',

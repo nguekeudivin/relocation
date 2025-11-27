@@ -36,8 +36,8 @@ export default function BookingDateStep({ form }: { form: any }) {
         <>
             <h3 className="text-lg font-semibold">{t('When and at what time ?')}</h3>
             <>{store.errors.render()}</>
-            <div className="mt-4 grid w-full grid-cols-1 gap-12 md:grid-cols-5">
-                <div className="col-span-3 text-sm">
+            <div className="mt-4 grid w-full grid-cols-1 gap-4 md:grid-cols-5 md:gap-12">
+                <div className="text-sm md:col-span-3">
                     <DatePicker
                         className="w-auto p-0"
                         limitLeft={new Date()}
@@ -49,10 +49,10 @@ export default function BookingDateStep({ form }: { form: any }) {
                     />
                 </div>
                 <Show when={form.values.date}>
-                    <ul className="col-span-2 grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <ul className="grid grid-cols-3 gap-4 md:col-span-2 md:grid-cols-3">
                         {times.map((item, index) => (
                             <li
-                                key={index}
+                                key={`time${index}`}
                                 onClick={() => {
                                     form.setValue('time', item);
                                 }}
@@ -67,7 +67,7 @@ export default function BookingDateStep({ form }: { form: any }) {
                 </Show>
             </div>
 
-            <div className="h-20"></div>
+            <div className="h-8 md:h-20"></div>
         </>
     );
 }

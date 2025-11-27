@@ -88,7 +88,7 @@ export default function BookingRecapStep({ form }: { form: any }) {
                 />
             </div>
 
-            <div className="h-20"></div>
+            <div className="h-8 md:h-20"></div>
         </>
     );
 }

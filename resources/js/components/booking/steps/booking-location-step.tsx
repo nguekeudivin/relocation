@@ -1,3 +1,4 @@
+import CityStreetSelector from '@/components/shared/city-streets-selector';
 import { SelectField, TextAreaField } from '@/components/ui/form';
 import cities from '@/config/cities.json';
 import useTranslation from '@/hooks/use-translation';
@@ -56,6 +57,7 @@ export default function BookingLocationStep({ form }: { form: any }) {
                     </div>
                 </li>
             </ol>
+            <CityStreetSelector />
         </>
     );
 }

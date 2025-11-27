@@ -21,14 +21,21 @@ export default function Welcome() {
 
             {/* --- NAV --- */}
             <nav className="absolute top-0 w-full bg-transparent px-4 py-6 md:px-0">
+                <div className="bg-[]"></div>
                 <div className="mx-auto flex w-full max-w-6xl items-center justify-between py-2">
-                    <Logo />
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <Logo />
+                        <div className="">
+                            <p className="text-2xl font-semibold">Arnold Umzug</p>
+                            <p className="text-primary-400 text-2xl font-semibold">01514 7353235</p>
+                        </div>
+                    </div>
+                    <div className="mt-4 flex items-center gap-4 md:mt-0">
                         <Button className="hidden md:inline-flex" onClick={() => store.display.show('create_booking')}>
                             {t('Book a prestation')}
                         </Button>
 
-                        <Link href="/login">
+                        <Link href="/login" className="hidden md:inline-flex">
                             <Button color="dark">{t('Account')}</Button>
                         </Link>
 
@@ -40,10 +47,10 @@ export default function Welcome() {
             </nav>
 
             {/* --- HERO --- */}
-            <section className="h-[750px] bg-cover bg-center" style={{ backgroundImage: `url(/images/image-15.png)` }}>
+            <section className="h-[750px] bg-cover" style={{ backgroundImage: `url(/images/image-17.png)` }}>
                 <div className="h-full w-full bg-white/30 px-4">
-                    <section className="mx-auto grid max-w-6xl grid-cols-1 gap-12 pt-[150px] md:grid-cols-2">
-                        <aside className="space-y-8">
+                    <section className="mx-auto grid max-w-6xl grid-cols-1 gap-12 pt-[180px] md:grid-cols-2">
+                        <aside className="space-y-6">
                             <div className="text-3xl font-light md:text-5xl">
                                 <h2>{t('The best move you')}</h2>
                                 <h2 className="mt-2 font-semibold">
@@ -60,6 +67,12 @@ export default function Welcome() {
                             <Button onClick={() => store.display.show('create_booking')} className="px-8 py-3 text-lg">
                                 {t('Book a prestation')}
                             </Button>
+
+                            <div>
+                                <Link href="/login" className="md:hidden">
+                                    <Button color="dark">{t('Account')}</Button>
+                                </Link>
+                            </div>
                         </aside>
 
                         <aside></aside>
@@ -114,9 +127,9 @@ export default function Welcome() {
                                 onClick={() => {
                                     store.display.show('create_booking');
                                 }}
-                                className="hover:bg-primary-500 relative h-48 bg-white p-8 transition md:h-64"
+                                className="hover:bg-primary-500 relative h-48 bg-white p-8 transition hover:text-white md:h-64"
                             >
-                                <h3 className="text-2xl uppercase">{item.title}</h3>
+                                <h3 className="w-4/5 text-xl uppercase">{item.title}</h3>
                                 <div className="absolute bottom-8 left-0 flex w-full items-center justify-between px-8">
                                     <h4>{item.subtitle}</h4>
                                     <item.icon className="h-12 w-12 stroke-1" />
@@ -171,7 +184,7 @@ export default function Welcome() {
                             ].map((item, idx) => (
                                 <li key={idx} className="flex gap-4">
                                     <div>
-                                        <div className="bg-primary-600 rounded-full p-4 text-gray-800">
+                                        <div className="bg-primary-400 rounded-full p-4 text-white">
                                             <item.icon className="h-8 w-8 stroke-1" />
                                         </div>
                                     </div>
@@ -213,7 +226,7 @@ export default function Welcome() {
                                     { icon: Clock, text: t('Years of experiences') },
                                 ].map((item, index) => (
                                     <li key={index} className="flex-col items-center text-start md:flex md:text-center">
-                                        <item.icon className="text-primary-500 h-12 w-12 stroke-1" />
+                                        <item.icon className="text-primary-400 h-12 w-12 stroke-1" />
                                         <p className="mt-2 text-lg uppercase">{item.text}</p>
                                     </li>
                                 ))}
@@ -227,7 +240,15 @@ export default function Welcome() {
             <footer className="border-t border-gray-100 bg-gray-200 px-4">
                 <div className="mx-auto grid max-w-6xl grid-cols-1 gap-24 py-[50px] md:grid-cols-2">
                     <div>
-                        <Logo className="text-start" />
+                        {/* <Logo className="text-start" /> */}
+
+                        <div className="flex items-center gap-2">
+                            <Logo />
+                            <div className="">
+                                <p className="text-2xl font-semibold">Arnold Umzug</p>
+                                <p className="text-primary-400 text-2xl font-semibold">01514 7353235</p>
+                            </div>
+                        </div>
 
                         <p className="mt-4 text-gray-600">
                             {t('We are committed to delivering professional and reliable relocation services to all our clients.')}

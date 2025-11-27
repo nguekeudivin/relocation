@@ -22,16 +22,16 @@
     --color-primary-800: #7a5223;
     --color-primary-900: #5f411c; */
 
-    --color-primary-50: #fffeeb;
-    --color-primary-100: #fffad8;
-    --color-primary-200: #fff3b0;
-    --color-primary-300: #ffe982;
-    --color-primary-400: #ffdd58;
-    --color-primary-500: #ffdb39; /* base */
-    --color-primary-600: #e5bf33;
-    --color-primary-700: #b39328;
-    --color-primary-800: #80671c;
-    --color-primary-900: #4d3e11;
+    --color-primary-50: #fef2f3;
+    --color-primary-100: #fce4e6;
+    --color-primary-200: #f8c9ce;
+    --color-primary-300: #f29fa6;
+    --color-primary-400: #ea6a74;
+    --color-primary-500: #b41625; /* nouvelle couleur de base */
+    --color-primary-600: #9d1220;
+    --color-primary-700: #800f1b;
+    --color-primary-800: #660c15;
+    --color-primary-900: #40080e;
 
     /* SECONDARY – Soft Yellow (#F2DC99) */
     --color-tertiary-50: #fffcf5;

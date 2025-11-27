@@ -98,18 +98,21 @@ export function CreateBookingModal() {
 
     return (
         <div className="fixed inset-0 z-50 flex h-screen w-full items-center justify-center bg-black/50" onClick={toggleModal}>
-            <div className={cn('relative max-h-[90vh] min-w-[900px] overflow-y-auto bg-white')} onClick={(e) => e.stopPropagation()}>
+            <div
+                className={cn('relative max-h-[100vh] overflow-y-auto bg-white md:max-h-[90vh] md:min-w-[900px]')}
+                onClick={(e) => e.stopPropagation()}
+            >
                 <button
-                    className="absolute top-4 right-4 z-40"
+                    className="absolute top-6 right-4 z-40 text-white md:top-4"
                     onClick={() => {
                         store.display.hide(name);
                     }}
                 >
                     <X />
                 </button>
-                <div className="flex">
-                    <div className="bg-primary-600/50 w-[250px] shrink-0 py-6">
-                        <h3 className="text-semibold px-6 text-2xl font-semibold">
+                <div className="md:flex">
+                    <div className="bg-primary-500/70 w-full shrink-0 py-6 md:w-[250px]">
+                        <h3 className="text-semibold px-6 text-2xl font-semibold text-white">
                             <span className="font-light">{t('Book a relocation')} </span>
                             <span>{t('prestation')}</span>
                         </h3>
@@ -121,12 +124,16 @@ export function CreateBookingModal() {
                                 { text: t('Submission'), icon: NotepadText },
                             ].map((item, index: number) => (
                                 <li
+                                    key={`menu-item${index}`}
                                     onClick={() => {
                                         setStep(index);
                                     }}
-                                    className={cn('flex cursor-pointer items-center gap-2 px-6 py-2 hover:bg-gray-800/50 hover:text-white', {
-                                        'bg-gray-800 text-white': index == step,
-                                    })}
+                                    className={cn(
+                                        'flex cursor-pointer items-center gap-2 px-6 py-2 text-white hover:bg-gray-800/50 hover:text-white',
+                                        {
+                                            'bg-gray-800 text-white': index == step,
+                                        },
+                                    )}
                                 >
                                     <item.icon className="h-4 w-4" />
                                     <span className="text-base">{item.text}</span>
@@ -134,7 +141,7 @@ export function CreateBookingModal() {
                             ))}
                         </ul>
                     </div>
-                    <div className="relative col-span-2 min-h-[600px] w-full p-8">
+                    <div className="relative col-span-2 w-full p-8 md:min-h-[600px]">
                         <Show when={step == 0}>
                             <BookingLocationStep form={form} />
                         </Show>
@@ -151,7 +158,7 @@ export function CreateBookingModal() {
                             <BookingRecapStep form={form} />
                         </Show>
 
-                        <div className="absolute bottom-6 left-8 flex gap-4">
+                        <div className="left-8 flex gap-4 md:absolute md:bottom-6">
                             <Show when={step < 3}>
                                 {step > 0 && (
                                     <Button color="outline" onClick={prevStep}>
