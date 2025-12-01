@@ -38,8 +38,16 @@ export const CreateBookingFormSchema = [
     }),
     z.object({
         // date: coerceDate.refine((d) => !!d, 'Please select a valid date.'),
-
         time: coerceDate.refine((d) => !!d, 'Please select a valid time.'),
+    }),
+    z.object({
+        duration: z.coerce
+            .number({
+                required_error: 'Duration is required',
+                invalid_type_error: 'Duration must be a number',
+            })
+            .int({ message: 'Duration must be a whole number' })
+            .min(2, { message: 'Duration must be at least 2 hours' }),
     }),
 ];
 

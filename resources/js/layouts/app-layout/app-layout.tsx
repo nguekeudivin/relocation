@@ -9,7 +9,7 @@ import TopBar from './top-bar';
 
 interface AppSidebarProps {
     children: ReactNode;
-    breadcrumbds: any;
+    breadcrumbds?: any;
 }
 
 const menu = [

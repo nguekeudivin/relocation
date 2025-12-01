@@ -20,19 +20,37 @@ class SettingSeeder extends Seeder
                 'name' => 'Price per hour',
                 'code' => 'price_per_hour',
                 'description' => "price_per_four",
-                'value' => '200',
+                'value' => '16',
             ],
             [
                 'name' => 'Price per worker',
                 'code' => 'price_per_worker',
                 'description' => 'Price per worker',
-                'value' => '500'
+                'value' => '15'
             ],
             [
-                'name' => "Price per Vehicule",
-                'code' => 'price_per_car',
-                'description' => "Price per car",
-                'value' => '1000'
+                'name' => 'Available workers',
+                 'code' => 'available_workers',
+                'description' => 'Available workers',
+                'value' => '10'
+            ],
+            [
+                'name' => "Car fee week day monday - thursday",
+                'code' => 'car_price_weekday_job',
+                'description' => "Car fee week day Monday - Thursday",
+                'value' => '75'
+            ],
+            [
+                'name' => "Car fee week day friday - sunday",
+                'code' => 'car_price_weekend_job',
+                'description' => "Car fee week day Monday - Thursday",
+                'value' => '130'
+            ],
+            [
+                'name' => "Fee per Km",
+                'code' => 'fee_per_km',
+                'description' => "Fee per km",
+                'value' => '0.40'
             ],
         ];
 

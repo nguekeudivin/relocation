@@ -15,11 +15,12 @@ class Booking extends Model
     // Mass assignable fields
     protected $fillable = [
         'user_id',
+        'email',
         'date',
         'origin_id',
         'destination_id',
         'workers',
-        'cars',
+        'car_type',
         'duration',
         'amount',
         'observation',

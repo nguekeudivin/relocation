@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils';
 import { Eye, EyeOff } from 'lucide-react';
 import { ChangeEvent, FC, FocusEvent, useState } from 'react';
+import InputLabel from './input-label';
 
 interface InputFieldProps {
     id?: string;
@@ -55,9 +56,9 @@ export const InputField: FC<InputFieldProps> = ({
         <div className={cn('relative', className)}>
             <div>
                 {label && (
-                    <label htmlFor={generatedId} className={cn('mb-1.5 block text-sm font-medium text-gray-900', labelClass)}>
+                    <InputLabel htmlFor={generatedId} className={labelClass}>
                         {label}
-                    </label>
+                    </InputLabel>
                 )}
 
                 <div className="relative">

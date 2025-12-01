@@ -89,7 +89,7 @@ export default function DatePicker({ date, limitLeft, limitRight, onPick, classN
                             //highlight((items) => new Set([...items, date]));
                         }
                     }}
-                    className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-center transition-colors ${isDisabled ? 'cursor-not-allowed text-gray-400' : ''} ${isHighlighted && !isDisabled ? 'bg-primary-500' : ''} ${!isHighlighted && !isDisabled ? 'hover:bg-primary-300' : ''} `}
+                    className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-center transition-colors ${isDisabled ? 'cursor-not-allowed text-gray-400' : ''} ${isHighlighted && !isDisabled ? 'bg-primary-500 text-white' : ''} ${!isHighlighted && !isDisabled ? 'hover:bg-primary-300' : ''} `}
                 >
                     {i}
                 </div>,

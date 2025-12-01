@@ -1,5 +1,6 @@
 // FULL UPDATED RESPONSIVE + TRANSLATED COMPONENT
 
+import { SuccessBookingModal } from '@/components/booking/booking-modals/booking-success-modal';
 import { CreateBookingModal } from '@/components/booking/booking-modals/create-booking-modal';
 import Logo from '@/components/common/Logo';
 import ChangeLanguage from '@/components/shared/change-language';
@@ -9,15 +10,21 @@ import useAppStore from '@/store';
 import { type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { BadgePercent, Caravan, Clock, LampDesk, NotebookPen, Package } from 'lucide-react';
+import { useEffect } from 'react';
 
 export default function Welcome() {
     const store = useAppStore();
     const { auth } = usePage<SharedData>().props;
     const { t } = useTranslation();
 
+    useEffect(() => {
+        store.display.show('create_booking');
+    }, []);
+
     return (
         <>
             <CreateBookingModal />
+            <SuccessBookingModal />
 
             {/* --- NAV --- */}
             <nav className="absolute top-0 w-full bg-transparent px-4 py-6 md:px-0">

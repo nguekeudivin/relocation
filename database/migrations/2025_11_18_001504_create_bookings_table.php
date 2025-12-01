@@ -14,12 +14,13 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->string('email');
             $table->datetime('date');
             $table->unsignedBigInteger('origin_id');
             $table->unsignedBigInteger('destination_id');
             $table->integer('workers');
-            $table->integer('cars')->default(0);
+            $table->enum('car_type',['bus','van']);
             $table->decimal('duration',10,2);
             $table->decimal('amount');
             $table->text('observation')->nullable();

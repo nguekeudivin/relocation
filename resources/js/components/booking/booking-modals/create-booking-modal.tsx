@@ -21,6 +21,7 @@ export function CreateBookingModal() {
     const display = store.display;
     const isVisible = display.visible[name];
     const toggleModal = () => display.toggle(name);
+    const [reachedSteps, setReachedSteps] = useState<number[]>([0]);
 
     const { t } = useTranslation();
 
@@ -31,16 +32,17 @@ export function CreateBookingModal() {
         from_street: '',
         to_city: cities[0],
         to_street: '',
-        workers: 1,
-        cars: 0,
-        duration: 1,
+        workers: 2,
+        car_type: '',
+        duration: 2,
         amount: 0,
-        observation: '',
+        transport_price: 150,
         first_name: '',
         last_name: '',
         email: '',
         phone_number: '',
         password: '',
+        with_account: true,
     });
 
     const [step, setStep] = useState<number>(0);
@@ -77,23 +79,59 @@ export function CreateBookingModal() {
                 return;
             }
         }
-        setStep((prev) => Math.min(prev + 1, 3));
+
+        setStep((prev) => {
+            const nextStep = Math.min(prev + 1, 3);
+            if (!reachedSteps.includes(nextStep)) {
+                setReachedSteps((values) => [...values, nextStep]);
+            }
+            return nextStep;
+        });
     };
     const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
 
+    const goToStep = (index: number) => {
+        if (reachedSteps.includes(index)) {
+            setStep(index);
+        }
+    };
+
     const submit = () => {
         const data = {
-            booking: pick(form.values, ['date', 'time', 'from_city', 'from_street', 'to_city', 'to_street', 'workers', 'cars', 'duration']),
+            booking: pick(form.values, [
+                'date',
+                'time',
+                'from_city',
+                'from_street',
+                'to_city',
+                'to_street',
+                'email',
+                'workers',
+                'car_type',
+                'duration',
+                'transport_price',
+            ]),
             ...pick(form.values, ['first_name', 'last_name', 'phone_number', 'email', 'password']),
         };
-        router.post(route('register'), data, {
-            onSuccess: (res) => {
-                store.display.hide(name);
-            },
-            onError: (error) => {
-                store.errors.setMany(error);
-            },
-        });
+        if (form.values.with_account) {
+            router.post(route('register'), data, {
+                onSuccess: (res) => {
+                    store.display.hide(name);
+                },
+                onError: (error) => {
+                    store.errors.setMany(error);
+                },
+            });
+        } else {
+            store.booking
+                .create(data.booking)
+                .then((created) => {
+                    store.display.hide(name);
+                    store.booking.setCurrent(created);
+                    store.display.show('success_booking');
+                })
+                .catch(store.errors.catch);
+        }
     };
 
     return (
@@ -103,7 +141,7 @@ export function CreateBookingModal() {
                 onClick={(e) => e.stopPropagation()}
             >
                 <button
-                    className="absolute top-6 right-4 z-40 text-white md:top-4"
+                    className="absolute top-4 right-4 z-40 text-white md:top-4 md:text-red-600"
                     onClick={() => {
                         store.display.hide(name);
                     }}
@@ -112,11 +150,11 @@ export function CreateBookingModal() {
                 </button>
                 <div className="md:flex">
                     <div className="bg-primary-500/70 w-full shrink-0 py-6 md:w-[250px]">
-                        <h3 className="text-semibold px-6 text-2xl font-semibold text-white">
+                        <h3 className="text-semibold mt-4 px-6 text-2xl font-semibold text-white">
                             <span className="font-light">{t('Book a relocation')} </span>
                             <span>{t('prestation')}</span>
                         </h3>
-                        <ul className="mt-6">
+                        <ul className="mt-4">
                             {[
                                 { text: t('Locations'), icon: MapPinHouse },
                                 { text: t('Date and time'), icon: Clock },
@@ -126,7 +164,7 @@ export function CreateBookingModal() {
                                 <li
                                     key={`menu-item${index}`}
                                     onClick={() => {
-                                        setStep(index);
+                                        goToStep(index);
                                     }}
                                     className={cn(
                                         'flex cursor-pointer items-center gap-2 px-6 py-2 text-white hover:bg-gray-800/50 hover:text-white',
@@ -136,7 +174,7 @@ export function CreateBookingModal() {
                                     )}
                                 >
                                     <item.icon className="h-4 w-4" />
-                                    <span className="text-base">{item.text}</span>
+                                    <span className="text-sm">{item.text}</span>
                                 </li>
                             ))}
                         </ul>
@@ -172,9 +210,14 @@ export function CreateBookingModal() {
                             </Show>
 
                             {step == 3 && (
-                                <Button color="dark" onClick={submit}>
-                                    {t('Submit')} <ChevronRight className="h-4 w-4" />
-                                </Button>
+                                <>
+                                    <Button color="outline" onClick={prevStep}>
+                                        {t('Back')} <ChevronLeft className="h-4 w-4" />
+                                    </Button>
+                                    <Button color="dark" onClick={submit}>
+                                        {t('Submit')} <ChevronRight className="h-4 w-4" />
+                                    </Button>
+                                </>
                             )}
                         </div>
                     </div>

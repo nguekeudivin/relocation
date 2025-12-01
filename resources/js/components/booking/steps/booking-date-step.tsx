@@ -28,8 +28,7 @@ function generateTimeSlots(start = '08:00', end = '18:00') {
 export default function BookingDateStep({ form }: { form: any }) {
     const { t } = useTranslation();
     const store = useAppStore();
-    const [date, setDate] = useState<string>('2025-11-18');
-
+    const [date, setDate] = useState<string>(form.values.date.toISOString().split('T')[0]);
     const times = generateTimeSlots('08:00', '18:00'); // Working hours
 
     return (
@@ -44,7 +43,7 @@ export default function BookingDateStep({ form }: { form: any }) {
                         date={date}
                         onPick={(date) => {
                             form.setValue('date', date);
-                            setDate(format(date, 'yyyy-MM-dd'));
+                            setDate(date.toISOString().split('T')[0]);
                         }}
                     />
                 </div>
@@ -57,7 +56,7 @@ export default function BookingDateStep({ form }: { form: any }) {
                                     form.setValue('time', item);
                                 }}
                                 className={cn('cursor-pointer border border-gray-200 px-4 py-2', {
-                                    'bg-primary-500 border-primary-500': isEqual(form.values.time, item),
+                                    'bg-primary-500 border-primary-500 text-white': isEqual(form.values.time, item),
                                 })}
                             >
                                 {format(item, 'HH:mm')}

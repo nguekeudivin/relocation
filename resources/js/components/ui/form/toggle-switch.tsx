@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils';
 
-export default function ToggleSwitch({ checked, onChange, labelClass, label }: any) {
+export default function ToggleSwitch({ checked, onChange, labelClass, label, className }: any) {
     return (
-        <label className="flex cursor-pointer items-center gap-2">
+        <label className={cn('flex cursor-pointer items-center gap-2', className)}>
             <div className="relative">
                 {/* Hidden native checkbox */}
                 <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="peer sr-only" />

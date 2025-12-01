@@ -51,18 +51,36 @@ class BookingSeeder extends Seeder
 
                 $status = fake()->randomElement(Booking::STATUSES);
 
-                Booking::create([
-                    'user_id'       => $userId,
-                    'date'          => fake()->dateTimeBetween('+1 day', '+1 month'),
-                    'origin_id'     => $origin,
-                    'destination_id'=> $destination,
-                    'workers'       => fake()->numberBetween(1, 4),
-                    'cars'          => fake()->numberBetween(0, 2),
-                    'duration'      => fake()->randomFloat(2, 1, 8),
-                    'amount'        => fake()->randomFloat(2, 50, 500),
-                    'observation'   => fake()->boolean(30) ? fake()->sentence() : null,
-                    'status'        => $status,
-                ]);
+                if(rand(1,0)){
+                    Booking::create([
+                        'user_id'       => $userId,
+                        'date'          => fake()->dateTimeBetween('+1 day', '+1 month'),
+                                    'origin_id'     => $origin,
+                                    'destination_id'=> $destination,
+                                    'workers'       => fake()->numberBetween(1, 4),
+                                    'car_type'      => fake()->randomElement(['van','bus']),
+                                    'duration'      => fake()->randomFloat(2, 1, 8),
+                                    'amount'        => fake()->randomFloat(2, 50, 500),
+                                    'observation'   => fake()->boolean(30) ? fake()->sentence() : null,
+                                    'status'        => $status,
+                                    'email' => fake()->unique()->safeEmail,
+                    ]);
+                }else{
+                    Booking::create([
+                                    'date'          => fake()->dateTimeBetween('+1 day', '+1 month'),
+                                    'origin_id'     => $origin,
+                                    'destination_id'=> $destination,
+                                    'workers'       => fake()->numberBetween(1, 4),
+                                    'car_type'      => fake()->randomElement(['van','bus']),
+                                    'duration'      => fake()->randomFloat(2, 1, 8),
+                                    'amount'        => fake()->randomFloat(2, 50, 500),
+                                    'observation'   => fake()->boolean(30) ? fake()->sentence() : null,
+                                    'status'        => $status,
+                                    'email' => fake()->unique()->safeEmail,
+                    ]);
+                }
+
+                
             }
         }
 

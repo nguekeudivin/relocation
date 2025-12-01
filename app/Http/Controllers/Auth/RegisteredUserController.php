@@ -16,6 +16,7 @@ use App\Models\Setting;
 use App\Models\Booking;
 use App\Models\Address;
 use App\Models\Role;
+use App\Services\Booking\SaveBooking;
 use Illuminate\Support\Facades\DB; // <-- REQUIRED
 
 class RegisteredUserController extends Controller
@@ -50,36 +51,9 @@ class RegisteredUserController extends Controller
             $user->attachRole($clientRole->id);
 
             if ($request->has('booking')) {
-                $settings = Setting::all()->pluck('value', 'code');
                 $data = $request->booking;
-
-                // ---- Compute Costs ----
-                $workersCost  = $settings['price_per_worker'] * $data['workers'];
-                $durationCost = $settings['price_per_hour']    * $data['duration'];
-                $carsCost     = $settings['price_per_car']     * $data['cars'];
-
-                // ---- Create Addresses ----
-                $origin = Address::create([
-                    'city'   => $data['from_city'],
-                    'street' => $data['from_street'],
-                ]);
-
-                $destination = Address::create([
-                    'city'   => $data['to_city'],
-                    'street' => $data['to_street'],
-                ]);
-
-                // ---- Create Booking ----
-                Booking::create([
-                    'user_id'        => $user->id,
-                    'origin_id'      => $origin->id,
-                    'destination_id' => $destination->id, // <-- FIXED (was 'destination')
-                    'date'           => $data['date'],
-                    'workers'        => $data['workers'],
-                    'duration'       => $data['duration'],
-                    'amount'         => $workersCost + $durationCost + $carsCost,
-                    'status'         => 'waiting_payment',
-                ]);
+                $data['user_id'] = $user->id;
+                $booking = SaveBooking::run($data);
             }
 
             DB::commit();
@@ -93,12 +67,14 @@ class RegisteredUserController extends Controller
 
             DB::rollBack();
 
+
+
             // Optional: Log error
             // \Log::error($e);
 
             return redirect()
                 ->back()
-                ->withErrors(['error' => 'Registration failed. Please try again.']);
+                ->withErrors(['error' => $e->getMessage()]);
         }
     }
 }

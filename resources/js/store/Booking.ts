@@ -2,20 +2,21 @@ import { apiClient } from '@/lib/http';
 import { createResourceStore, ResourceStore } from '@/lib/resource';
 
 export interface Booking {
-    id: number; // Internal DB ID
-    user_id: number; // Foreign key to user
-    date: string | Date; // Booking datetime
+    id: number;
+    user_id: number;
+    date: string | Date;
     origin_id: number; // ID of origin location
     destination_id: number; // ID of destination location
     workers: number; // Number of workers
-    cars?: number; // Number of cars (optional, default 0)
     duration: number; // Duration in hours
     amount: number; // Total price
+    email: string;
+    car_type: string;
     observation?: string | null; // Optional notes
-    created_at?: string | Date; // Timestamp
-    updated_at?: string | Date; // Timestamp
     origin: Address;
     destination: Address;
+    created_at?: string | Date; // Timestamp
+    updated_at?: string | Date; // Timestamp
 }
 
 interface BookingStore extends ResourceStore<Booking> {

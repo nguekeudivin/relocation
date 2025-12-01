@@ -10,7 +10,6 @@ export default function BookingCostCard({ form }: { form: any }) {
     const [settings, setSettings] = useState<Record<string, any>>({
         price_per_worker: 0,
         price_per_hour: 0,
-        price_per_car: 0,
     });
 
     useEffect(() => {
@@ -22,7 +21,7 @@ export default function BookingCostCard({ form }: { form: any }) {
     const total =
         form.values.workers * parseFloat(settings.price_per_worker) +
         form.values.duration * parseFloat(settings.price_per_hour) +
-        form.values.cars * parseFloat(settings.price_per_car);
+        parseFloat(form.values.transport_price);
 
     return (
         <div className="bg-gray-200 p-4">
@@ -30,29 +29,27 @@ export default function BookingCostCard({ form }: { form: any }) {
             <ul className="mt-2 text-sm">
                 <li className="flex justify-between">
                     <span>
-                        {form.values.workers} {t('Workers')} x {`${parseFloat(settings.price_per_worker)}`}
+                        {form.values.workers} {t('workers')} x {`${parseFloat(settings.price_per_worker)}€`}
                     </span>
                     <span className="md:hidden"> = </span>
-                    <span className="font-semibold">{form.values.workers * parseFloat(settings.price_per_worker)} €</span>
+                    <span className="font-semibold">{form.values.workers * parseFloat(settings.price_per_worker)}€</span>
                 </li>
                 <li className="flex justify-between border-t border-gray-300 py-1">
                     <span>
-                        {form.values.duration} {t('Hours')} x {`${parseFloat(settings.price_per_hour)}`}
+                        {form.values.duration} {t('hours')} x {`${parseFloat(settings.price_per_hour)}€`}
                     </span>
                     <span className="md:hidden"> = </span>
-                    <span className="font-semibold">{form.values.duration * parseFloat(settings.price_per_hour)} €</span>
+                    <span className="font-semibold">{form.values.duration * parseFloat(settings.price_per_hour)}€</span>
                 </li>
                 <li className="flex justify-between border-t border-gray-300 py-1">
-                    <span>
-                        {form.values.cars} {t('Vehicles')} x {`${parseFloat(settings.price_per_car)}`}
-                    </span>
+                    <span>{t('Transport')}</span>
                     <span className="md:hidden"> = </span>
-                    <span className="font-semibold">{form.values.cars * parseFloat(settings.price_per_car)} €</span>
+                    <span className="font-semibold">{form.values.transport_price}€</span>
                 </li>
             </ul>
             <div className="border-primary-600 my-4 border-t border-dashed"></div>
             <div className="font-semibold">
-                {t('You paid')} : {total} €
+                {t('You pay')} : {total}€
             </div>
         </div>
     );
