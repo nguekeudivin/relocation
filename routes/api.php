@@ -16,6 +16,8 @@ use App\Http\Controllers\Slot\DeleteSlot;
 
 use App\Http\Controllers\Booking\GetBookings;
 use App\Http\Controllers\Booking\CreateBooking;
+use App\Http\Controllers\Booking\CancelBooking;
+use App\Http\Controllers\Booking\UpdateBooking;
 
 use App\Http\Controllers\Payment\GetPayments;
 
@@ -60,6 +62,8 @@ Route::prefix('/stols')->group(function(){
 Route::prefix('/bookings')->group(function(){
     Route::get('/', GetBookings::class);
     Route::post('/', CreateBooking::class);
+    Route::post('/{booking}/cancel', CancelBooking::class);
+    Route::put('/{booking}',UpdateBooking::class);
 });
 
 Route::prefix('/payments')->group(function(){

@@ -63,7 +63,7 @@ export default function MemberLayout({ breadcrumbds, children }: AppSidebarProps
     return (
         <div className="">
             <main>
-                <div className="border-b border-gray-200 py-2">
+                <div className="py-2">
                     <div className={cn('mx-auto flex h-full max-w-6xl items-center justify-between px-4 py-2 md:px-0')}>
                         <div className="flex gap-4">
                             <button
@@ -80,7 +80,7 @@ export default function MemberLayout({ breadcrumbds, children }: AppSidebarProps
                         </div>
                         <ul className="hidden items-center gap-8 md:flex">
                             {menu.map((item) => (
-                                <li>
+                                <li key={`menu${item.route}`}>
                                     <Link href={item.route}>
                                         <button className="flex items-center gap-1.5">
                                             <item.icon className="text-secondary-600 h-4 w-4" />

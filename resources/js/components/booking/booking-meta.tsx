@@ -2,54 +2,25 @@ import TableActions from '@/components/shared/table-actions';
 import useTranslation from '@/hooks/use-translation';
 import { formatDate } from '@/lib/utils';
 import { Booking } from '@/store/Booking';
-import { z } from 'zod';
 
-// --- Helpers ------------------------------------------------
-const coerceDate = z.preprocess(
-    (value) => {
-        if (value instanceof Date) return value;
-        if (typeof value === 'string' || typeof value === 'number') {
-            const d = new Date(value);
-            return isNaN(d.getTime()) ? undefined : d;
-        }
-        return undefined;
-    },
-    z.date({ required_error: 'A valid date is required.' }),
-);
+export const BookingStatusMap: any = {
+    waiting_payment: 'Waiting Payment',
+    paid: 'Paid',
+    confirmed: 'Confirmed',
+    cancelled: 'Cancelled',
+};
 
-const requiredString = (field: string) => z.string({ required_error: `${field} is required.` }).min(1, `${field} cannot be empty.`);
-const positiveInt = (field: string) =>
-    z
-        .number({
-            required_error: `${field} is required.`,
-            invalid_type_error: `${field} must be a number.`,
-        })
-        .int(`${field} must be an integer.`);
+export const BookingStatusColors: any = {
+    waiting_payment: 'bg-orange-100 text-orange-800',
+    paid: 'bg-green-100 text-green-800',
+    confirmed: 'bg-blue-100 text-blue-800',
+    cancelled: 'bg-red-100 text-red-800',
+};
 
-// ------------------------------------------------------------
-
-export const CreateBookingFormSchema = [
-    z.object({
-        from_city: requiredString('Origin city'),
-        from_street: requiredString('Origin address'),
-
-        to_city: requiredString('Destination city'),
-        to_street: requiredString('Destination address'),
-    }),
-    z.object({
-        // date: coerceDate.refine((d) => !!d, 'Please select a valid date.'),
-        time: coerceDate.refine((d) => !!d, 'Please select a valid time.'),
-    }),
-    z.object({
-        duration: z.coerce
-            .number({
-                required_error: 'Duration is required',
-                invalid_type_error: 'Duration must be a number',
-            })
-            .int({ message: 'Duration must be a whole number' })
-            .min(2, { message: 'Duration must be at least 2 hours' }),
-    }),
-];
+export const BookingCarTypeMap: any = {
+    van: 'Van',
+    bus: 'Bus',
+};
 
 // --- Table Columns (Translated - uses t() hook) ---
 export const BookingTableColumns = ({ onView, onEdit, onDelete }: { onView?: any; onEdit?: any; onDelete?: any }) => {
@@ -82,9 +53,9 @@ export const BookingTableColumns = ({ onView, onEdit, onDelete }: { onView?: any
             row: (booking: Booking) => <span>{booking.workers}</span>,
         },
         {
-            header: t('Cars'),
-            name: 'cars',
-            row: (booking: Booking) => <span>{booking.cars ?? 0}</span>,
+            header: t('Vehicle'),
+            name: 'car_type',
+            row: (booking: Booking) => <span>{BookingCarTypeMap[booking.car_type]}</span>,
         },
         {
             header: t('Duration'),

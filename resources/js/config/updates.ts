@@ -19,4 +19,11 @@ export default {
     'Got it, thanks!': 'Super, merci !',
     'This is email is use for booking confirmation': '',
     'You pay': '',
+    'Pick-up': '',
+    Delivery: '',
+    'Cancel this move?': 'Annuler ce déménagement ?',
+    'You are about to cancel this moving booking. This action cannot be undone.':
+        'Vous êtes sur le point d’annuler cette réservation de déménagement. Cette action est irréversible.',
+    'Keep booking': 'Conserver la réservation',
+    'Yes, cancel move': 'Oui, annuler le déménagement',
 };

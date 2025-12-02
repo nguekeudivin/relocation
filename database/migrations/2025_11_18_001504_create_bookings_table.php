@@ -20,8 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('origin_id');
             $table->unsignedBigInteger('destination_id');
             $table->integer('workers');
-            $table->enum('car_type',['bus','van']);
-            $table->decimal('duration',10,2);
+            $table->string('car_type')->nullable();
+            $table->integer('duration');
             $table->decimal('amount');
             $table->text('observation')->nullable();
             $table->enum('status',Booking::STATUSES)->default('waiting_payment');

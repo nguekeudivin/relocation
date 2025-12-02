@@ -24,9 +24,12 @@ class Booking extends Model
         'duration',
         'amount',
         'observation',
+        'status'
     ];
 
     public const STATUSES = ['waiting_payment','cancelled','pending','completed'];
+
+    public const LOAD = ['origin', 'destination', 'user'];
 
     // Attribute casting
     protected $casts = [

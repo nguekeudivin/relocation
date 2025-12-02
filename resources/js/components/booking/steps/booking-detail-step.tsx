@@ -11,7 +11,13 @@ import { addDays, getDay, isBefore, startOfDay } from 'date-fns';
 import { useEffect, useState } from 'react';
 import BookingCostCard from './booking-cost-card';
 
-export default function BookingDetailStep({ form }: { form: any }) {
+interface Props {
+    form: any;
+    showCost?: boolean;
+    showError?: boolean;
+}
+
+export default function BookingDetailStep({ form, showCost = true, showError = true }: Props) {
     const { t } = useTranslation();
     const store = useAppStore();
     const [needCars, setNeedCars] = useState<boolean>(false);
@@ -28,7 +34,7 @@ export default function BookingDetailStep({ form }: { form: any }) {
     // Main logic: transport pricing + advance booking validation
     useEffect(() => {
         if (!needCars || !form.values.date) {
-            form.setValue('transport_base_price', 0);
+            form.setValue('transport_price', 0);
             store.errors.reset();
             return;
         }
@@ -54,25 +60,25 @@ export default function BookingDetailStep({ form }: { form: any }) {
         } else {
             store.errors.reset();
         }
-    }, [needCars]);
+    }, [needCars, form.values.date]);
 
     useEffect(() => {
-        if (form.values.car_type != '') {
-            store.setting
-                .fetch()
-                .then((items: any) => {
-                    setSettings(getSettingObject(items));
+        store.setting
+            .fetch()
+            .then((items: any) => {
+                setSettings(getSettingObject(items));
+                if (form.values.car_type != '' && form.values.car_type != null && form.values.car_type != undefined) {
                     setNeedCars(true);
-                })
-                .catch(store.errors.catch);
-        }
+                }
+            })
+            .catch(store.errors.catch);
     }, []);
 
     return (
         <>
             <h3 className="text-lg font-semibold">{t('Provide details about the service')}</h3>
 
-            <>{store.errors.render()}</>
+            <Show when={showError}>{store.errors.render()}</Show>
 
             <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div className="col-span-2 mt-4 space-y-6">
@@ -100,7 +106,7 @@ export default function BookingDetailStep({ form }: { form: any }) {
                             if (!checked) {
                                 form.setValue('cars', 0);
                                 form.setValue('car_type', '');
-                                form.setValue('transport_base_price', 0);
+                                form.setValue('transport_price', 0);
                                 store.errors.reset();
                             } else {
                                 form.setValue('car_type', 'van');
@@ -108,10 +114,13 @@ export default function BookingDetailStep({ form }: { form: any }) {
                         }}
                     />
                 </div>
-                <div className="col-span-2 hidden md:block">
-                    <BookingCostCard form={form} />
-                </div>
+                <Show when={showCost}>
+                    <div className="col-span-2 hidden md:block">
+                        <BookingCostCard form={form} />
+                    </div>
+                </Show>
             </div>
+
             <Show when={needCars}>
                 <div className="mt-4 space-y-4">
                     <InputLabel>{t('Which type of vehicle do you need?')}</InputLabel>
@@ -166,10 +175,13 @@ export default function BookingDetailStep({ form }: { form: any }) {
                     )}
                 </div>
             </Show>
-            <div className="block md:hidden">
-                <div className="mt-4 md:mt-0"></div>
-                <BookingCostCard form={form} />
-            </div>
+
+            <Show when={showCost}>
+                <div className="block md:hidden">
+                    <div className="mt-4 md:mt-0"></div>
+                    <BookingCostCard form={form} />
+                </div>
+            </Show>
 
             <div className="h-8 md:h-20" />
         </>

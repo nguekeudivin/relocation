@@ -10,31 +10,39 @@ class GetBookings extends Controller
 {
     public function __invoke(Request $request)
     {
-        $page      = $request->input('page', 1);
-        $perPage   = $request->input('per_page', 15);
-        $keyword   = $request->input('keyword');
-        $status    = $request->input('status');
-        $userId    = $request->input('user_id'); // required or from auth
+        $page     = $request->input('page', 1);
+        $perPage  = $request->input('per_page', 15);
+        $keyword  = $request->input('keyword');
+        $status   = $request->input('status');
+        $userId   = $request->input('user_id');
+        $email    = $request->input('email');
 
         $query = Booking::query()
-            ->with(['origin', 'destination', 'user']);
+            ->with(Booking::LOAD);
 
-        // Keyword search (city, street, observation)
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        if ($email) {
+            $query->where('email', 'like', "%{$email}%");
+        }
+
         if ($keyword) {
             $query->where(function ($q) use ($keyword) {
                 $q->where('observation', 'like', "%{$keyword}%")
-                  ->orWhereHas('origin', fn ($o) =>
-                      $o->where('city', 'like', "%{$keyword}%")
-                        ->orWhere('street', 'like', "%{$keyword}%")
+                  ->orWhere('email', 'like', "%{$keyword}%")
+                  ->orWhereHas('origin', fn($o) => $o
+                      ->where('city', 'like', "%{$keyword}%")
+                      ->orWhere('street', 'like', "%{$keyword}%")
                   )
-                  ->orWhereHas('destination', fn ($d) =>
-                      $d->where('city', 'like', "%{$keyword}%")
-                         ->orWhere('street', 'like', "%{$keyword}%")
+                  ->orWhereHas('destination', fn($d) => $d
+                      ->where('city', 'like', "%{$keyword}%")
+                      ->orWhere('street', 'like', "%{$keyword}%")
                   );
             });
         }
 
-        // Status filter (single or array)
         if ($status) {
             $statuses = is_array($status) ? $status : [$status];
             $query->whereIn('status', $statuses);
@@ -42,7 +50,7 @@ class GetBookings extends Controller
 
         $bookings = $query
             ->orderBy('created_at', 'desc')
-             ->paginate($perPage, ['*'], 'page', $page);
+            ->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json($bookings);
     }

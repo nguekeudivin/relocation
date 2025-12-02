@@ -10,16 +10,11 @@ import useAppStore from '@/store';
 import { type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { BadgePercent, Caravan, Clock, LampDesk, NotebookPen, Package } from 'lucide-react';
-import { useEffect } from 'react';
 
 export default function Welcome() {
     const store = useAppStore();
     const { auth } = usePage<SharedData>().props;
     const { t } = useTranslation();
-
-    useEffect(() => {
-        store.display.show('create_booking');
-    }, []);
 
     return (
         <>

@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import Show from '@/components/ui/show';
-import cities from '@/config/cities.json';
 import { useSimpleForm, validateObject } from '@/hooks/use-simple-form';
 import useTranslation from '@/hooks/use-translation';
 import { cn, pick } from '@/lib/utils';
@@ -27,10 +26,10 @@ export function CreateBookingModal() {
 
     const form = useSimpleForm({
         date: new Date(),
-        time: new Date(),
-        from_city: cities[0],
+        time: undefined,
+        from_city: '',
         from_street: '',
-        to_city: cities[0],
+        to_city: '',
         to_street: '',
         workers: 2,
         car_type: '',

@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('user')->group(function(){
         Route::get('/bookings', [UserPages::class,'bookings'])->name('user.dashboard');
+        Route::get('/bookings/{booking}/edit',[UserPages::class,'editBooking']);
         Route::get('/profile', [UserPages::class, 'profile'])->name('user.profile');
         Route::get('/payments', [UserPages::class, 'payments'])->name('user.payments');
         Route::get('/messages', [UserPages::class, 'messages'])->name('user.payments');

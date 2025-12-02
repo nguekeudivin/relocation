@@ -5,7 +5,10 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserRole;
+use App\Models\Booking;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+
 
 class UserPages extends Controller
 {
@@ -24,7 +27,14 @@ class UserPages extends Controller
     }
 
     public function bookings(){
-        return Inertia::render('user/my-bookings');
+        return Inertia::render('user/my-bookings/list');
+    }
+
+    public function editBooking(Request $request, Booking $booking){
+        $booking->load(Booking::LOAD);
+        return Inertia::render('user/my-bookings/edit', [
+            'booking' => $booking
+        ]);
     }
 
     public function profile(){

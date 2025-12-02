@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/http';
 import { createResourceStore, ResourceStore } from '@/lib/resource';
+import { getDay, startOfDay } from 'date-fns';
 
 export interface Booking {
     id: number;
@@ -22,6 +23,7 @@ export interface Booking {
 interface BookingStore extends ResourceStore<Booking> {
     stats: any;
     getStats: (year: string) => Promise<any>;
+    cancel: (id: number) => Promise<any>;
 }
 
 export const useBooking = createResourceStore<Booking, BookingStore>('bookings', (set, get) => ({
@@ -34,4 +36,18 @@ export const useBooking = createResourceStore<Booking, BookingStore>('bookings',
                 return res.data;
             });
     },
+    cancel: (id: number) => {
+        return apiClient().post(`/bookings/${id}/cancel`);
+    },
 }));
+
+export const getTransportBasePrice = ({ date, settings }: { date: any; settings: any }) => {
+    const selectedDate = startOfDay(new Date(date));
+    const dayOfWeek = getDay(selectedDate); // 0=Sunday, 1=Monday, ..., 6=Saturday
+
+    const isWeekday = dayOfWeek >= 1 && dayOfWeek <= 4; // Mon–Thu
+    const basePrice = isWeekday ? settings.car_price_weekday_job : settings.car_price_weekend_job;
+
+    // Update form values
+    return basePrice;
+};
