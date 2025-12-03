@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     protected $fillable = [
         'first_name',
@@ -24,7 +25,8 @@ class User extends Authenticatable
     public const STATUSES = ['active', 'inactive', 'banned'];
 
     protected $appends = [
-        'image'
+        'image',
+        'name'
     ];
 
     public function roles()
@@ -39,6 +41,10 @@ class User extends Authenticatable
 
     public function getImageAttribute(){
         return Asset::where('assetable_type',User::class)->where('assetable_id', $this->id)->first();
+    }
+
+    public function getNameAttribute(){
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function user_roles()

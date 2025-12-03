@@ -1,9 +1,11 @@
 import { apiClient } from '@/lib/http';
 import { createResourceStore, ID, ResourceStore } from '@/lib/resource';
+import { differenceInSeconds, formatDistanceToNow } from 'date-fns';
 import { Asset } from './Asset';
 
 export interface User {
     id: number;
+    name: string;
     first_name: string;
     last_name: string;
     email?: string | null;
@@ -17,6 +19,7 @@ export interface User {
     updated_at: string;
     image: Asset;
     address: Address;
+    is_online: any;
 }
 
 export interface Profile {
@@ -46,3 +49,16 @@ export const useUser = createResourceStore<User, UserStore>('users', (set, get) 
             });
     },
 }));
+
+export const isOnline = (user: any): string => {
+    if (!user.last_online) return 'offline';
+    const secondsAgo = differenceInSeconds(new Date(), user.last_online);
+
+    if (secondsAgo < 70) {
+        return 'online';
+    }
+
+    return formatDistanceToNow(user.last_online, {
+        addSuffix: true,
+    });
+};

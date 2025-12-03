@@ -10,7 +10,6 @@ export default {
     'réservation minimum 14 jours à l’avance': 'réservation minimum 14 jours à l’avance',
     'La réservation de véhicule pour une prestation {{period}} doit être effectuée au moins {{days}} jours à l’avance.':
         'La réservation de véhicule pour une prestation {{period}} doit être effectuée au moins {{days}} jours à l’avance.',
-
     'Submit with and account': '',
     'Your booking has been successfully validated!': 'Votre réservation a été validée avec succès !',
     'A confirmation email has been sent to': 'Un email de confirmation a été envoyé à',
@@ -26,4 +25,8 @@ export default {
         'Vous êtes sur le point d’annuler cette réservation de déménagement. Cette action est irréversible.',
     'Keep booking': 'Conserver la réservation',
     'Yes, cancel move': 'Oui, annuler le déménagement',
+    'Search conversations...': '',
+    'No conversations found': '',
+    'No conversation selected': '',
+    'Select a conversation from the list to start messaging or create a new message': '',
 };

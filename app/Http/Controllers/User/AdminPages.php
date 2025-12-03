@@ -34,7 +34,7 @@ class AdminPages extends Controller
         return Inertia::render('admin/settings');
     }
 
-    public function notifications(){
-        return Inertia::render('admin/notifications');
+    public function messages(){
+        return Inertia::render('admin/messages');
     }
 }

@@ -15,7 +15,7 @@ return new class () extends Migration {
             $table->string('type');
             $table->string('url');
             $table->string('name');
-            $table->decimal('size');
+            $table->decimal('size',10,2);
             $table->foreignId('message_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -16,7 +16,6 @@ class GetNotifications extends Controller
             return response()->json(['message' => 'Utilisateur introuvable.'], 404);
         }
 
-        // Fetch latest notifications
         $notifications = $user->notifications()->latest()->get();
 
         return response()->json($notifications);

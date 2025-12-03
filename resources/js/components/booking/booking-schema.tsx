@@ -14,7 +14,7 @@ const coerceDate = z.preprocess(
 );
 const requiredString = (field: string) => z.string({ required_error: `${field} is required.` }).min(1, `${field} cannot be empty.`);
 
-export const CreateBookingFormSchema = [
+export const CreateBookingFormSchema = (t: any) => [
     z.object({
         from_city: requiredString('Origin city'),
         from_street: requiredString('Origin address'),
@@ -24,9 +24,23 @@ export const CreateBookingFormSchema = [
     }),
     z.object({
         // date: coerceDate.refine((d) => !!d, 'Please select a valid date.'),
-        time: coerceDate.refine((d) => !!d, 'Please select a valid time.'),
+        time: coerceDate.refine((d) => !!d, t('Please select a valid time.')),
     }),
     z.object({
+        date: z
+            .date({
+                required_error: t('Please select a date'),
+                invalid_type_error: t('Invalid date'),
+            })
+            .refine(
+                (date) => {
+                    const result = validateTransportDate({ date, t });
+                    return result.isValid;
+                },
+                (date) => ({
+                    message: validateTransportDate({ date: date!, t }).error || '',
+                }),
+            ),
         duration: z.coerce
             .number({
                 required_error: 'Duration is required',

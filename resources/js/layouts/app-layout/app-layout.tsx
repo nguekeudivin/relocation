@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 
 import Logo from '@/components/common/Logo';
 import { Link } from '@inertiajs/react';
-import { BanknoteIcon, CalendarDays, Caravan, LayoutDashboard, LogOut, Settings, Users } from 'lucide-react';
+import { BanknoteIcon, CalendarDays, Caravan, LayoutDashboard, LogOut, MessageCircle, Settings, Users } from 'lucide-react';
 import { Menu } from './menu';
 import TopBar from './top-bar';
 
@@ -43,6 +43,11 @@ const menu = [
         label: 'Settings',
         icon: Settings,
     },
+    {
+        route: '/admin/messages',
+        label: 'Messages',
+        icon: MessageCircle,
+    },
 ];
 
 export default function AppLayout({ breadcrumbds, children }: AppSidebarProps) {
@@ -74,7 +79,9 @@ export default function AppLayout({ breadcrumbds, children }: AppSidebarProps) {
             </div>
 
             <main className={cn('pl-0 md:pl-[250px]')}>
-                <TopBar menu={menu} className="items-center border-b border-gray-300 bg-white px-4 py-4 md:h-16" />
+                <div id="navbar-top">
+                    <TopBar menu={menu} className="items-center border-b border-gray-300 bg-white px-4 py-4 md:h-16" />
+                </div>
                 <div className={cn('mx-auto mb-12 max-w-7xl px-2 py-8 md:px-8')}>{children}</div>
             </main>
         </div>

@@ -6,6 +6,7 @@ import { Banknote, Caravan, LogOut, MessageCircle, X } from 'lucide-react';
 
 import { SimpleButtonForm } from '@/components/common/ButtonForm';
 import Logo from '@/components/common/Logo';
+import CheckSession from '@/components/messaging/check-session';
 import { useDisplay } from '@/hooks/use-display';
 import useTranslation from '@/hooks/use-translation';
 import useAppStore from '@/store';
@@ -62,8 +63,9 @@ export default function MemberLayout({ breadcrumbds, children }: AppSidebarProps
 
     return (
         <div className="">
+            <CheckSession />
             <main>
-                <div className="py-2">
+                <div id="navbar-top" className="border border-red-500 py-2">
                     <div className={cn('mx-auto flex h-full max-w-6xl items-center justify-between px-4 py-2 md:px-0')}>
                         <div className="flex gap-4">
                             <button

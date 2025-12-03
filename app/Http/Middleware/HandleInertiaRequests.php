@@ -45,6 +45,9 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
+            'WS_SERVER_URL' => env('WS_SERVER_URL'),
+            'RECONNECT_INTERVAL' => env('RECONNECT_INTERVAL'),
+            'MAX_RECONNECT_ATTEMPTS' => env('MAX_RECONNECT_ATTEMPTS'),
             'auth' => [
                 'user' => $request->user(),
                 'profiles' => $user == null ? [] : $user->profiles

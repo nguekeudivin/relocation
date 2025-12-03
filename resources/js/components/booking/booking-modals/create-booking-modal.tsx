@@ -7,7 +7,7 @@ import useAppStore from '@/store';
 import { router } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight, Clock, FileCheck, MapPinHouse, NotepadText, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { CreateBookingFormSchema } from '../booking-meta';
+import { CreateBookingFormSchema } from '../booking-schema';
 import BookingDateStep from '../steps/booking-date-step';
 import BookingDetailStep from '../steps/booking-detail-step';
 import BookingLocationStep from '../steps/booking-location-step';
@@ -70,7 +70,7 @@ export function CreateBookingModal() {
     const nextStep = () => {
         // If the step required validation. Write the validation here.
         store.errors.reset();
-        const schema = CreateBookingFormSchema[step];
+        const schema = CreateBookingFormSchema(t)[step];
         if (schema) {
             const validation = validateObject(form.values, schema);
             if (!validation.valid) {

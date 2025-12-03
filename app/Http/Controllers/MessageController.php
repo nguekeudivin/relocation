@@ -61,8 +61,6 @@ class MessageController extends Controller
             }
         }
 
-
-
         $message->load('chat.users', 'reads', 'receives', 'attachments'); // Load chat and its users if not already loaded
         $listeners = $message->chat->users->filter(function ($user) use ($message) {
             return $user->id != $message->user_id;

@@ -5,6 +5,8 @@ namespace App\Services\Booking;
 use App\Models\Setting;
 use App\Models\Booking;
 use App\Models\Address;
+use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Relations\Relation;
 

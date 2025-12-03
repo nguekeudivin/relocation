@@ -49,4 +49,22 @@ class Attachment extends Model
     {
         return round($this->size / (1024 * 1024), 2);
     }
+
+    public static function findPrivateChatBetweenUsers(int $user1Id, int $user2Id)
+    {
+        // Ensure the provided user IDs are different to avoid self-chat confusion
+        if ($user1Id === $user2Id) {
+            return null;
+        }
+        $chat = Chat::whereHas('users', function ($query) use ($user1Id) {
+            $query->where('user_id', $user1Id);
+        })
+        ->whereHas('users', function ($query) use ($user2Id) {
+            $query->where('user_id', $user2Id);
+        })
+        ->has('users', '=', 2)
+        ->first();
+
+        return $chat;
+    }
 }

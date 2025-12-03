@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,9 +14,11 @@ use Inertia\Response;
 use App\Models\Setting;
 use App\Models\Booking;
 use App\Models\Address;
+use App\Models\Chat;
+use App\Models\User;
 use App\Models\Role;
 use App\Services\Booking\SaveBooking;
-use Illuminate\Support\Facades\DB; // <-- REQUIRED
+use Illuminate\Support\Facades\DB; 
 
 class RegisteredUserController extends Controller
 {
@@ -47,13 +48,23 @@ class RegisteredUserController extends Controller
             ]);
             
             $clientRole = Role::where('code', 'client')->first();
-
             $user->attachRole($clientRole->id);
 
             if ($request->has('booking')) {
                 $data = $request->booking;
                 $data['user_id'] = $user->id;
                 $booking = SaveBooking::run($data);
+            }
+
+            // Create a chat discussion.
+            if(isset($data['user_id'])){
+                $admin = User::whereHas('roles', function ($query) {
+                    $query->where('code', 'admin');
+                })->first();
+                $chat = Chat::create([
+                    'creator_id' => $data['user_id'],
+                ]);
+                $chat->users()->attach([$data['user_id'], $admin->id]);
             }
 
             DB::commit();
@@ -66,11 +77,6 @@ class RegisteredUserController extends Controller
         } catch (\Throwable $e) {
 
             DB::rollBack();
-
-
-
-            // Optional: Log error
-            // \Log::error($e);
 
             return redirect()
                 ->back()

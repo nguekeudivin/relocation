@@ -21,7 +21,8 @@ class MessageReadController extends Controller
 
     public function latestOf(Request $request, Chat $chat)
     {
-        $userId = Auth::id();
+        $user = Auth::user();
+        $userId = $user->id;
         $chatId = $chat->id;
 
         // Step 1: Get messages in the chat not sent by the current user

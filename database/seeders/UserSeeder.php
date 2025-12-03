@@ -25,22 +25,14 @@ class UserSeeder extends Seeder
         // Clear the existing users to prevent duplicates on re-seeding.
         DB::table('users')->delete();
         $faker = Faker::create();
-
         // Get roles
         $clientRole = Role::where('code', 'client')->first();
-        $adminRole = Role::where('code','admin')->first();
-
-
-        // Create Admin
-        $admin = User::factory()->create(['email' => 'admin@gmail.com']);
-        $admin->attachRole($adminRole->id);
-
         // Create others members.
         User::factory()
-        ->count(5)
-        ->create()
-        ->each(function ($user) use ($clientRole) {
-            $user->attachRole($clientRole->id);
-        });
+                ->count(5)
+                ->create()
+                ->each(function ($user) use ($clientRole) {
+                    $user->attachRole($clientRole->id);
+                });
     }
 }
