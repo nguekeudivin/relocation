@@ -11,16 +11,16 @@ class BookingSeeder extends Seeder
 {
     public function run(): void
     {
-        $users = User::pluck('id')->toArray();
+        // 1. Récupérer tous les utilisateurs (id + email uniquement)
+        $users = User::select('id', 'email')->get();
 
-        if (empty($users)) {
-            $this->command->warn('⚠ No users found — no bookings will be created.');
-            return;
+        if ($users->isEmpty()) {
+            $this->command->warn('Aucun utilisateur trouvé → toutes les réservations seront anonymes.');
         }
 
-        // Ensure addresses exist
-        if (Address::count() < 10) {
-            foreach (range(1, 10) as $i) {
+        // 2. Créer des adresses si on en a moins de 20
+        if (Address::count() < 20) {
+            foreach (range(1, 20) as $i) {
                 Address::create([
                     'country' => 'Germany',
                     'state'   => fake()->state(),
@@ -28,62 +28,65 @@ class BookingSeeder extends Seeder
                     'street'  => fake()->streetAddress(),
                 ]);
             }
-
-            $this->command->info("🏠 Created 10 dummy addresses.");
+            $this->command->info('20 adresses fictives créées.');
         }
 
         $addresses = Address::pluck('id')->toArray();
+        $totalBookings = 0;
 
-        foreach ($users as $userId) {
+        // === Réservations pour les utilisateurs existants (70 % des cas) ===
+        foreach ($users as $user) {
+            $bookingsCount = fake()->numberBetween(1, 4);
 
-            // Each user has 1–3 bookings
-            $bookingsCount = rand(1, 3);
-
-            foreach (range(1, $bookingsCount) as $i) {
-
-                $origin = fake()->randomElement($addresses);
-                $destination = fake()->randomElement($addresses);
-
-                // Ensure origin != destination
-                while ($destination === $origin) {
-                    $destination = fake()->randomElement($addresses);
+            for ($i = 0; $i < $bookingsCount; $i++) {
+                // 70 % de chance que ce soit une réservation authentifiée
+                if (fake()->boolean(70)) {
+                    $this->createBooking([
+                        'user_id' => $user->id,
+                        'email'   => $user->email,
+                    ], $addresses);
+                    $totalBookings++;
                 }
-
-                $status = fake()->randomElement(Booking::STATUSES);
-
-                if(rand(1,0)){
-                    Booking::create([
-                        'user_id'       => $userId,
-                        'date'          => fake()->dateTimeBetween('+1 day', '+1 month'),
-                                    'origin_id'     => $origin,
-                                    'destination_id'=> $destination,
-                                    'workers'       => fake()->numberBetween(1, 4),
-                                    'car_type'      => fake()->randomElement(['van','bus']),
-                                    'duration'      => fake()->randomFloat(2, 1, 8),
-                                    'amount'        => fake()->randomFloat(2, 50, 500),
-                                    'observation'   => fake()->boolean(30) ? fake()->sentence() : null,
-                                    'status'        => $status,
-                                    'email' => fake()->unique()->safeEmail,
-                    ]);
-                }else{
-                    Booking::create([
-                                    'date'          => fake()->dateTimeBetween('+1 day', '+1 month'),
-                                    'origin_id'     => $origin,
-                                    'destination_id'=> $destination,
-                                    'workers'       => fake()->numberBetween(1, 4),
-                                    'car_type'      => fake()->randomElement(['van','bus']),
-                                    'duration'      => fake()->randomFloat(2, 1, 8),
-                                    'amount'        => fake()->randomFloat(2, 50, 500),
-                                    'observation'   => fake()->boolean(30) ? fake()->sentence() : null,
-                                    'status'        => $status,
-                                    'email' => fake()->unique()->safeEmail,
-                    ]);
-                }
-
-                
             }
         }
 
-        $this->command->info("✅ Bookings created: every user now has at least one booking.");
+        // === Réservations anonymes (guests) – toujours avec email ===
+        $guestBookings = fake()->numberBetween(20, 50);
+
+        for ($i = 0; $i < $guestBookings; $i++) {
+            $this->createBooking([
+                'user_id' => null,
+                'email'   => fake()->unique()->safeEmail(), // email réaliste mais fictif
+            ], $addresses);
+            $totalBookings++;
+        }
+
+        $this->command->info("Terminé ! {$totalBookings} réservations créées (authentifiées + anonymes).");
+    }
+
+    private function createBooking(array $userData, array $addresses): void
+    {
+        $origin = fake()->randomElement($addresses);
+        $destination = $origin;
+
+        // S’assurer que origin ≠ destination
+        while ($destination === $origin) {
+            $destination = fake()->randomElement($addresses);
+        }
+
+        Booking::create([
+            'user_id'        => $userData['user_id'] ?? null,
+            'email'          => $userData['email'],
+            'date'           => fake()->dateTimeBetween('+1 day', '+90 days'),
+            'origin_id'      => $origin,
+            'destination_id' => $destination,
+            'workers'        => fake()->numberBetween(1, 6),
+            'car_type'       => fake()->randomElement(['van', 'bus']),
+            'duration'       => fake()->randomFloat(2, 0.5, 12),
+            'amount'         => fake()->randomFloat(2, 50, 1500),
+            'observation'    => fake()->boolean(35) ? fake()->realText(180) : null,
+            //'status'         => fake()->randomElement(Booking::STATUSES),
+            'status' => 'pending'
+        ]);
     }
 }

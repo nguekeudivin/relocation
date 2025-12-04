@@ -1,21 +1,23 @@
 import FullPagination from '@/components/common/FullPagination';
 import PageTitle from '@/components/common/PageTitle';
-import { PaymentMethodColors, PaymentMethodMap, PaymentStatusColors, PaymentStatusMap } from '@/components/payment/payment-meta';
+import { UserPaymentTableColumns } from '@/components/payment/payment-meta';
 import { SearchEngine } from '@/components/shared/search-engine';
+import SimpleTable from '@/components/ui/table';
 import { useSimpleForm } from '@/hooks/use-simple-form';
 import useTranslation from '@/hooks/use-translation';
 import MemberLayout from '@/layouts/member-layout/member-layout';
-import { cn, formatDate } from '@/lib/utils';
 import useAppStore from '@/store';
+import { usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 
 export default function MyPayments() {
     const store = useAppStore();
+    const { auth } = usePage<any>().props;
 
     const searchForm = useSimpleForm({ keyword: '' });
 
     const search = ({ page = 1, perPage = 10 } = {}) => {
-        store.payment.fetch({ page, perPage, ...searchForm.values });
+        store.payment.fetch({ page, perPage, ...searchForm.values, user_id: auth.user.id });
     };
 
     useEffect(() => {
@@ -27,7 +29,7 @@ export default function MyPayments() {
     return (
         <>
             <MemberLayout breadcrumbds={[]}>
-                <div className="mx-auto max-w-6xl px-4 md:px-0">
+                <div className="mx-auto max-w-5xl px-4 md:px-0">
                     <PageTitle title="My payments" />
 
                     <div className="mt-5"></div>
@@ -36,7 +38,7 @@ export default function MyPayments() {
 
                     <div className="mt-6"></div>
 
-                    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                    {/* <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                         {store.payment.pagination.data.map((item) => (
                             <div className="border border-gray-200 p-4">
                                 <p className="text-lg font-semibold">
@@ -62,15 +64,31 @@ export default function MyPayments() {
                                 </ul>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
 
-                    <FullPagination
-                        className="mt-4"
-                        canEdit={true}
-                        pagination={store.booking.pagination}
-                        onGoto={(page) => search({ page })}
-                        onPerPage={(perPage) => search({ perPage })}
+                    <SimpleTable
+                        items={store.payment.items}
+                        columns={UserPaymentTableColumns({
+                            onView: (item: any) => {
+                                store.payment.setCurrent(item);
+                                store.display.show('view_expense');
+                            },
+
+                            onDelete: async (item: any) => {
+                                await store.payment.destroy(item.id);
+                            },
+                        })}
                     />
+
+                    {store.booking.pagination.total > store.booking.pagination.per_page && (
+                        <FullPagination
+                            className="mt-8"
+                            canEdit={true}
+                            pagination={store.booking.pagination}
+                            onGoto={(page) => search({ page })}
+                            onPerPage={(perPage) => search({ perPage })}
+                        />
+                    )}
                 </div>
             </MemberLayout>
         </>

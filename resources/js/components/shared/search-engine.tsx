@@ -45,7 +45,7 @@ export const SearchEngine = ({
                                 });
                         }}
                         className={cn(
-                            'focus:ring-secondary-300 block w-[400px] rounded-lg border border-gray-300 bg-white p-2 text-sm text-gray-900 focus:border-transparent focus:ring-2 focus:outline-none',
+                            'focus:ring-secondary-300 block w-[400px] border border-gray-300 bg-white p-2 text-sm text-gray-900 focus:border-transparent focus:ring-2 focus:outline-none',
                             inputClass,
                             inputSize,
                         )}

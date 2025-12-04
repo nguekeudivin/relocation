@@ -19,9 +19,9 @@ class PaymentController extends Controller
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'eur',
-                    'unit_amount' => $booking->total_price * 100 , // amount in cents (20 USD)
+                    'unit_amount' => $booking->amount * 100 , // amount in cents (20 USD)
                     'product_data' => [
-                        'name' => 'Ride Booking',
+                        'name' => 'Booking',
                     ],
                 ],
                 'quantity' => 1,
@@ -31,10 +31,11 @@ class PaymentController extends Controller
             'cancel_url' => route('payment.cancel'),
             'metadata' => [
                 'booking_id' => $booking->id,
+
             ],
         ]);
 
-        return redirect($checkoutSession->url);
+        return redirect($checkoutSession->url,303);
     }
 
     public function success(Request $request)
@@ -48,84 +49,37 @@ class PaymentController extends Controller
         Stripe::setApiKey(env('STRIPE_SECRET'));
         $session = CheckoutSession::retrieve($sessionId);
 
+         // Update the booking status.
+        $booking = Booking::find($session->metadata->booking_id);
+        $payment = Payment::create([
+            'user_id' => $booking->user_id, 
+            'amount' => $booking->amount,
+            'method' => 'card',
+            'processed_at' => now()
+        ]);
+
         // You can check payment status
         if ($session->payment_status === 'paid') {
             // Payment success
-            // Update the booking status.
-            $booking = Booking::find($session->metadata->booking_id);
-
-            $booking->status = 'CONFIRMED';
-            $booking->save();
-
-            if ($booking->package_id != null) {
-                $booking->ride->package_weight = $booking->ride->package_weight - $booking->package->weight;
-                $booking->ride->save();
-            }
-
+            $payment->update(['status' => 'completed']);
+            $booking->update(['status' => 'paid']);
             // Create a notification.
-            $notification = Notification::create([
-                'user_id' => $booking->ride->driver->id, // Recipient user
-                'notificable_id' => $booking->id,
-                'notificable_type' => Booking::class,
-                'content' => 'Payment confirmed for a booking',
-                'link' => '/account/rides/'.$request->ride_id, // or a dynamic chat route
-                'is_read' => false,
-            ]);
+
+            // Send a mail notification here.
 
             // Redirect to the booking page with a success message.
-            return redirect('/bookings/'.$booking->id)
-                ->with('success', 'Payment proceed with success')
-                ->with('notificationToSend', $notification->id);
+            return redirect('/user/bookings?m=Success')
+                ->with('success', 'Payment proceed with success');
 
         } else {
             // Payment not completed
-            return redirect('/bookings')->with('warning', 'Payment failed');
+            $payment->update(['status' => 'failed']);
+            return redirect('/user/bookings?m=Failed')->with('warning', 'Payment failed');
         }
     }
 
     public function cancel()
     {
-        return redirect('/bookings') > with('warning', 'Payment cancel');
-    }
-
-    public function index()
-    {
-        return Payment::all();
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'passenger_id' => 'required|exists:users,id',
-            'transaction_id' => 'required|string|unique:payments,transaction_id',
-            'booking_id' => 'required|exists:bookings,id',
-            'amount' => 'required|numeric|min:0',
-            'method' => 'required|string',
-        ]);
-
-        $payment = Payment::create($validated);
-        return response()->json($payment, 201);
-    }
-
-    public function show(Payment $payment)
-    {
-        return $payment;
-    }
-
-    public function update(Request $request, Payment $payment)
-    {
-        $validated = $request->validate([
-            'method' => 'sometimes|string',
-            'amount' => 'sometimes|numeric|min:0',
-        ]);
-
-        $payment->update($validated);
-        return response()->json($payment);
-    }
-
-    public function destroy(Payment $payment)
-    {
-        $payment->delete();
-        return response()->json(null, 204);
+        return redirect('/user/bookings?m=Cancel')->with('warning', 'Payment cancel');
     }
 }

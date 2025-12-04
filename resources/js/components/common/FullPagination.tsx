@@ -1,5 +1,6 @@
 'use client';
 
+import useTranslation from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import clsx from 'clsx';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -17,6 +18,8 @@ interface FullPaginationProps {
 }
 
 const FullPagination: FC<FullPaginationProps> = ({ pagination, canEdit = false, className, onGoto, onPerPage = () => {} }) => {
+    const { t } = useTranslation();
+
     const previous = () => {
         window.scroll({ top: 0, behavior: 'smooth' });
         if (pagination.current_page != 1) {
@@ -59,10 +62,10 @@ const FullPagination: FC<FullPaginationProps> = ({ pagination, canEdit = false, 
                     </select>
                     {pagination.per_page != perPage && (
                         <Button className="px-2 py-2 text-sm" onClick={() => onPerPage(perPage)}>
-                            Change
+                            {t('Refresh')}
                         </Button>
                     )}
-                    <span className=""> de {pagination.total}</span>
+                    {/* <span className="">  {pagination.total}</span> */}
                 </div>
             )}
 
@@ -83,7 +86,7 @@ const FullPagination: FC<FullPaginationProps> = ({ pagination, canEdit = false, 
                         <li key={`pageNumber${pageNumber}`}>
                             <button
                                 onClick={() => goTo(pageNumber)}
-                                className={clsx('inline-flex h-8 w-8 items-center justify-center rounded-md font-semibold hover:bg-gray-200', {
+                                className={clsx('inline-flex h-8 w-8 items-center justify-center hover:bg-gray-200', {
                                     'bg-white': pagination.current_page != pageNumber,
                                     'bg-primary-600 text-white': pagination.current_page == pageNumber,
                                 })}

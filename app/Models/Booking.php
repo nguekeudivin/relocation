@@ -27,7 +27,7 @@ class Booking extends Model
         'status'
     ];
 
-    public const STATUSES = ['waiting_payment','cancelled','pending','completed'];
+    public const STATUSES = ['pending', 'confirmed','paid','cancelled','completed'];
 
     public const LOAD = ['origin', 'destination', 'user'];
 

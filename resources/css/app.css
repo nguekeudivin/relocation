@@ -10,30 +10,17 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    /* PRIMARY – Orange-Gold (#D9A23D) */
-    /* --color-primary-50: #fdf8ec;
-    --color-primary-100: #faefd5;
-    --color-primary-200: #f5dea6;
-    --color-primary-300: #eec86d;
-    --color-primary-400: #e6b74a;
-    --color-primary-500: #d9a23d; 
-    --color-primary-600: #bf8731;
-    --color-primary-700: #996728;
-    --color-primary-800: #7a5223;
-    --color-primary-900: #5f411c; */
-
     --color-primary-50: #fef2f3;
     --color-primary-100: #fce4e6;
     --color-primary-200: #f8c9ce;
     --color-primary-300: #f29fa6;
     --color-primary-400: #ea6a74;
-    --color-primary-500: #b41625; /* nouvelle couleur de base */
+    --color-primary-500: #b41625; /* base */
     --color-primary-600: #9d1220;
     --color-primary-700: #800f1b;
     --color-primary-800: #660c15;
     --color-primary-900: #40080e;
 
-    /* SECONDARY – Soft Yellow (#F2DC99) */
     --color-tertiary-50: #fffcf5;
     --color-tertiary-100: #fff8e5;
     --color-tertiary-200: #fdefc6;
@@ -45,7 +32,6 @@
     --color-tertiary-800: #9e8842;
     --color-tertiary-900: #7c6934;
 
-    /* TERTIARY – Dark Neutral (#262626) */
     --color-secondary-50: #f5f5f5;
     --color-secondary-100: #e5e5e5;
     --color-secondary-200: #cfcfcf;

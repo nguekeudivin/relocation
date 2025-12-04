@@ -30,7 +30,7 @@ export interface Profile {
 }
 
 export function getFullName(user: User) {
-    return user.first_name + ' ' + user.last_name;
+    return user?.first_name + ' ' + user?.last_name;
 }
 
 interface UserStore extends ResourceStore<User> {

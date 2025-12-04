@@ -39,8 +39,10 @@ class UserPages extends Controller
         }
     }
 
-    public function bookings(){
-        return Inertia::render('user/my-bookings/list');
+    public function bookings(Request $request){
+        return Inertia::render('user/my-bookings/list', [
+            'success' => $request->session()->get('success'),
+        ]);
     }
 
     public function editBooking(Request $request, Booking $booking){
@@ -54,8 +56,23 @@ class UserPages extends Controller
         return Inertia::render('user/my-profile');
     }
 
-    public function messages(){
-        return Inertia::render('user/my-messages');
+    public function messages(Request $request){
+        $user = auth()->user();
+
+        // Si l'URL contient déjà ?chatId=...
+        if ($request->has('chatId')) {
+            return Inertia::render('user/my-messages');
+        }
+
+        // Chercher l'admin
+        $admin = User::whereHas('roles', function ($query) {
+            $query->where('code', 'admin');
+        })->first();
+
+        // Trouver ou créer le chat privé entre l'utilisateur et l'admin
+        $chat = Chat::findPrivateChatBetweenUsers($user->id, $admin->id);
+        // Redirection vers /user/messages?chatId=xxx
+        return redirect("/user/messages?chatId={$chat->id}");
     }
 
     public function payments(){

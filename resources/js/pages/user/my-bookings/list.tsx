@@ -1,6 +1,7 @@
 import { BookingStatusColors, BookingStatusMap } from '@/components/booking/booking-meta';
 import { CancelBookingModal } from '@/components/booking/booking-modals/cancel-booking-modal';
 import PageTitle from '@/components/common/PageTitle';
+import { ChoosePaymentMethod } from '@/components/payment/payment-modals/choose-payment-method';
 import { Button } from '@/components/ui/button';
 import Show from '@/components/ui/show';
 import { useSimpleForm } from '@/hooks/use-simple-form';
@@ -14,7 +15,7 @@ import { useEffect } from 'react';
 
 export default function MyProfilePage() {
     const store = useAppStore();
-    const { auth } = usePage<any>().props;
+    const { auth, success, warning } = usePage<any>().props;
 
     const searchForm = useSimpleForm({ keyword: '' });
 
@@ -31,11 +32,18 @@ export default function MyProfilePage() {
     return (
         <>
             <CancelBookingModal />
+            <ChoosePaymentMethod />
             <MemberLayout breadcrumbds={[]}>
                 <div className="mx-auto max-w-4xl px-4 md:px-0">
                     <PageTitle title={t('My bookings')} />
 
-                    {/* <SearchEngine form={searchForm} onSubmit={undefined} selects={[]} /> */}
+                    {success != '' && success != null && success != undefined && (
+                        <div className="mt-4 mt-6 mb-4 bg-green-100 p-3 text-center text-sm font-medium font-semibold text-green-600">{success}</div>
+                    )}
+
+                    {warning != '' && warning != null && warning != undefined && (
+                        <div className="mt-4 mt-6 mb-4 bg-red-100 p-3 text-center text-sm font-medium text-red-600">{warning}</div>
+                    )}
 
                     <div className="mt-6"></div>
 
@@ -73,7 +81,7 @@ export default function MyProfilePage() {
                                             </div>
                                         </div>
 
-                                        <Show when={booking.status == 'waiting_payment'}>
+                                        <Show when={booking.status == 'pending'}>
                                             <div className="mt-4 flex items-center gap-4 text-sm">
                                                 <Link href={`/user/bookings/${booking.id}/edit`} className="flex items-center gap-1 hover:underline">
                                                     <Pencil className="h-3 w-3" />
@@ -134,9 +142,15 @@ export default function MyProfilePage() {
                                                 {t(BookingStatusMap[booking.status])}
                                             </span>
                                         </div>
-                                        {booking.status == 'waiting_payment' && (
+                                        {booking.status == 'pending' && (
                                             <div className="mt-4">
-                                                <Button color="secondary" className="px-2 py-2 text-sm">
+                                                <Button
+                                                    color="secondary"
+                                                    onClick={() => {
+                                                        window.location.assign(window.location.origin + `/bookings/${booking.id}/pay`);
+                                                    }}
+                                                    className="px-2 py-2 text-sm"
+                                                >
                                                     Click to pay
                                                 </Button>
                                             </div>

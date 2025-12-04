@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 import { ReactNode, useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import { Banknote, Caravan, LogOut, MessageCircle, X } from 'lucide-react';
+import { Banknote, Book, LogOut, MessageCircle, X } from 'lucide-react';
 
 import { SimpleButtonForm } from '@/components/common/ButtonForm';
 import Logo from '@/components/common/Logo';
@@ -24,13 +24,13 @@ interface AppSidebarProps {
 const menu = [
     {
         route: '/user/bookings',
-        label: 'My bookings',
-        icon: Caravan,
+        label: 'Bookings',
+        icon: Book,
     },
 
     {
         route: '/user/payments',
-        label: 'My payments',
+        label: 'Payments',
         icon: Banknote,
     },
     // {
@@ -40,7 +40,7 @@ const menu = [
     // },
     {
         route: '/user/messages',
-        label: 'My messages',
+        label: 'Messages',
         icon: MessageCircle,
     },
 ];
@@ -65,7 +65,7 @@ export default function MemberLayout({ breadcrumbds, children }: AppSidebarProps
         <div className="">
             <CheckSession />
             <main>
-                <div id="navbar-top" className="border border-red-500 py-2">
+                <div id="navbar-top" className="py-2">
                     <div className={cn('mx-auto flex h-full max-w-6xl items-center justify-between px-4 py-2 md:px-0')}>
                         <div className="flex gap-4">
                             <button

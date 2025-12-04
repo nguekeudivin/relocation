@@ -9,6 +9,7 @@ use App\Http\Controllers\User\ChangeUserLanguage;
 use App\Http\Controllers\User\AdminPages;
 use App\Http\Controllers\User\ChangeUserProfile;
 use App\Http\Controllers\QueryController;
+use App\Http\COntrollers\PaymentController;
 
 Route::get('/', function () {
    return Inertia::render('home');
@@ -45,5 +46,19 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/messages', [UserPages::class,'messages'])->name('user.messages');
 });
+
+Route::get('/terms', function(){
+    return Inertia::render('home');
+});
+
+Route::get('/privacy', function(){
+    return Inertia::render('home');
+});
+
+// Payment.
+Route::get('/bookings/{booking}/pay', [PaymentController::class,'checkout']);
+Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+
 
 require __DIR__.'/auth.php';

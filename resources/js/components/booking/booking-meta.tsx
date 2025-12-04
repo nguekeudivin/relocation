@@ -4,17 +4,19 @@ import { formatDate } from '@/lib/utils';
 import { Booking } from '@/store/Booking';
 
 export const BookingStatusMap: any = {
-    waiting_payment: 'Waiting Payment',
+    pending: 'Waiting Payment',
+    completed: 'Completed',
     paid: 'Paid',
     confirmed: 'Confirmed',
     cancelled: 'Cancelled',
 };
 
 export const BookingStatusColors: any = {
-    waiting_payment: 'bg-orange-100 text-orange-800',
-    paid: 'bg-green-100 text-green-800',
-    confirmed: 'bg-blue-100 text-blue-800',
-    cancelled: 'bg-red-100 text-red-800',
+    pending: 'bg-orange-800 text-white',
+    paid: 'bg-green-700 text-white',
+    confirmed: 'bg-blue-700 text-white',
+    cancelled: 'bg-red-700 text-white',
+    completed: 'bg-sky-700 text-white',
 };
 
 export const BookingCarTypeMap: any = {

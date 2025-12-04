@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('duration');
             $table->decimal('amount');
             $table->text('observation')->nullable();
-            $table->enum('status',Booking::STATUSES)->default('waiting_payment');
+            $table->enum('status',Booking::STATUSES)->default('pending');
             $table->timestamps();
         });
     }

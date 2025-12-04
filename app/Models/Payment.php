@@ -10,7 +10,7 @@ class Payment extends Model
     use HasFactory;
 
     // Payment methods
-    const METHODS = ['paypal',  'stripe']; 
+    const METHODS = ['card','giropay','sofort','klarna','sepa_debit'];
 
     // Payment statuses
     const STATUSES = ['pending', 'completed', 'failed']; 
