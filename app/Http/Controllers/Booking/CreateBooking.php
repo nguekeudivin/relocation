@@ -34,7 +34,7 @@ class CreateBooking extends Controller
 
         $validated['user_id'] = $request->input("user_id");
         
-        $booking = SaveBooking::run($validated);
+        $booking = SaveBooking::run($validated, $request->input('lang', 'en'));
 
         return response()->json($booking, 201);
     }

@@ -57,6 +57,7 @@ export default function MyProfilePage() {
                                             <time className="text-my-dark text-lg font-bold">
                                                 {formatDate(new Date(booking.date), 'dd MMM yyyy, HH:mm')}
                                             </time>
+                                            <span>id:{booking.id}</span>
                                         </div>
 
                                         <div className="mt-5 flex items-start gap-4">

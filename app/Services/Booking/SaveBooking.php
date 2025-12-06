@@ -5,14 +5,14 @@ namespace App\Services\Booking;
 use App\Models\Setting;
 use App\Models\Booking;
 use App\Models\Address;
-use App\Models\Chat;
 use App\Models\User;
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Booking\BookingCreatedMail;
+use App\Mail\Booking\BookingCreatedAdminMail;
 
 class SaveBooking
 {
-    public static function run($data){
+    public static function run($data, $lang = 'en'){
 
         $settings = Setting::all()->pluck('value', 'code');
 
@@ -40,8 +40,16 @@ class SaveBooking
             'car_type'       => $data['car_type'],
             'email'          => $data['email'],
             'amount'         => $workersCost + $durationCost + $carsCost,
-            'status'         => 'waiting_payment',
+            'status'         => 'pending',
         ]);
+
+        Mail::to($booking->email)->queue(
+             new BookingCreatedMail($booking, $lang)
+        );
+
+        Mail::to(User::getAdmin()->email)->queue(
+            new BookingCreatedAdminMail($booking)
+        );
 
         return $booking;
     }

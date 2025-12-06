@@ -74,4 +74,5 @@ class Booking extends Model
     {
         return number_format($this->amount, 2);
     }
+
 }

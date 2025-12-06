@@ -3,7 +3,7 @@
 namespace App\Services\QueryService;
 
 use Illuminate\Support\Str;
-use App\Services\Helpers;
+use App\Services\ReflectionHelper;
 
 class PermissionGuard
 {
@@ -65,11 +65,11 @@ class PermissionGuard
 
             foreach ($query->rels as $relationName => $relationQuery) {
                 // Get the relation class and the relation model.
-                $relatedClass = Helpers::getRelationClass($model, $relationName);
+                $relatedClass = ReflectionHelper::getRelationClass($model, $relationName);
                 if ($relatedClass == null) {
                     continue;
                 }
-                $relatedModel = Helpers::getModelFromClass($relatedClass);
+                $relatedModel = ReflectionHelper::getModelFromClass($relatedClass);
 
                 // check we have normal access to the relation
                 if ($this->can('view', $model, $relationName) || $this->can('view', $model, "*")) {
@@ -113,7 +113,7 @@ class PermissionGuard
     public function getFilters(string $model): array
     {
         $filters = [];
-        $modelClass = Helpers::getModelClass($model);
+        $modelClass = ReflectionHelper::getModelClass($model);
 
         if (method_exists($modelClass, 'queryFilters')) {
             foreach (($modelClass::queryFilters() ?? []) as $filterName => $func) {

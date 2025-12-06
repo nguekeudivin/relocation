@@ -8,17 +8,16 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Setting;
-use App\Models\Booking;
-use App\Models\Address;
 use App\Models\Chat;
 use App\Models\User;
 use App\Models\Role;
 use App\Services\Booking\SaveBooking;
 use Illuminate\Support\Facades\DB; 
+use App\Mail\User\AccountCreatedMail;
+use App\Mail\User\AccountCreatedAdminMail;
+use Illuminate\Support\Facades\Mail;
 
 class RegisteredUserController extends Controller
 {
@@ -68,6 +67,13 @@ class RegisteredUserController extends Controller
             }
 
             DB::commit();
+
+            Mail::to($booking->email)->send(
+             new AccountCreatedMail($user)
+            );
+            Mail::to(User::getAdmin()->email)->send(
+                new AccountCreatedAdminMail($user)
+            );
 
             event(new Registered($user));
             Auth::login($user);

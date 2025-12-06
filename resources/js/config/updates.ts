@@ -8,8 +8,8 @@ export default {
     'Prestation le weekend': 'Prestation le week-end (vendredi-dimanche)',
     'réservation minimum 5 jours à l’avance': 'réservation minimum 5 jours à l’avance',
     'réservation minimum 14 jours à l’avance': 'réservation minimum 14 jours à l’avance',
-    'La réservation de véhicule pour une prestation {{period}} doit être effectuée au moins {{days}} jours à l’avance.':
-        'La réservation de véhicule pour une prestation {{period}} doit être effectuée au moins {{days}} jours à l’avance.',
+    'La réservation de véhicule pour une prestation :period doit être effectuée au moins :days jours à l’avance.':
+        'La réservation de véhicule pour une prestation :period doit être effectuée au moins :days jours à l’avance.',
     'Submit with and account': '',
     'Your booking has been successfully validated!': 'Votre réservation a été validée avec succès !',
     'A confirmation email has been sent to': 'Un email de confirmation a été envoyé à',
@@ -39,4 +39,6 @@ export default {
     'Terms of Service': 'Terms of Service',
     and: 'and',
     'Privacy Policy': 'Privacy Policy',
+    'Back home': "Retour a l'accueil",
+    'Dear Customer': '',
 };

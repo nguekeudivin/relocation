@@ -11,11 +11,11 @@ use App\Http\Controllers\User\ChangeUserProfile;
 use App\Http\Controllers\QueryController;
 use App\Http\COntrollers\PaymentController;
 
+
+
 Route::get('/', function () {
    return Inertia::render('home');
 });
-
-Route::post('/validate/phone-number', [ValidationController::class,'phoneNumber']);
 
 Route::middleware(['auth'])->group(function () {
 
@@ -28,15 +28,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [AdminPages::class,'dashboard'])->name('admin.dashboard');
         Route::get('/bookings', [AdminPages::class,'bookings'])->name('admin.bookings');
         Route::get('/payments', [AdminPages::class,'payments'])->name('admin.payments');
-        Route::get('/users', [AdminPages::class, 'users'])->name('admin.members');
-        Route::get('/calendar', [AdminPages::class, 'calendar'])->name('admin.meetings');
+        Route::get('/users', [AdminPages::class, 'users'])->name('admin.users');
+        Route::get('/calendar', [AdminPages::class, 'calendar'])->name('admin.calendar');
         Route::get('/messages',[AdminPages::class,'messages'])->name('admin.messages');
         Route::get('/settings', [AdminPages::class, 'settings'])->name('admin.settings');
     });
 
     Route::prefix('user')->group(function(){
-        Route::get('/bookings', [UserPages::class,'bookings'])->name('user.dashboard');
-        Route::get('/bookings/{booking}/edit',[UserPages::class,'editBooking']);
+        Route::get('/bookings', [UserPages::class,'bookings'])->name('user.bookings');
+        Route::get('/bookings/{booking}/edit',[UserPages::class,'editBooking'])->name('user.editBooking');
         Route::get('/profile', [UserPages::class, 'profile'])->name('user.profile');
         Route::get('/payments', [UserPages::class, 'payments'])->name('user.payments');
         Route::get('/messages', [UserPages::class, 'messages'])->name('user.messages');
@@ -60,5 +60,19 @@ Route::get('/bookings/{booking}/pay', [PaymentController::class,'checkout']);
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
+Route::get('/preview-mail', function () {
+    $booking = \App\Models\Booking::first(); // or fake() data
+    $user = \App\Models\User::first();
+    $greetingName = $user ? $user->first_name : 'Guest';
+
+    //return new \App\Mail\BookingCreatedMail($booking, $user, $greetingName);
+
+   // return new \App\Mail\BookingCreatedAdminMail($booking, $user, $greetingName);
+
+    return new \App\Mail\Booking\BookingCancelledAdminMail($booking);
+});
+
 
 require __DIR__.'/auth.php';
+
+

@@ -49,6 +49,14 @@ export const apiClient = (): AxiosInstance => {
         },
     );
 
+    instance.interceptors.request.use((config) => {
+        if (!config.params) {
+            config.params = {};
+        }
+        config.params.lang = typeof window !== 'undefined' ? localStorage.getItem('locale') || 'en' : 'en';
+        return config;
+    });
+
     httpInstance = instance;
 
     return instance;

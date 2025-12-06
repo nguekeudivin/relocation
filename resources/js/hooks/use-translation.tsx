@@ -1,9 +1,10 @@
 // hooks/use-translation.ts
-import de from '@/config/i18/de';
-import fr from '@/config/i18/fr';
+import de from '@/../lang/de.json';
+import en from '@/../lang/en.json';
+import fr from '@/../lang/fr.json';
 
 const dictionaries: Record<string, Record<string, string>> = {
-    en: {}, // English keys are the keys themselves
+    en, // English keys are the keys themselves
     fr,
     de,
 };
@@ -12,13 +13,7 @@ export default function useTranslation() {
     const lang = typeof window !== 'undefined' ? localStorage.getItem('locale') || 'en' : 'en';
 
     const t = (key: string, params?: Record<string, string | number>): string => {
-        let translation: string;
-
-        if (lang === 'en') {
-            translation = key;
-        } else {
-            translation = dictionaries[lang]?.[key] ?? key;
-        }
+        let translation = dictionaries[lang]?.[key] ?? key;
 
         // Si pas de paramètres → on retourne la traduction brute
         if (!params || Object.keys(params).length === 0) {

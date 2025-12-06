@@ -4,7 +4,7 @@ namespace App\Services\QueryService;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Services\Helpers;
+use App\Services\ReflectionHelper;
 
 class Query
 {
@@ -75,7 +75,7 @@ class Query
             }
 
             $model = Str::singular(Str::studly($index));
-            $modelClass = Helpers::getModelClass($model);
+            $modelClass = ReflectionHelper::getModelClass($model);
 
             if (!$modelClass) {
                 continue; // Or raise an exception.

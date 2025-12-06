@@ -6,7 +6,7 @@ import { cn, pick } from '@/lib/utils';
 import useAppStore from '@/store';
 import { router } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight, Clock, FileCheck, MapPinHouse, NotepadText, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CreateBookingFormSchema } from '../booking-schema';
 import BookingDateStep from '../steps/booking-date-step';
 import BookingDetailStep from '../steps/booking-detail-step';
@@ -24,27 +24,52 @@ export function CreateBookingModal() {
 
     const { t } = useTranslation();
 
+    // const form = useSimpleForm({
+    //     date: new Date(),
+    //     time: undefined,
+    //     from_city: 'Berlin',
+    //     from_street: '',
+    //     to_city: '',
+    //     to_street: '',
+    //     workers: 2,
+    //     car_type: '',
+    //     duration: 2,
+    //     amount: 0,
+    //     transport_price: 150,
+    //     first_name: '',
+    //     last_name: '',
+    //     email: '',
+    //     phone_number: '',
+    //     password: '',
+    //     with_account: true,
+    // });
     const form = useSimpleForm({
-        date: new Date(),
-        time: undefined,
-        from_city: '',
-        from_street: '',
-        to_city: '',
-        to_street: '',
+        date: new Date('2025-02-15'),
+        time: new Date('2025-02-15T10:00:00'),
+
+        from_city: 'Berlin',
+        from_street: 'Alexanderplatz 5',
+
+        to_city: 'Hamburg',
+        to_street: 'Reeperbahn 120',
+
         workers: 2,
-        car_type: '',
+        car_type: 'van',
         duration: 2,
-        amount: 0,
+        amount: 300,
         transport_price: 150,
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone_number: '',
-        password: '',
-        with_account: true,
+
+        first_name: 'Marie',
+        last_name: 'Keller',
+        email: 'marie.keller@example.com',
+        phone_number: '+49 151 2345678',
+        password: 'Test1234!',
+
+        with_account: false,
     });
 
-    const [step, setStep] = useState<number>(0);
+    const [step, setStep] = useState<number>(3);
+    const modalRef = useRef<any>(undefined);
 
     useEffect(() => {
         if (isVisible) {
@@ -96,6 +121,7 @@ export function CreateBookingModal() {
     };
 
     const submit = () => {
+        store.errors.reset();
         const data = {
             booking: pick(form.values, [
                 'date',
@@ -118,6 +144,7 @@ export function CreateBookingModal() {
                     store.display.hide(name);
                 },
                 onError: (error) => {
+                    modalRef.current.scrollTo({ top: 0 });
                     store.errors.setMany(error);
                 },
             });
@@ -129,13 +156,17 @@ export function CreateBookingModal() {
                     store.booking.setCurrent(created);
                     store.display.show('success_booking');
                 })
-                .catch(store.errors.catch);
+                .catch((error) => {
+                    modalRef.current.scrollTo({ top: 0 });
+                    store.errors.catch(error);
+                });
         }
     };
 
     return (
         <div className="fixed inset-0 z-50 flex h-screen w-full items-center justify-center bg-black/50" onClick={toggleModal}>
             <div
+                ref={modalRef}
                 className={cn('relative max-h-[100vh] overflow-y-auto bg-white md:max-h-[90vh] md:min-w-[900px]')}
                 onClick={(e) => e.stopPropagation()}
             >

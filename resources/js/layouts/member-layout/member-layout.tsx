@@ -163,6 +163,7 @@ export default function MemberLayout({ breadcrumbds, children }: AppSidebarProps
                                     ))}
                                     <Link
                                         href="/logout"
+                                        method="post"
                                         className="hover:bg-primary-100 flex w-full items-center gap-2 rounded rounded-full bg-gray-100 px-3 py-2 transition"
                                     >
                                         <LogOut className="h-4 w-4" />

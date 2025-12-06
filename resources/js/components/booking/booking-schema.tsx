@@ -74,7 +74,7 @@ export function validateTransportDate({ date, t }: ValidateTransportDateParams):
     if (isBefore(selectedDate, minAllowedDate)) {
         const periodKey = isWeekday ? 'weekday (Monday to Thursday)' : 'weekend (Friday to Sunday)';
 
-        const error = t('Vehicle booking for a {{period}} job must be made at least {{days}} days in advance.', {
+        const error = t('Vehicle booking for a :period job must be made at least :days days in advance.', {
             period: t(periodKey),
             days: requiredDaysInAdvance,
         });

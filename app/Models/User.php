@@ -108,4 +108,10 @@ class User extends Authenticatable
 
         return $profiles;
     }
+
+    public static function getAdmin(){
+        return User::whereHas('roles', function ($query) {
+                        $query->where('code', 'admin');
+                    })->first();
+    }
 }

@@ -12,4 +12,12 @@ class Address extends Model
         'city',
         'street'
     ];
+
+    protected $appends = [
+        'full_address'
+    ];
+
+    public function getFullAddressAttribute(){
+        return $this->country." ".$this->state." ".$this->city." ".$this->street;
+    }
 }

@@ -14,6 +14,7 @@ export default function BookingRecapStep({ form }: { form: any }) {
 
     return (
         <>
+            <>{store.errors.render()}</>
             <h3 className="text-lg font-semibold">{t('Submission')}</h3>
             <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                 <aside className="">

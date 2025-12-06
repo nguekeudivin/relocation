@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
-use App\Models\Notification;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as CheckoutSession;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Payment\PaymentSuccessMail;
+use App\Mail\Payment\PaymentSuccessAdminMail;
+use App\Mail\Payment\PaymentFailedMail;
+use App\Mail\Payment\PaymentFailedAdminMail;
+
+use App\Models\User;
 
 class PaymentController extends Controller
 {
@@ -24,7 +30,7 @@ class PaymentController extends Controller
                         'name' => 'Booking',
                     ],
                 ],
-                'quantity' => 1,
+                'quantity' => 1,    
             ]],
             'mode' => 'payment',
             'success_url' => route('payment.success') . '?session_id={CHECKOUT_SESSION_ID}',
@@ -66,12 +72,18 @@ class PaymentController extends Controller
             // Create a notification.
 
             // Send a mail notification here.
+            Mail::to($booking->email)->queue(new PaymentSuccessMail($booking));
+            Mail::to(User::getAdmin()->email)->queue(new PaymentSuccessAdminMail(($booking)));
 
             // Redirect to the booking page with a success message.
             return redirect('/user/bookings?m=Success')
                 ->with('success', 'Payment proceed with success');
 
         } else {
+
+            Mail::to($booking->email)->queue(new PaymentFailedMail($booking));
+            Mail::to(User::getAdmin()->email)->queue(new PaymentFailedAdminMail(($booking)));
+
             // Payment not completed
             $payment->update(['status' => 'failed']);
             return redirect('/user/bookings?m=Failed')->with('warning', 'Payment failed');

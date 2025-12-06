@@ -6,6 +6,7 @@ use App\Http\Controllers\User\GetUsers;
 use App\Http\Controllers\User\CreateUser;
 use App\Http\Controllers\User\UpdateUser;
 use App\Http\Controllers\User\GetUser;
+use App\Http\Controllers\User\UpdateUserLanguage;
 
 use App\Http\Controllers\Setting\SaveManySettings;
 

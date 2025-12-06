@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\SetLocaleQueryParam;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,9 +22,14 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleAppearance::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
+            //
+            SetLocaleQueryParam::class,
         ]);
 
-        $middleware->statefulApi();
+        $middleware->api(append: [
+            SetLocaleQueryParam::class, // pour api
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

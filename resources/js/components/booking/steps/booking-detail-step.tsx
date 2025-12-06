@@ -135,7 +135,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                             )}
                         >
                             <Van size={48} className="text-primary-500 mb-3" />
-                            <span className="text-sm font-medium">{t('3.5-ton van')}</span>
+                            <span className="text-sm font-medium">{t('3.5-ton Van')}</span>
                         </button>
 
                         <button

@@ -7,7 +7,7 @@ use ReflectionMethod;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-class Helpers
+class ReflectionHelper
 {
     public static function getModelClass($model)
     {
@@ -22,7 +22,7 @@ class Helpers
     public static function getRelationClass($model, $relationName)
     {
         // We get the model class.
-        $modelClass = Helpers::getModelClass($model);
+        $modelClass = ReflectionHelper::getModelClass($model);
 
         // We load the reflection of this model class to look for its method.
         $reflection = new ReflectionClass($modelClass);

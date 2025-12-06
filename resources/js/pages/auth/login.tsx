@@ -89,12 +89,11 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                     </Button>
                 </div>
 
-                {/* <div className="text-muted-foreground mt-4 text-center text-sm">
-                    <TextLink href={route('register')} tabIndex={5}>
-                        <span>Vous n'avez pas de compte ?</span>
-                        <span className="ml-1 text-teal-800 hover:underline">{`Créer un compte`}</span>
+                <div className="mt-4 text-center">
+                    <TextLink href="/" className="text-center text-sm">
+                        {t('Back home')}
                     </TextLink>
-                </div> */}
+                </div>
             </form>
         </AuthLayout>
     );

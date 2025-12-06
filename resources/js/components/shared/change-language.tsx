@@ -1,4 +1,5 @@
 import useTranslation from '@/hooks/use-translation';
+import useAppStore from '@/store';
 import { Globe } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Dropdown from '../ui/dropdown';
@@ -12,6 +13,7 @@ const LANGUAGES = [
 export default function ChangeLanguage() {
     const { t } = useTranslation();
     const [currentLang, setCurrentLang] = useState<string>('en');
+    const store = useAppStore();
 
     useEffect(() => {
         const storedLang = localStorage.getItem('locale') || 'en';
