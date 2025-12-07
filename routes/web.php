@@ -69,14 +69,11 @@ Route::get('/preview-mail', function () {
     $greetingName = $user ? $user->first_name : 'Guest';
 
     //return new \App\Mail\BookingCreatedMail($booking, $user, $greetingName);
-
    // return new \App\Mail\BookingCreatedAdminMail($booking, $user, $greetingName);
 
     return new \App\Mail\Booking\BookingConfirmedAdminMail($booking);
 });
 
-
+require __DIR__.'/auth.php';
 require __DIR__.'/chat-web.php';
-
-
 require __DIR__.'/api-web.php';
