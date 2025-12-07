@@ -31,8 +31,8 @@ class CompleteBooking extends Controller
             'status' => 'completed'
         ]);
 
-        Mail::to($booking->email)->send(new BookingCompletedMail($booking));
-        Mail::to(User::getAdmin()->email)->send(new BookingCompletedAdminMail($booking));
+        Mail::to($booking->email)->queue(new BookingCompletedMail($booking));
+        Mail::to(User::getAdmin()->email)->queue(new BookingCompletedAdminMail($booking));
 
         $booking->refresh();
         $booking->load(Booking::LOAD);

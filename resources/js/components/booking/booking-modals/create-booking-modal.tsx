@@ -24,51 +24,51 @@ export function CreateBookingModal() {
 
     const { t } = useTranslation();
 
-    // const form = useSimpleForm({
-    //     date: new Date(),
-    //     time: undefined,
-    //     from_city: 'Berlin',
-    //     from_street: '',
-    //     to_city: '',
-    //     to_street: '',
-    //     workers: 2,
-    //     car_type: '',
-    //     duration: 2,
-    //     amount: 0,
-    //     transport_price: 150,
-    //     first_name: '',
-    //     last_name: '',
-    //     email: '',
-    //     phone_number: '',
-    //     password: '',
-    //     with_account: true,
-    // });
     const form = useSimpleForm({
-        date: new Date('2025-02-15'),
-        time: new Date('2025-02-15T10:00:00'),
-
+        date: new Date(),
+        time: undefined,
         from_city: 'Berlin',
-        from_street: 'Alexanderplatz 5',
-
-        to_city: 'Hamburg',
-        to_street: 'Reeperbahn 120',
-
+        from_street: '',
+        to_city: '',
+        to_street: '',
         workers: 2,
-        car_type: 'van',
+        car_type: '',
         duration: 2,
-        amount: 300,
+        amount: 0,
         transport_price: 150,
-
-        first_name: 'Marie',
-        last_name: 'Keller',
-        email: 'marie.keller@example.com',
-        phone_number: '+49 151 2345678',
-        password: 'Test1234!',
-
-        with_account: false,
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone_number: '',
+        password: '',
+        with_account: true,
     });
+    // const form = useSimpleForm({
+    //     date: new Date('2025-02-15'),
+    //     time: new Date('2025-02-15T10:00:00'),
 
-    const [step, setStep] = useState<number>(2);
+    //     from_city: 'Berlin',
+    //     from_street: 'Alexanderplatz 5',
+
+    //     to_city: 'Hamburg',
+    //     to_street: 'Reeperbahn 120',
+
+    //     workers: 2,
+    //     car_type: 'van',
+    //     duration: 2,
+    //     amount: 300,
+    //     transport_price: 150,
+
+    //     first_name: 'Marie',
+    //     last_name: 'Keller',
+    //     email: 'marie.keller@example.com',
+    //     phone_number: '+49 151 2345678',
+    //     password: 'Test1234!',
+
+    //     with_account: false,
+    // });
+
+    const [step, setStep] = useState<number>(0);
     const modalRef = useRef<any>(undefined);
 
     useEffect(() => {

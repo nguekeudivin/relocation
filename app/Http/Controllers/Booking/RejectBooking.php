@@ -32,8 +32,8 @@ class RejectBooking extends Controller
             'status' => 'rejected'
         ]);
 
-        Mail::to($booking->email)->send(new BookingRejectedMail($booking));
-        Mail::to(User::getAdmin()->email)->send(new BookingRejectedAdminMail($booking));
+        Mail::to($booking->email)->queue(new BookingRejectedMail($booking));
+        Mail::to(User::getAdmin()->email)->queue(new BookingRejectedAdminMail($booking));
 
         $booking->refresh();
         $booking->load(Booking::LOAD);

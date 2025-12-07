@@ -32,8 +32,8 @@ class ConfirmBooking extends Controller
             'status' => 'confirmed'
         ]);
 
-        Mail::to($booking->email)->send(new BookingConfirmedMail($booking));
-        Mail::to(User::getAdmin()->email)->send(new BookingConfirmedAdminMail($booking));
+        Mail::to($booking->email)->queue(new BookingConfirmedMail($booking));
+        Mail::to(User::getAdmin()->email)->queue(new BookingConfirmedAdminMail($booking));
 
         $booking->refresh();
         $booking->load(Booking::LOAD);
