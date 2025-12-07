@@ -4,41 +4,43 @@ namespace App\Http\Controllers\Slot;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Slot;
+use Carbon\Carbon;
 
 class UpdateSlot extends Controller
 {
     public function __invoke(Request $request, $id)
     {
-    
-        // ✅ Validate input
+        // Validate inputs
         $validator = Validator::make($request->all(), [
-            'user_id'  => 'sometimes|exists:users,id',
-            'date'     => 'sometimes|date',
+            'date'        => ['required', 'date'],
+            'from_hour'   => ['required'],
+            'to_hour'     => ['required'],
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'status'  => 'error',
-                'message' => 'Données invalides.',
-                'errors'  => $validator->errors(),
+                'errors' => $validator->errors(),
             ], 422);
         }
 
-        try {
-            DB::beginTransaction();
-            DB::commit();
+        $data = $validator->validated();
 
-            return response()->json([]);
-        } catch (\Throwable $e) {
-            DB::rollBack();
+        // Retrieve slot
+        $slot = Slot::findOrFail($id);
 
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Une erreur est survenue lors de la mise à jour de la réunion.',
-                'error'   => $e->getMessage(),
-            ], 500);
-        }
+        // Rebuild full datetime from date + time
+        $from = Carbon::parse($data['date'] . ' ' . $data['from_hour']);
+        $to   = Carbon::parse($data['date'] . ' ' . $data['to_hour']);
+
+        // Update slot
+        $slot->update([
+            'date'        => $data['date'],
+            'from_hour'   => $from,
+            'to_hour'     => $to,
+        ]);
+
+        return response()->json($slot);
     }
 }

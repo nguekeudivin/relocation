@@ -99,6 +99,35 @@ export function formatDate(date: string | Date | null | undefined, format: strin
     return formatFn(new Date(date), format, { locale: localesMap[locale] });
 }
 
+/**
+ * Safely creates a LOCAL Date object from any of these strings:
+ * - "2025-12-08"
+ * - "2025-12-08T14:30"
+ * - "2025-12-08T14:30:45"
+ * - "2025-12-08 14:30:45"        ← also works (converts space to T)
+ * - "2025-12-08T14:30:45.123Z"   ← ignores Z and treats as local
+ */
+export const createDateFromString = (s: string): Date => {
+    // Normalize: replace space with T (so "2025-12-08 14:30" → "2025-12-08T14:30")
+    s = s.trim().replace(' ', 'T');
+
+    // If it has Z or timezone → remove it (we want LOCAL time)
+    s = s.replace(/Z|[+-]\d{2}:?\d{2}$/, '');
+
+    // Split date and time parts
+    const [datePart, timePart = ''] = s.split('T');
+    const [year, month, day] = datePart.split('-').map(Number);
+
+    if (!timePart) {
+        // Only date → return local midnight
+        return new Date(year, month - 1, day);
+    }
+
+    const [hours = 0, minutes = 0, seconds = 0] = timePart.split(':').map((part, i) => (i < 2 ? parseInt(part, 10) || 0 : parseFloat(part) || 0));
+
+    return new Date(year, month - 1, day, hours, minutes, seconds);
+};
+
 export function parsePhoneNumber(number: string): { code: string; value: string } {
     const phoneUtil = PhoneNumberUtil.getInstance();
 

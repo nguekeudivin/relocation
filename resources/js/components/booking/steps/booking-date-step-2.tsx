@@ -1,16 +1,10 @@
 import DatePicker from '@/components/ui/datepicker';
 import Show from '@/components/ui/show';
 import useTranslation from '@/hooks/use-translation';
-import { cn, formatDate } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import useAppStore from '@/store';
-import { Slot } from '@/store/Slot';
-import { format, isEqual, subDays } from 'date-fns';
-import { useEffect, useState } from 'react';
-
-interface Props {
-    form: any;
-    showError?: boolean;
-}
+import { format, isEqual } from 'date-fns';
+import { useState } from 'react';
 
 function generateTimeSlots(date: Date = new Date(), start: string = '08:00', end: string = '18:00', interval: number = 30): Date[] {
     const slots: Date[] = [];
@@ -37,50 +31,16 @@ function generateTimeSlots(date: Date = new Date(), start: string = '08:00', end
 
     return slots;
 }
+interface Props {
+    form: any;
+    showError?: boolean;
+}
 
 export default function BookingDateStep({ form, showError = true }: Props) {
     const { t } = useTranslation();
     const store = useAppStore();
-
     const [date, setDate] = useState<string>(form.values.date.toISOString().split('T')[0]);
-    const [times, setTimes] = useState<Date[]>([]);
-    const [disabledDates, setDisabledDates] = useState<string[]>();
-
-    // Update times whenever the selected date changes
-    useEffect(() => {
-        const slot: Slot = store.slot.items.find((item) => {
-            return formatDate(item.date, 'yyyy-MM-dd') == date;
-        }) as Slot;
-        if (slot) {
-            setTimes(generateTimeSlots(new Date(slot.date), format(new Date(slot.from_hour), 'HH:00'), format(new Date(slot.to_hour), 'HH:00')));
-        }
-    }, [date, store.slot.items]);
-
-    useEffect(() => {
-        store.slot.fetch().then((items) => {
-            // Map slots by date for quick lookup
-            const slotByDates: Record<string, any[]> = {};
-            items.forEach((slot: any) => {
-                const key = new Date(slot.date).toISOString().split('T')[0];
-                if (!slotByDates[key]) slotByDates[key] = [];
-                slotByDates[key].push(slot);
-            });
-
-            // Generate disabledDates: all dates from today to 1 year ahead except dates with slots
-            const today = subDays(new Date(), 1);
-            const farFuture = new Date();
-            farFuture.setMonth(farFuture.getMonth() + 12);
-
-            const list: string[] = [];
-            for (let d = new Date(today); d <= farFuture; d.setDate(d.getDate() + 1)) {
-                const iso = d.toISOString().split('T')[0];
-                if (!slotByDates[iso]) {
-                    list.push(iso);
-                }
-            }
-            setDisabledDates(list);
-        });
-    }, []);
+    const [times, setTimes] = useState<any[]>(generateTimeSlots(form.values.date, '08:00', '18:00'));
 
     return (
         <>
@@ -93,28 +53,26 @@ export default function BookingDateStep({ form, showError = true }: Props) {
                         className="w-auto p-0"
                         limitLeft={new Date()}
                         date={date}
-                        disabledDates={disabledDates}
-                        onPick={(pickedDate) => {
+                        onPick={(date) => {
                             if (form.values.time) {
-                                pickedDate.setHours(form.values.time.getHours());
-                                pickedDate.setMinutes(form.values.time.getMinutes());
+                                date.setHours(form.values.time.getHours());
+                                date.setMinutes(form.values.time.getMinutes());
                             }
-                            form.setValue('date', pickedDate);
-                            setDate(pickedDate.toISOString().split('T')[0]);
+                            form.setValue('date', date);
+                            setDate(date.toISOString().split('T')[0]);
                         }}
                     />
                 </div>
-
-                <Show when={times.length > 0}>
+                <Show when={form.values.date}>
                     <ul className="grid grid-cols-3 gap-4 md:col-span-2 md:grid-cols-3">
                         {times.map((item, index) => (
                             <li
                                 key={`time${index}`}
                                 onClick={() => {
-                                    const dateObj = new Date(form.values.date);
-                                    dateObj.setHours(item.getHours());
-                                    dateObj.setMinutes(item.getMinutes());
-                                    form.setValue('date', dateObj);
+                                    const date = new Date(form.values.date);
+                                    date.setHours(item.getHours());
+                                    date.setMinutes(item.getMinutes());
+                                    form.setValue('date', date);
                                     form.setValue('time', item);
                                 }}
                                 className={cn(

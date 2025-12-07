@@ -63,12 +63,8 @@ export default function DatePicker({ date, limitLeft, limitRight, disabledDates 
         }
 
         for (let i = 1; i <= daysInMonth; i++) {
-            const dateObj = new Date(year, month, i); // ← local date, correct
-
-            // CORRECT way — no timezone conversion!
-            const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-            // → "2025-12-08" always matches the actual day shown
-
+            const dateObj = new Date(year, month, i);
+            const dateString = dateObj.toISOString().split('T')[0];
             const isHighlighted = highlightedDate === dateString;
 
             const isBeforeLimitLeft = limitLeft ? dateObj < startOfDay(limitLeft) : false;

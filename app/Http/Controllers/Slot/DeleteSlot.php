@@ -3,21 +3,16 @@
 namespace App\Http\Controllers\Slot;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Slot;
 
 class DeleteSlot extends Controller
 {
-    public function __invoke(Request $request, Slot $meeting){
+    public function __invoke( Slot $slot){
         
-        $temp = $meeting->toArray();
+        $temp = $slot->toArray();
 
-        // Supprimer les contributions generer pour la reuinion.
-        $meeting->contributions()->delete();
+        $slot->delete();
 
-        // Supprimer la reuinion.
-        $meeting->delete();
-
-        return response($temp);
+        return response()->json($temp);
     }
 }
