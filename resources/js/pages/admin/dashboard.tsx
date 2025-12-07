@@ -1,5 +1,5 @@
 import { Greeting } from '@/components/common/Greeting';
-import { BarGraph, LineGraph, PieGraph } from '@/components/stats/graphs';
+import { BarGraph, LineGraph } from '@/components/stats/graphs';
 import { overviewElements } from '@/components/stats/stats-meta';
 import { Card, CardContent } from '@/components/ui/card';
 import useTranslation from '@/hooks/use-translation';
@@ -11,8 +11,13 @@ import { useEffect, useState } from 'react';
 export default function DashboardPage() {
     const store = useAppStore();
     const [year, setYear] = useState<string>('2025');
+    const [years, setYears] = useState<string[]>(['2025']);
     const [overview, setOverview] = useState<any>(overviewElements);
     const { t } = useTranslation();
+
+    useEffect(() => {
+        setYear(`${new Date().getFullYear()}`);
+    }, []);
 
     const setOverviewStats = (key: string, data: any) => {
         setOverview((overview: any) => {
@@ -27,12 +32,12 @@ export default function DashboardPage() {
     useEffect(() => {
         store.user.getStats(year).then((data) => setOverviewStats('total_actives', data));
         store.booking.getStats(year).then((data) => {
-            setOverviewStats('total_paid_amount', data);
-            setOverviewStats('total_overdue_amount', data);
+            setOverviewStats('total_bookings', data);
+            setOverviewStats('total_new_users', data);
+            setOverviewStats('total_revenue', data);
+            setYears(data.years);
         });
-        store.payment.getStats(year).then((data: any) => setOverviewStats('total_expenses', data));
     }, []);
-
     return (
         <AppLayout breadcrumbds={[]}>
             <div className="mx-auto max-w-5xl px-4 md:px-0">
@@ -44,9 +49,9 @@ export default function DashboardPage() {
                             onChange={(e: any) => setYear(e.target.value)}
                             className="border-secondary-200 rounded-md border-2 border-gray-300 px-4 py-1 text-sm"
                         >
-                            <option>2023</option>
-                            <option>2024</option>
-                            <option>2025</option>
+                            {years.map((item) => (
+                                <option value={item}>{item}</option>
+                            ))}
                         </select>
                     </div>
                 </div>
@@ -80,7 +85,7 @@ export default function DashboardPage() {
                             series={[
                                 {
                                     name: t('Bookings'),
-                                    data: [5, 12, 18, 9, 15, 22, 30, 25, 19, 28, 32, 40],
+                                    data: store.booking.stats.booking_serie,
                                 },
                             ]}
                         />
@@ -93,35 +98,24 @@ export default function DashboardPage() {
                             series={[
                                 {
                                     name: t('Clients'),
-                                    data: [3, 8, 10, 6, 12, 14, 20, 18, 13, 22, 25, 30],
+                                    data: store.booking.stats.new_user_serie,
                                 },
                             ]}
                         />
                     </aside>
 
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                        <aside className="col-span-2">
-                            <LineGraph
-                                title={t('Revenue')}
-                                colors={['#00a63e']}
-                                series={[
-                                    {
-                                        name: t('Revenue'),
-                                        data: [500, 900, 1200, 800, 1500, 2000, 2500, 2300, 1800, 2600, 3200, 4000],
-                                    },
-                                ]}
-                            />
-                        </aside>
-
-                        <aside>
-                            <PieGraph
-                                title={t('Revenue by method')}
-                                series={[400, 100]}
-                                labels={[t('PayPal'), t('Stripe')]}
-                                colors={['#193cb8', '#372aac']}
-                            />
-                        </aside>
-                    </div>
+                    <aside className="w-full">
+                        <LineGraph
+                            title={t('Revenue')}
+                            colors={['#00a63e']}
+                            series={[
+                                {
+                                    name: t('Revenue'),
+                                    data: store.booking.stats.revenue_serie,
+                                },
+                            ]}
+                        />
+                    </aside>
                 </section>
             </div>
         </AppLayout>

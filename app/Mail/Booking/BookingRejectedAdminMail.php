@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Booking;
 
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use App\Models\Booking;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
-class BookingCreatedAdminMail extends Mailable
+class BookingRejectedAdminMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,14 +30,14 @@ class BookingCreatedAdminMail extends Mailable
 
     public function envelope(): Envelope
     {
-        $subject = t('New Booking Created');
+        $subject = t('Booking Rejected');
         return new Envelope(subject: $subject);
     }
 
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.bookings.created_admin',
+            markdown: 'emails.bookings.rejected_admin',
             with: $this->withCommonData()
         );
     }

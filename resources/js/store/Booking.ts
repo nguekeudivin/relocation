@@ -12,6 +12,7 @@ export interface Booking {
     duration: number; // Duration in hours
     amount: number; // Total price
     email: string;
+    status: string;
     car_type: string;
     observation?: string | null; // Optional notes
     origin: Address;
@@ -24,13 +25,16 @@ interface BookingStore extends ResourceStore<Booking> {
     stats: any;
     getStats: (year: string) => Promise<any>;
     cancel: (id: number) => Promise<any>;
+    reject: (id: number) => Promise<any>;
+    confirm: (id: number) => Promise<any>;
+    complete: (id: number) => Promise<any>;
 }
 
 export const useBooking = createResourceStore<Booking, BookingStore>('bookings', (set, get) => ({
     stats: {},
     getStats: (year: string) => {
         return apiClient()
-            .get(`/stats/user?year=${year}`)
+            .get(`/stats/booking?year=${year}`)
             .then((res) => {
                 set(() => ({ stats: res.data }));
                 return res.data;
@@ -38,6 +42,15 @@ export const useBooking = createResourceStore<Booking, BookingStore>('bookings',
     },
     cancel: (id: number) => {
         return apiClient().post(`/bookings/${id}/cancel`);
+    },
+    reject: (id: number) => {
+        return apiClient().post(`/bookings/${id}/reject`);
+    },
+    confirm: (id: number) => {
+        return apiClient().post(`/bookings/${id}/confirm`);
+    },
+    complete: (id: number) => {
+        return apiClient().post(`/bookings/${id}/complete`);
     },
 }));
 

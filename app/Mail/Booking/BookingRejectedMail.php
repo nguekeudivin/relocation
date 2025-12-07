@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Booking;
 
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use App\Models\Booking;
 use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class BookingPaymentFailedMail extends BaseBookingMail
+class BookingRejectedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,7 +18,6 @@ class BookingPaymentFailedMail extends BaseBookingMail
     public function __construct(Booking $booking, ?string $forcedLocale = null)
     {
         $this->booking = $booking->loadMissing(['user', 'origin', 'destination']);
-        // $this->setLocale($forcedLocale) if needed
     }
 
     public function greetingName(): string
@@ -39,14 +39,14 @@ class BookingPaymentFailedMail extends BaseBookingMail
 
     public function envelope(): Envelope
     {
-        $subject = t('Payment Failed');
+        $subject = t('Booking Rejected');
         return new Envelope(subject: $subject);
     }
 
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.bookings.payment_failed',
+            markdown: 'emails.bookings.rejected',
             with: $this->withCommonData()
         );
     }

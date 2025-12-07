@@ -219,5 +219,9 @@
     "A New Payment Has Been Received": "Eine neue Zahlung wurde erhalten",
     "We confirm that your payment has been successfully received.": "Wir bestätigen, dass Ihre Zahlung erfolgreich eingegangen ist.",
     "Amount Paid": "Bezahlter Betrag",
-    "Please review and confirm the booking as soon as possible.": "Bitte überprüfen und bestätigen Sie die Buchung so schnell wie möglich."
+    "Please review and confirm the booking as soon as possible.": "Bitte überprüfen und bestätigen Sie die Buchung so schnell wie möglich.",
+    "3.5-ton Van": "3,5-Tonnen Transporter",
+    "van": "3,5-Tonnen Transporter",
+    "Minibus / Coaster": "Minibus / Coaster",
+    "bus": "Minibus / Coaster"
 }

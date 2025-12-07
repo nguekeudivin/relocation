@@ -4,7 +4,7 @@ import { BanknoteArrowDown } from '../ui/icons';
 export const overviewElements = [
     {
         label: 'Total bookings',
-        key: 'total_actives',
+        key: 'total_bookings',
         value: 12,
         surfix: '',
         color: 'text-blue-600',
@@ -13,9 +13,9 @@ export const overviewElements = [
     },
     {
         label: 'Total clients',
-        key: 'total_paid_amount',
+        key: 'total_new_users',
         value: 0,
-        surfix: '€',
+        surfix: '',
         color: 'text-indigo-600',
         bg: 'bg-indigo-100/70',
         icon: Users,
@@ -23,7 +23,7 @@ export const overviewElements = [
 
     {
         label: 'Total revenue',
-        key: 'total_approved_amount',
+        key: 'total_revenue',
         value: 0,
         surfix: '€',
         color: 'text-green-600',

@@ -4,11 +4,11 @@
 
 {{ t('Booking #:id has been rejected by admin.', ['id' => $booking->id]) }}
 
-**{{ t('Customer') }}:** {{ $booking->email }}
-**{{ t('Reason') }}:** {{ $booking->observation ?? t('Not specified') }}
+- **{{ t('Customer') }}:** {{ $booking->email }}
+- **{{ t('Reason') }}:** {{ $booking->observation ?? t('Not specified') }}
 
-@component('mail::button', ['url' => route('admin.bookings.show', $booking)])
-{{ t('Open Booking') }}
+@component('mail::button', ['url' => route('admin.bookings')])
+{{ t('Open Bookings') }}
 @endcomponent
 
 {{ t('Regards') }},  

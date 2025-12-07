@@ -4,11 +4,11 @@
 
 {{ t('Booking #:id has been confirmed.', ['id' => $booking->id]) }}
 
-**{{ t('By') }}:** {{ $booking->user ? $booking->user->email : $booking->email }}
-**{{ t('Date') }}:** {{ $booking->date->translatedFormat('M d, Y \a\t g:i A') }}
+- **{{ t('By') }}:** {{ $booking->user ? $booking->user->email : $booking->email }}
+- **{{ t('Date') }}:** {{ $booking->date->translatedFormat('M d, Y \a\t g:i A') }}
 
-@component('mail::button', ['url' => route('admin.bookings.show', $booking)])
-{{ t('Open Booking') }}
+@component('mail::button', ['url' => route('admin.bookings')])
+{{ t('Open Bookings') }}
 @endcomponent
 
 {{ t('Regards') }},  

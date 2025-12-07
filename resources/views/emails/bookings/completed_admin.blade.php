@@ -7,7 +7,7 @@
 **{{ t('Customer') }}:** {{ $booking->user ? $booking->user->email : $booking->email }}
 **{{ t('Date') }}:** {{ $booking->date->translatedFormat('M d, Y \a\t g:i A') }}
 
-@component('mail::button', ['url' => route('admin.bookings.show', $booking)])
+@component('mail::button', ['url' => route('admin.bookings', $booking)])
 {{ t('Open Booking') }}
 @endcomponent
 

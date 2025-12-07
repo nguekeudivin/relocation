@@ -69,7 +69,7 @@ Route::get('/preview-mail', function () {
 
    // return new \App\Mail\BookingCreatedAdminMail($booking, $user, $greetingName);
 
-    return new \App\Mail\Booking\BookingCancelledAdminMail($booking);
+    return new \App\Mail\Booking\BookingConfirmedAdminMail($booking);
 });
 
 

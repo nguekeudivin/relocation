@@ -4,7 +4,7 @@
 
 {{ t('Hello :name', ['name' => $greetingName]) }}
 
-{{ t('The service for booking #:id has been completed. We hope you are satisfied.', ['id' => $booking->id]) }}
+{{ t('The service for booking  has been completed. We hope you are satisfied.', ['id' => $booking->id]) }}
 
 @component('mail::button', ['url' => route('user.bookings')])
 {{ t('View Booking') }}

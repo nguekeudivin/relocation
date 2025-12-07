@@ -68,10 +68,10 @@ class RegisteredUserController extends Controller
 
             DB::commit();
 
-            Mail::to($booking->email)->send(
+            Mail::to($booking->email)->queue(
              new AccountCreatedMail($user)
             );
-            Mail::to(User::getAdmin()->email)->send(
+            Mail::to(User::getAdmin()->email)->queue(
                 new AccountCreatedAdminMail($user)
             );
 

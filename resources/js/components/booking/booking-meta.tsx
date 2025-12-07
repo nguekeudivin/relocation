@@ -9,6 +9,7 @@ export const BookingStatusMap: any = {
     paid: 'Paid',
     confirmed: 'Confirmed',
     cancelled: 'Cancelled',
+    rejected: 'Rejected',
 };
 
 export const BookingStatusColors: any = {
@@ -17,11 +18,12 @@ export const BookingStatusColors: any = {
     confirmed: 'bg-blue-700 text-white',
     cancelled: 'bg-red-700 text-white',
     completed: 'bg-sky-700 text-white',
+    rejected: 'bg-red-700 text-white',
 };
 
 export const BookingCarTypeMap: any = {
-    van: 'Van',
-    bus: 'Bus',
+    van: 'van',
+    bus: 'bus',
 };
 
 // --- Table Columns (Translated - uses t() hook) ---

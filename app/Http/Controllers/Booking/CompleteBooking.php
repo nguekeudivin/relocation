@@ -6,37 +6,35 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-
 use Illuminate\Support\Facades\Mail;
-use App\Mail\Booking\BookingCancelledMail;
-use App\Mail\Booking\BookingCancelledAdminMail;
+use App\Mail\Booking\BookingCompletedMail;
+use App\Mail\Booking\BookingCompletedAdminMail;
 use App\Models\User;
 
-class CancelBooking extends Controller
+class CompleteBooking extends Controller
 {
     public function __invoke(Request $request, Booking $booking): JsonResponse
     {
-        if ($booking->status === 'cancelled') {
+        if ($booking->status === 'completed') {
             return response()->json([
-                'message' => 'This booking is already cancelled.'
+                'message' => 'This booking is already completed.'
             ], 422);
         }
 
-        if (!in_array($booking->status, ['pending', 'paid', 'confirmed'])) {
+        if (!in_array($booking->status, ['confirmed'])) {
             return response()->json([
-                'message' => 'This booking cannot be cancelled.'
+                'message' => 'Only confirmed bookings can be marked as completed.'
             ], 422);
         }
 
         $booking->update([
-            'status' => 'cancelled'
+            'status' => 'completed'
         ]);
 
-        Mail::to($booking->email)->queue(new BookingCancelledMail($booking));
-        Mail::to(User::getAdmin()->email)->queue(new BookingCancelledAdminMail(($booking)));
+        Mail::to($booking->email)->send(new BookingCompletedMail($booking));
+        Mail::to(User::getAdmin()->email)->send(new BookingCompletedAdminMail($booking));
 
         $booking->refresh();
-
         $booking->load(Booking::LOAD);
 
         return response()->json($booking, 200);
