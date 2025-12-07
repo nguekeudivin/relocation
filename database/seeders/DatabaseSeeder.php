@@ -17,11 +17,11 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
-            UserSeeder::class,
+            //UserSeeder::class,
             AdminSeeder::class,
             SettingSeeder::class,
-            BookingSeeder::class,
-            PaymentSeeder::class,
+            //BookingSeeder::class,
+            //PaymentSeeder::class,
         ]);
     }
 }

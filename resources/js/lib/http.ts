@@ -37,7 +37,7 @@ export const apiClient = (): AxiosInstance => {
     const instance = axios.create({
         headers,
         withCredentials: true,
-        baseURL: '/api/',
+        baseURL: '/',
     });
 
     instance.interceptors.response.use(

@@ -47,6 +47,7 @@ export default function ChatView({ role }: Props) {
         chatStore.getUserChats(auth.user.id).then((chats) => {
             // Set the current chat if is exists.
             selectChat(chats.find((item: any) => item.id == searchParams.get('chatId')));
+
             // fill the message store.
             messageStore.setItems(Object.fromEntries(chats.map((chat: any) => [chat.id, chat.messages])));
         });

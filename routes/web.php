@@ -46,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('/messages', [UserPages::class,'messages'])->name('user.messages');
+
+    
 });
 
 Route::get('/terms', function(){
@@ -74,6 +76,7 @@ Route::get('/preview-mail', function () {
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__.'/chat-web.php';
 
 
+require __DIR__.'/api-web.php';

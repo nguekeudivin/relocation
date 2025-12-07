@@ -29,6 +29,8 @@ class UserPages extends Controller
                         $query->where('code', 'admin');
                     })->first();
                     $chat = Chat::findPrivateChatBetweenUsers($user->id, $admin->id);
+
+                    dd($chat);
                     if(!$chat){
                         $chat = Chat::create([
                             'creator_id' => $user->id
@@ -57,7 +59,7 @@ class UserPages extends Controller
     }
 
     public function messages(Request $request){
-        $user = auth()->user();
+        $user = $request->user();
 
         // Si l'URL contient déjà ?chatId=...
         if ($request->has('chatId')) {
@@ -71,6 +73,7 @@ class UserPages extends Controller
 
         // Trouver ou créer le chat privé entre l'utilisateur et l'admin
         $chat = Chat::findPrivateChatBetweenUsers($user->id, $admin->id);
+
         // Redirection vers /user/messages?chatId=xxx
         return redirect("/user/messages?chatId={$chat->id}");
     }

@@ -8,7 +8,7 @@ use App\Http\Controllers\MessageReadController;
 use App\Http\Controllers\MessageReceiveController;
 use App\Http\Controllers\NotificationController;
 
-Route::middleware('auth:sanctum')->group(function () { 
+Route::middleware('auth')->group(function () { 
     Route::post('/chats', [ChatController::class, 'store']);
     Route::get('/user/chats', [ChatController::class,'userChats']);
 

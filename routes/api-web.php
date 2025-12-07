@@ -27,9 +27,6 @@ use App\Http\Controllers\Setting\GetSettings;
 use App\Http\Controllers\Stats\UserStats;
 use App\Http\Controllers\Stats\BookingStats;
 
-// Routes
-// Route::middleware('auth:sanctum')->group(function () { 
-//  });
 
 Route::prefix('/stats')->group(function(){
     Route::get('/user', UserStats::class);

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
-use App\Models\Message;
-use App\Models\MessageRead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -49,7 +47,6 @@ class ChatController extends Controller
 
     public function userChats()
     {
-
         $userId = Auth::id();
 
         if (!$userId) {
