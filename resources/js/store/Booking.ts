@@ -1,6 +1,7 @@
 import { apiClient } from '@/lib/http';
 import { createResourceStore, ResourceStore } from '@/lib/resource';
 import { getDay, startOfDay } from 'date-fns';
+import { User } from './User';
 
 export interface Booking {
     id: number;
@@ -19,6 +20,7 @@ export interface Booking {
     destination: Address;
     created_at?: string | Date; // Timestamp
     updated_at?: string | Date; // Timestamp
+    user: User;
 }
 
 interface BookingStore extends ResourceStore<Booking> {

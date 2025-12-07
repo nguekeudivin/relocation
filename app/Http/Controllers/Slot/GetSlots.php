@@ -10,33 +10,8 @@ class GetSlots extends Controller
 {
     public function __invoke(Request $request)
     {
-        $keyword = $request->input('keyword');
-        $userId  = $request->input('user_id');
-        $date    = $request->input('date');
+        $slots = Slot::orderBy('date', 'asc')->get();
 
-        $query = Slot::with(['user']);
-
-        if ($keyword) {
-            $query->where(function ($q) use ($keyword) {
-                $q->where('location', 'like', "%{$keyword}%");
-
-                $q->orWhereHas('user', function ($subq) use ($keyword) {
-                    $subq->where('first_name', 'like', "%{$keyword}%")
-                         ->orWhere('last_name', 'like', "%{$keyword}%");
-                });
-            });
-        }
-
-        if ($userId) {
-            $query->where('user_id', $userId);
-        }
-
-        if ($date) {
-            $query->whereDate('date', $date);
-        }
-
-        $meetings = $query->orderBy('date', 'desc')->get();
-
-        return response()->json($meetings);
+        return response()->json($slots);
     }
 }

@@ -1,6 +1,7 @@
 import TableActions from '@/components/common/TableActions';
 import { formatDate } from '@/lib/utils';
 import { getFullName, User } from '@/store/User';
+import { Link } from '@inertiajs/react';
 import Avatar from '../ui/avatar';
 
 export const userStatusMap: any = {
@@ -46,14 +47,14 @@ export const UsersTableColumns = ({ onView, onEdit, onDelete }: { onView?: any; 
             name: 'name',
             row: (item: User) => (
                 <div className="flex items-center gap-2">
-                    <div onClick={() => onView(item)} className="cursor-pointer">
+                    <div className="cursor-pointer">
                         <Avatar name={item.first_name} url={undefined} className="h-12 w-12 hover:border-1 hover:border-blue-200" />
                     </div>
 
                     <div className="text-gray-800">
-                        <p onClick={() => onView(item)} className="cursor-pointer hover:text-blue-800 hover:underline">
+                        <Link href={`/admin/users/${item.id}`} className="cursor-pointer hover:text-blue-800 hover:underline">
                             {getFullName(item)}
-                        </p>
+                        </Link>
                         <p className="text-gray-500"> {item.email}</p>
                     </div>
                 </div>

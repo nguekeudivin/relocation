@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('date');
             $table->datetime('from_hour');
             $table->datetime('to_hour');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

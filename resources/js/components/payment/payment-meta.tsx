@@ -56,7 +56,7 @@ export const PaymentTableColumns = ({ onView, onDelete }: { onView?: any; onDele
                         <p onClick={() => onView(item)} className="cursor-pointer hover:text-blue-800 hover:underline">
                             {getFullName(item.user)}
                         </p>
-                        <p className="text-gray-500"> {item.user.email}</p>
+                        <p className="text-gray-500"> {item.user?.email}</p>
                     </div>
                 </div>
             ),

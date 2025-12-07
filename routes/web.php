@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/bookings', [AdminPages::class,'bookings'])->name('admin.bookings');
         Route::get('/payments', [AdminPages::class,'payments'])->name('admin.payments');
         Route::get('/users', [AdminPages::class, 'users'])->name('admin.users');
+        Route::get('/users/{user}', [AdminPages::class,'userDetails'])->name('admin.userDetails');
         Route::get('/calendar', [AdminPages::class, 'calendar'])->name('admin.calendar');
         Route::get('/messages',[AdminPages::class,'messages'])->name('admin.messages');
         Route::get('/settings', [AdminPages::class, 'settings'])->name('admin.settings');

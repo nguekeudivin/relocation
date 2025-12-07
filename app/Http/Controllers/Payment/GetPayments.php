@@ -20,40 +20,47 @@ class GetPayments extends Controller
 
         $query = Payment::with(['user']);
 
-        // Filtrer par utilisateur
+        // Filter by user
         if ($userId) {
             $query->where('user_id', $userId);
         }
 
-        // Filtrer par numéro de téléphone
+        // Filter by phone number
         if ($phone) {
             $query->where('phone_number', 'like', "%{$phone}%");
         }
 
-        // Filtrer par méthode de paiement
+        // Filter by payment method
         if ($method) {
             $methods = is_array($method) ? $method : [$method];
             $query->whereIn('method', $methods);
         }
 
-        // Filtrer par statut
+        // Filter by status
         if ($status) {
             $statuses = is_array($status) ? $status : [$status];
             $query->whereIn('status', $statuses);
         }
 
-        // Recherche globale : amount, phone, transaction_id
+        // Global keyword search
         if ($keyword) {
             $query->where(function ($q) use ($keyword) {
                 $q->where('amount', 'like', "%{$keyword}%")
                   ->orWhere('phone_number', 'like', "%{$keyword}%")
                   ->orWhere('transaction_id', 'like', "%{$keyword}%")
                   ->orWhere('method', 'like', "%{$keyword}%")
-                  ->orWhere('status', 'like', "%{$keyword}%");
+                  ->orWhere('status', 'like', "%{$keyword}%")
+
+                  // User fields: email, first_name, last_name
+                  ->orWhereHas('user', function ($u) use ($keyword) {
+                      $u->where('email', 'like', "%{$keyword}%")
+                        ->orWhere('first_name', 'like', "%{$keyword}%")
+                        ->orWhere('last_name', 'like', "%{$keyword}%");
+                  });
             });
         }
 
-        // Tri + Pagination
+        // Sorting + Pagination
         $payments = $query
             ->orderBy('created_at', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);

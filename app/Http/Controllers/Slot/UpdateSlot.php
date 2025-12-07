@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Slot;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Slot;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -31,7 +30,7 @@ class UpdateSlot extends Controller
             DB::beginTransaction();
             DB::commit();
 
-            return response()->json($meeting);
+            return response()->json([]);
         } catch (\Throwable $e) {
             DB::rollBack();
 

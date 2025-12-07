@@ -17,14 +17,13 @@ class Slot extends Model
         'date',
         'from_hour',
         'to_hour',
-        'description',
     ];
 
     // Casts for proper types
     protected $casts = [
         'date' => 'date',
-        'from_hour' => 'datetime:H:i:s',
-        'to_hour' => 'datetime:H:i:s',
+        'to_hour' => 'datetime',
+        'from_hour' => 'datetime'
     ];
 
     /**

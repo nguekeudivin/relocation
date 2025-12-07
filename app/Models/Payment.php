@@ -15,6 +15,8 @@ class Payment extends Model
     // Payment statuses
     const STATUSES = ['pending', 'completed', 'failed']; 
 
+    const LOAD = ['user'];
+
     protected $table = 'payments';
 
     // Mass assignable fields

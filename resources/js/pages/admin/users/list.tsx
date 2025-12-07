@@ -3,11 +3,8 @@ import { UsersModals } from '@/components/users/users-modals';
 import UsersTable from '@/components/users/users-table';
 import useTranslation from '@/hooks/use-translation';
 import AppLayout from '@/layouts/app-layout/app-layout';
-import useAppStore from '@/store';
 
 export default function UsersPage() {
-    const store = useAppStore();
-
     const { t } = useTranslation();
 
     return (

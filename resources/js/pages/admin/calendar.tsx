@@ -5,7 +5,6 @@ import Calendar from '@/components/ui/calendar/calendar';
 import useTranslation from '@/hooks/use-translation';
 import AppLayout from '@/layouts/app-layout/app-layout';
 import useAppStore from '@/store';
-import { getFullName } from '@/store/User';
 import { format } from 'date-fns';
 import { Plus } from 'lucide-react';
 import { ReactNode, useEffect } from 'react';
@@ -15,23 +14,23 @@ export default function CalendarPage() {
 
     const { t } = useTranslation();
 
-    const renderItemComponent = (item: any, index: number): ReactNode => (
-        <div
-            key={`${format(item.startDate, 'yyyy-MM-dd')}-${index}`}
-            onClick={(e: any) => {
-                e.stopPropagation();
-                store.slot.setCurrent(item);
-                store.display.show('edit_slot');
-            }}
-            className="bg-secondary-500 h-full cursor-pointer rounded-lg p-2 font-normal text-black dark:text-white"
-        >
-            <h4 className="text-sm font-semibold">{getFullName(item.user)}</h4>
-
-            <div className="flex items-center gap-1 text-xs text-gray-700 dark:text-gray-300">
-                <span>{format(item.startDate, 'hh:mm a')}</span>
+    const renderItemComponent = (item: any, index: number): ReactNode => {
+        return (
+            <div
+                key={`${format(item.date, 'yyyy-MM-dd')}-${index}`}
+                onClick={(e: any) => {
+                    e.stopPropagation();
+                    store.slot.setCurrent(item);
+                    store.display.show('edit_slot');
+                }}
+                className="bg-primary-200 h-full cursor-pointer rounded-lg p-2 font-normal text-black dark:text-white"
+            >
+                <div className="flex items-center gap-1 text-xs text-gray-700 dark:text-gray-300">
+                    <span>{format(item.startDate, 'HH:mm')}</span> - <span>{format(item.endDate, 'HH:mm')}</span>
+                </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     useEffect(() => {
         store.slot.fetch({});
@@ -46,7 +45,7 @@ export default function CalendarPage() {
                         title={t('Calendar')}
                         actions={
                             <div className="flex items-center gap-2">
-                                <Button onClick={() => store.display.show('create_slot')} className="">
+                                <Button onClick={() => store.display.show('create_many_slots')} className="">
                                     <Plus className="h-5 w-5" />
                                     {t('Add disponibility')}
                                 </Button>
@@ -62,19 +61,7 @@ export default function CalendarPage() {
                         }
                     />
                     <div className="mt-4"></div>
-                    <Calendar
-                        items={store.slot.items}
-                        modes={[]}
-                        onCreate={(startDate: Date, endDate: Date) => {
-                            store.display.show('create_slot', {
-                                data: {
-                                    startDate,
-                                    endDate,
-                                },
-                            });
-                        }}
-                        renderItem={renderItemComponent}
-                    />
+                    <Calendar items={store.slot.items} modes={[]} renderItem={renderItemComponent} />
                 </section>
             </AppLayout>
         </>

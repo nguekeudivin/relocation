@@ -118,52 +118,6 @@ export default function BookingsPage() {
                                         </div>
                                     }
                                 />
-                                {/* <div className="grid grid-cols-1 border-t border-gray-200 md:grid-cols-2">
-                                    <div className="p-4">
-                                        <div className="font-bold">{format(item.date, 'dd MMM yyyy, HH:mm')}</div>
-                                        <div className="mb-4 pl-2">
-                                            <ol className="relative mt-2">
-                                                <li className={cn('border-primary-600 border-l-4 pb-4 pl-4')}>
-                                                    <div className="border-primary-600 absolute -start-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-2 bg-white"></div>
-                                                    <h3 className="text-sm font-semibold">{item.origin.city}</h3>
-                                                    <p>{item.origin.street}</p>
-                                                </li>
-                                            </ol>
-                                            <ol className="relative">
-                                                <li className={cn('pl-4')}>
-                                                    <div className="border-primary-600 absolute -start-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-2 bg-white"></div>
-                                                    <h3 className="text-sm font-semibold">{item.destination.city}</h3>
-                                                    <p>{item.destination.street}</p>
-                                                </li>
-                                            </ol>
-                                        </div>
-                                    </div>
-                                    <div className="bg-gray-200 p-4">
-                                        <h4 className="font-semibold"> {t('Cost')}</h4>
-                                        <ul className="mt-2 text-sm">
-                                            <li className="flex justify-between">
-                                                <span>
-                                                    {item.workers} {t('Workers')}
-                                                </span>
-                                            </li>
-                                            <li className="flex justify-between border-t border-gray-300 py-1">
-                                                <span>
-                                                    {item.duration} {t('Hours')}
-                                                </span>
-                                            </li>
-                                            <li className="flex justify-between border-t border-gray-300 py-1">
-                                                <span>
-                                                    {item.cars} {t('Vehicles')}
-                                                </span>
-                                            </li>
-                                        </ul>
-                                        <div className="border-primary-600 mb-4 border-t border-dashed"></div>
-                                        <div className="font-semibold">
-                                            {item.amount}
-                                            {` €`}
-                                        </div>
-                                    </div>
-                                </div> */}
                             </div>
                         ))}
                     </div>

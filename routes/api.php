@@ -9,9 +9,9 @@ use App\Http\Controllers\User\GetUser;
 use App\Http\Controllers\Setting\SaveManySettings;
 
 use App\Http\Controllers\Slot\GetSlots;
-use App\Http\Controllers\Slot\CreateSlot;
 use App\Http\Controllers\Slot\UpdateSlot;
 use App\Http\Controllers\Slot\DeleteSlot;
+use App\Http\Controllers\Slot\CreateManySlots;
 
 use App\Http\Controllers\Booking\GetBookings;
 use App\Http\Controllers\Booking\CreateBooking;
@@ -51,11 +51,11 @@ Route::prefix('settings')->group(function(){
     Route::get('/', GetSettings::class);
 });
 
-Route::prefix('/stols')->group(function(){
+Route::prefix('/slots')->group(function(){
     Route::get('/', GetSlots::class);
-    Route::post('/', CreateSlot::class);
     Route::put('/{slot}', UpdateSlot::class);
     Route::delete('/{slot}', DeleteSlot::class);
+    Route::post('/many', CreateManySlots::class);
 });
 
 Route::prefix('/bookings')->group(function(){

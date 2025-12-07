@@ -9,7 +9,7 @@ export function SlotForm({ form }: { form: any }) {
     return (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-1">
             <InputField
-                label={t('Date')}
+                label={t('Start Date')}
                 name="date"
                 type="date"
                 value={form.values.date}

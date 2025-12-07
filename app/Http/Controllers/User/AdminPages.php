@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Models\UserRole;
+use App\Models\Booking;
+use App\Models\Payment;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class AdminPages extends Controller
@@ -15,7 +17,19 @@ class AdminPages extends Controller
     }
 
     public function users(){
-        return Inertia::render('admin/users');
+        return Inertia::render('admin/users/list');
+    }
+
+    public function userDetails(Request $request, User $user){
+        $user->load('image');
+        $bookings = Booking::with(Booking::LOAD)->where('user_id', $user->id)->get();
+        $payments = Payment::with(Payment::LOAD)->where('user_id', $user->id)->get();
+        
+        return Inertia::render('admin/users/details', [
+            'user' => $user,
+            'bookings' => $bookings,
+            'payments'=> $payments
+        ]);
     }
 
     public function bookings(){
