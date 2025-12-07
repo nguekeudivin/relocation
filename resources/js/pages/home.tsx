@@ -148,7 +148,7 @@ export default function Welcome() {
                 <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-2">
                     <aside
                         className="h-[300px] rounded-lg bg-cover bg-center md:h-auto"
-                        style={{ backgroundImage: `url(images/image-16.png)` }}
+                        style={{ backgroundImage: `url(images/image-18.png)` }}
                     ></aside>
 
                     <aside>
