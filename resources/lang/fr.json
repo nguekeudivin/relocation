@@ -256,5 +256,6 @@
 
     "Back home": "Retour à l'accueil",
 
-    "Dear Customer": "Cher(e) Client(e)"
+    "Dear Customer": "Cher(e) Client(e)",
+    "Availables workers :workers": "Travailleurs disponibles : :workers"
 }

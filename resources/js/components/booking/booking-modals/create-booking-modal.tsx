@@ -68,7 +68,7 @@ export function CreateBookingModal() {
         with_account: false,
     });
 
-    const [step, setStep] = useState<number>(1);
+    const [step, setStep] = useState<number>(2);
     const modalRef = useRef<any>(undefined);
 
     useEffect(() => {

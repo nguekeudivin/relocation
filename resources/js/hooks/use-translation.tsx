@@ -15,14 +15,13 @@ export default function useTranslation() {
     const t = (key: string, params?: Record<string, string | number>): string => {
         let translation = dictionaries[lang]?.[key] ?? key;
 
-        // Si pas de paramètres → on retourne la traduction brute
         if (!params || Object.keys(params).length === 0) {
             return translation;
         }
 
-        // Remplacement des {{variable}} par leurs valeurs
+        // Replace occurrences of :paramKey
         return Object.entries(params).reduce((acc, [paramKey, value]) => {
-            const regex = new RegExp(`\\{\\{${paramKey}\\}\\}`, 'g');
+            const regex = new RegExp(`:${paramKey}(?![A-Za-z0-9_])`, 'g');
             return acc.replace(regex, String(value));
         }, translation);
     };

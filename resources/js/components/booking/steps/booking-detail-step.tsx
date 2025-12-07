@@ -82,13 +82,16 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
 
             <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div className="col-span-2 mt-4 space-y-6">
-                    <InputField
-                        name="workers"
-                        type="number"
-                        label={t('How many workers do you need?')}
-                        value={form.values.workers}
-                        onChange={form.handleChange}
-                    />
+                    <div>
+                        <InputField
+                            name="workers"
+                            type="number"
+                            label={t('How many workers do you need?')}
+                            value={form.values.workers}
+                            onChange={form.handleChange}
+                        />
+                        <p className="mt-1 text-xs text-gray-700">{t('Availables workers : :workers', { workers: settings.available_workers })}</p>
+                    </div>
 
                     <InputField
                         name="duration"
