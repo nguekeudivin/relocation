@@ -9,7 +9,7 @@ use App\Http\Controllers\User\ChangeUserLanguage;
 use App\Http\Controllers\User\AdminPages;
 use App\Http\Controllers\User\ChangeUserProfile;
 use App\Http\Controllers\QueryController;
-use App\Http\COntrollers\PaymentController;
+use App\Http\Controllers\PaymentController;
 
 
 
