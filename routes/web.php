@@ -64,12 +64,13 @@ Route::get('/payment/success', [PaymentController::class, 'success'])->name('pay
 Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
 Route::get('/preview-mail', function () {
+    
     $booking = \App\Models\Booking::first(); // or fake() data
     $user = \App\Models\User::first();
     $greetingName = $user ? $user->first_name : 'Guest';
 
-    //return new \App\Mail\BookingCreatedMail($booking, $user, $greetingName);
-   // return new \App\Mail\BookingCreatedAdminMail($booking, $user, $greetingName);
+    // return new \App\Mail\BookingCreatedMail($booking, $user, $greetingName);
+    // return new \App\Mail\BookingCreatedAdminMail($booking, $user, $greetingName);
 
     return new \App\Mail\Booking\BookingConfirmedAdminMail($booking);
 });

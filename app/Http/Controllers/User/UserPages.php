@@ -30,7 +30,6 @@ class UserPages extends Controller
                     })->first();
                     $chat = Chat::findPrivateChatBetweenUsers($user->id, $admin->id);
 
-                    dd($chat);
                     if(!$chat){
                         $chat = Chat::create([
                             'creator_id' => $user->id
