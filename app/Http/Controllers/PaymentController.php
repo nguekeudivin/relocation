@@ -25,7 +25,7 @@ class PaymentController extends Controller
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'eur',
-                    'unit_amount' => $booking->amount * 100 , // amount in cents (20 USD)
+                    'unit_amount' => $booking->tax * 100 , // amount in cents (20 USD)
                     'product_data' => [
                         'name' => 'Booking',
                     ],
@@ -59,7 +59,7 @@ class PaymentController extends Controller
         $booking = Booking::find($session->metadata->booking_id);
         $payment = Payment::create([
             'user_id' => $booking->user_id, 
-            'amount' => $booking->amount,
+            'amount' => $booking->tax,
             'method' => 'card',
             'processed_at' => now()
         ]);

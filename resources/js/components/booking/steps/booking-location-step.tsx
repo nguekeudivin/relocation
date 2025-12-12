@@ -1,5 +1,5 @@
 import { AutocompleteCityInput } from '@/components/shared/autocomplete-city-input';
-import { TextAreaField } from '@/components/ui/form';
+import { InputField, TextAreaField } from '@/components/ui/form';
 import Show from '@/components/ui/show';
 import useTranslation from '@/hooks/use-translation';
 import useAppStore from '@/store';
@@ -26,15 +26,21 @@ export default function BookingLocationStep({ form, showError = true }: Props) {
 
                     <h4 className="text-sm font-semibold">{t('From')}</h4>
                     <div className="mt-3 space-y-3">
-                        <div>
-                            <label className="text-xs text-gray-600">{t('City')}</label>
-                            <AutocompleteCityInput
-                                name="from_city"
-                                value={form.values.from_city || ''}
-                                onChange={form.handleChange}
-                                onSelect={form.handleChange}
-                                placeholder={t('Start typing a city...')}
-                            />
+                        <div className="md:flex md:gap-2">
+                            <div className="w-full">
+                                <label className="text-xs text-gray-600">{t('City')}</label>
+                                <AutocompleteCityInput
+                                    name="from_city"
+                                    value={form.values.from_city || ''}
+                                    onChange={form.handleChange}
+                                    onSelect={form.handleChange}
+                                    placeholder={t('Start typing a city...')}
+                                />
+                            </div>
+                            <div className="mt-3 md:mt-0 md:w-[200px] md:shrink-1">
+                                <label className="text-xs text-gray-600">{t('Postal code')}</label>
+                                <InputField name="from_postal_code" value={form.values.from_postal_code} onChange={form.handleChange} />
+                            </div>
                         </div>
 
                         <div>
@@ -45,7 +51,6 @@ export default function BookingLocationStep({ form, showError = true }: Props) {
                                 onChange={form.handleChange}
                                 rows={2}
                                 placeholder={t('Enter full address (street, number, floor...)')}
-                                error={store.errors.values.from_street}
                             />
                         </div>
                     </div>
@@ -59,17 +64,22 @@ export default function BookingLocationStep({ form, showError = true }: Props) {
                     </div>
                     <h4 className="text-sm font-semibold">{t('To')}</h4>
                     <div className="mt-3 space-y-3">
-                        <div>
-                            <label className="text-xs text-gray-600">{t('City')}</label>
-                            <AutocompleteCityInput
-                                name="to_city"
-                                value={form.values.to_city || ''}
-                                onChange={form.handleChange}
-                                onSelect={form.handleChange}
-                                placeholder={t('Start typing a city...')}
-                            />
+                        <div className="md:flex md:gap-2">
+                            <div className="w-full">
+                                <label className="text-xs text-gray-600">{t('City')}</label>
+                                <AutocompleteCityInput
+                                    name="to_city"
+                                    value={form.values.to_city || ''}
+                                    onChange={form.handleChange}
+                                    onSelect={form.handleChange}
+                                    placeholder={t('Start typing a city...')}
+                                />
+                            </div>
+                            <div className="mt-3 md:mt-0 md:w-[200px] md:shrink-1">
+                                <label className="text-xs text-gray-600">{t('Postal code')}</label>
+                                <InputField name="to_postal_code" value={form.values.to_postal_code} onChange={form.handleChange} />
+                            </div>
                         </div>
-
                         <div>
                             <label className="text-xs text-gray-600">{t('Street address')}</label>
                             <TextAreaField
@@ -78,7 +88,6 @@ export default function BookingLocationStep({ form, showError = true }: Props) {
                                 onChange={form.handleChange}
                                 rows={2}
                                 placeholder={t('Enter full address (street, number, floor...)')}
-                                error={store.errors.values.to_street}
                             />
                         </div>
                     </div>

@@ -23,6 +23,7 @@ class Booking extends Model
         'car_type',
         'duration',
         'amount',
+        'tax',
         'observation',
         'status'
     ];

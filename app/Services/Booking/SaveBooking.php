@@ -17,8 +17,15 @@ class SaveBooking
         $settings = Setting::all()->pluck('value', 'code');
 
         $workersCost  = $settings['price_per_worker'] * $data['workers'];
-        $durationCost = $settings['price_per_hour']    * $data['duration'];
+        $durationCost = $data['workers'] * $settings['price_per_hour']    * $data['duration'];
         $carsCost     = $data['transport_price'];
+
+        $taxCost = $settings['worker_tax'];
+
+        // Make sure that car type is correctly define.
+        if(isset($data['car_type'])){
+            $taxCost = $settings['worker_tax'] + $settings['car_tax'];
+        }
 
         $origin = Address::create([
             'city'   => $data['from_city'],
@@ -30,6 +37,15 @@ class SaveBooking
             'street' => $data['to_street'],
         ]);
 
+        $user = null;
+        if(isset($data['user_id'])){
+            $user = User::find($data['user_id']);
+            if($user == null){
+                throw  throw new \Exception(t('Something wrong happens. Please make sure you are connected to you account'));
+            }
+            $data['email'] = $user->email;
+        };
+
         $booking = Booking::create([
             'user_id'        => $data['user_id'],
             'origin_id'      => $origin->id,
@@ -37,9 +53,10 @@ class SaveBooking
             'date'           => $data['date'],
             'workers'        => $data['workers'],
             'duration'       => $data['duration'],
-            'car_type'       => $data['car_type'],
+            'car_type'       => isset($data['car_type']) ? $data['car_type'] : null,
             'email'          => $data['email'],
             'amount'         => $workersCost + $durationCost + $carsCost,
+            'tax'            => $taxCost,
             'status'         => 'pending',
         ]);
 

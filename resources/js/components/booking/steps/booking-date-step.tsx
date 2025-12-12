@@ -3,8 +3,9 @@ import Show from '@/components/ui/show';
 import useTranslation from '@/hooks/use-translation';
 import { cn, formatDate } from '@/lib/utils';
 import useAppStore from '@/store';
+import { getSettingObject } from '@/store/Setting';
 import { Slot } from '@/store/Slot';
-import { format, isEqual, subDays } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import { useEffect, useState } from 'react';
 
 interface Props {
@@ -82,11 +83,27 @@ export default function BookingDateStep({ form, showError = true }: Props) {
         });
     }, []);
 
+    // Transport Price computation
+    const [settings, setSettings] = useState<Record<string, any>>({
+        car_price_weekday_job: 0,
+        car_price_weekend_job: 0,
+        fee_per_km: 0,
+        available_workers: 0,
+    });
+
+    useEffect(() => {
+        store.setting
+            .fetch()
+            .then((items: any) => {
+                setSettings(getSettingObject(items));
+            })
+            .catch(store.errors.catch);
+    }, []);
+
     return (
         <>
             <h3 className="text-lg font-semibold">{t('When and at what time ?')}</h3>
             <Show when={showError}>{store.errors.render()}</Show>
-
             <div className="mt-4 grid w-full grid-cols-1 gap-4 md:grid-cols-5 md:gap-12">
                 <div className="text-sm md:col-span-3">
                     <DatePicker
@@ -107,26 +124,32 @@ export default function BookingDateStep({ form, showError = true }: Props) {
 
                 <Show when={times.length > 0}>
                     <ul className="grid grid-cols-3 gap-4 md:col-span-2 md:grid-cols-3">
-                        {times.map((item, index) => (
-                            <li
-                                key={`time${index}`}
-                                onClick={() => {
-                                    const dateObj = new Date(form.values.date);
-                                    dateObj.setHours(item.getHours());
-                                    dateObj.setMinutes(item.getMinutes());
-                                    form.setValue('date', dateObj);
-                                    form.setValue('time', item);
-                                }}
-                                className={cn(
-                                    'inline-flex cursor-pointer items-center justify-center border border-gray-200 px-4 py-2 text-center text-sm',
-                                    {
-                                        'bg-primary-500 border-primary-500 text-white': isEqual(form.values.time, item),
-                                    },
-                                )}
-                            >
-                                {format(item, 'HH:mm')}
-                            </li>
-                        ))}
+                        {times.map((item, index) => {
+                            let isEqual = false;
+                            if (form.values.time) {
+                                isEqual = item.getHours() == form.values.time.getHours() && item.getMinutes() == form.values.time.getMinutes();
+                            }
+                            return (
+                                <li
+                                    key={`time${index}`}
+                                    onClick={() => {
+                                        const dateObj = new Date(form.values.date);
+                                        dateObj.setHours(item.getHours());
+                                        dateObj.setMinutes(item.getMinutes());
+                                        form.setValue('date', dateObj);
+                                        form.setValue('time', item);
+                                    }}
+                                    className={cn(
+                                        'inline-flex cursor-pointer items-center justify-center border border-gray-200 px-4 py-2 text-center text-sm',
+                                        {
+                                            'bg-primary-500 border-primary-500 text-white': isEqual,
+                                        },
+                                    )}
+                                >
+                                    {format(item, 'HH:mm')}
+                                </li>
+                            );
+                        })}
                     </ul>
                 </Show>
             </div>

@@ -84,6 +84,7 @@ class BookingSeeder extends Seeder
             'car_type'       => fake()->randomElement(['van', 'bus']),
             'duration'       => fake()->randomFloat(2, 0.5, 12),
             'amount'         => fake()->randomFloat(2, 50, 1500),
+            'tax' => fake()->randomFloat(2, 50, 1500),
             'observation'    => fake()->boolean(35) ? fake()->realText(180) : null,
             //'status'         => fake()->randomElement(Booking::STATUSES),
             'status' => 'pending'

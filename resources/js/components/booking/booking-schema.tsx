@@ -1,46 +1,74 @@
-import { addDays, getDay, isBefore, startOfDay } from 'date-fns';
+import { addDays, addHours, getDay, isBefore, startOfDay } from 'date-fns';
 import { z } from 'zod';
 
-const coerceDate = z.preprocess(
-    (value) => {
-        if (value instanceof Date) return value;
-        if (typeof value === 'string' || typeof value === 'number') {
-            const d = new Date(value);
-            return isNaN(d.getTime()) ? undefined : d;
-        }
-        return undefined;
-    },
-    z.date({ required_error: 'A valid date is required.' }),
-);
-const requiredString = (field: string) => z.string({ required_error: `${field} is required.` }).min(1, `${field} cannot be empty.`);
+const coerceDate = (t: any) =>
+    z.preprocess(
+        (value) => {
+            if (value instanceof Date) return value;
+            if (typeof value === 'string' || typeof value === 'number') {
+                const d = new Date(value);
+                return isNaN(d.getTime()) ? undefined : d;
+            }
+            return undefined;
+        },
+        z.date({ required_error: t('A valid date is required.') }),
+    );
 
-export const CreateBookingFormSchema = (t: any) => [
+export const CreateBookingFormSchema = (t: any, formValues: any) => [
     z.object({
-        from_city: requiredString('Origin city'),
-        from_street: requiredString('Origin address'),
-
-        to_city: requiredString('Destination city'),
-        to_street: requiredString('Destination address'),
-    }),
-    z.object({
-        // date: coerceDate.refine((d) => !!d, 'Please select a valid date.'),
-        time: coerceDate.refine((d) => !!d, t('Please select a valid time.')),
+        from_city: z.string({ required_error: t(`Pick-up city  is required.`) }).min(1, t(`Pick-up city  is required.`)),
+        from_street: z.string({ required_error: t(`Pick-up street is required.`) }).min(1, t(`Pick-up street is required.`)),
+        from_postal_code: z.string({ required_error: t(`Pick-up postal code is required.`) }).min(1, t(`Pick-up postal code is required.`)),
+        to_city: z.string({ required_error: t(`Delivery city is required.`) }).min(1, t(`Delivery city is required.`)),
+        to_street: z.string({ required_error: t(`Delivery street is required.`) }).min(1, t(`Delivery street is required.`)),
+        to_postal_code: z.string({ required_error: t(`Delivery postal code is required.`) }).min(1, t(`Delivery postal code is required.`)),
     }),
     z.object({
         date: z
             .date({
-                required_error: t('Please select a date'),
+                required_error: t('Please select a date. Make sure to select the date and the day.'),
                 invalid_type_error: t('Invalid date'),
             })
             .refine(
+                (selectedDate) => {
+                    // On récupère la date + heure complète (date + time) depuis les valeurs du formulaire
+                    const timeValue = formValues.date; // doit être un objet Date valide
+                    if (!timeValue || !(timeValue instanceof Date) || isNaN(timeValue.getTime())) {
+                        return false;
+                    }
+
+                    // On combine la partie "date" sélectionnée avec l'heure sélectionnée
+                    const fullDateTime = new Date(selectedDate);
+                    fullDateTime.setHours(timeValue.getHours(), timeValue.getMinutes(), timeValue.getSeconds(), timeValue.getMilliseconds());
+
+                    // On compare avec maintenant + 4h
+                    const minAllowed = addHours(new Date(), 4);
+
+                    return fullDateTime >= minAllowed;
+                },
+                {
+                    message: t('The selected date and time must be at least 4 hours from now.'),
+                },
+            ),
+        time: z.date({ required_error: t('Select a the time.') }),
+    }),
+    z.object({
+        date: z
+            .date({
+                required_error: t('Please select a date. Make sure to select the date and the day.'),
+                invalid_type_error: t('Invalid date'),
+            })
+            // On garde ta validation personnalisée existante si tu en as besoin
+            .refine(
                 (date) => {
-                    const result = validateTransportDate({ date, t });
+                    const result = validateTransportDate({ date, t, formValues });
                     return result.isValid;
                 },
                 (date) => ({
-                    message: validateTransportDate({ date: date!, t }).error || '',
+                    message: validateTransportDate({ date: date!, t, formValues }).error || '',
                 }),
             ),
+
         duration: z.coerce
             .number({
                 required_error: 'Duration is required',
@@ -54,14 +82,14 @@ export const CreateBookingFormSchema = (t: any) => [
 type ValidateTransportDateParams = {
     date: Date | string | number;
     t: (key: string, options?: Record<string, any>) => string;
+    formValues: any;
 };
 
 type ValidationResult = { isValid: boolean; error: string };
-export function validateTransportDate({ date, t }: ValidateTransportDateParams): ValidationResult {
-    if (!date) {
+export function validateTransportDate({ date, t, formValues }: ValidateTransportDateParams): ValidationResult {
+    if (!date || formValues.car_type === undefined) {
         return { isValid: true, error: '' };
     }
-
     const selectedDate = startOfDay(new Date(date));
     const today = startOfDay(new Date());
     const dayOfWeek = getDay(selectedDate); // 0 = Sunday, 6 = Saturday
@@ -85,7 +113,7 @@ export function validateTransportDate({ date, t }: ValidateTransportDateParams):
     return { isValid: true, error: '' };
 }
 
-export const createEditBookingSchema = (t: any) => {
+export const createEditBookingSchema = (t: any, formValues: any) => {
     return z.object({
         date: z
             .date({
@@ -94,11 +122,11 @@ export const createEditBookingSchema = (t: any) => {
             })
             .refine(
                 (date) => {
-                    const result = validateTransportDate({ date, t });
+                    const result = validateTransportDate({ date, t, formValues });
                     return result.isValid;
                 },
                 (date) => ({
-                    message: validateTransportDate({ date: date!, t }).error || '',
+                    message: validateTransportDate({ date: date!, t, formValues }).error || '',
                 }),
             ),
 

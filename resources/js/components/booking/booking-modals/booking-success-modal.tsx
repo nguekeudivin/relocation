@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import useTranslation from '@/hooks/use-translation';
 import useAppStore from '@/store';
+import { router, usePage } from '@inertiajs/react';
 import { CheckCircle2 } from 'lucide-react';
 
 export function SuccessBookingModal() {
@@ -9,11 +10,16 @@ export function SuccessBookingModal() {
     const { t } = useTranslation();
     const store = useAppStore();
     const booking = store.booking.current;
+    const { auth } = usePage<any>().props;
 
     if (!booking) return null;
 
     const close = () => {
-        store.display.hide(name);
+        if (auth.user) {
+            router.visit('/user/bookings');
+        } else {
+            store.display.hide(name);
+        }
     };
 
     return (

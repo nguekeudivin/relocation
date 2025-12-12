@@ -12,6 +12,7 @@ export interface Booking {
     workers: number; // Number of workers
     duration: number; // Duration in hours
     amount: number; // Total price
+    tax: number;
     email: string;
     status: string;
     car_type: string;

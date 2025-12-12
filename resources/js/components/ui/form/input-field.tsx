@@ -25,6 +25,8 @@ interface InputFieldProps {
     step?: string;
     autoFocus?: boolean;
     readOnly?: boolean;
+    min?: number;
+    max?: number;
 }
 
 export const InputField: FC<InputFieldProps> = ({
@@ -46,6 +48,8 @@ export const InputField: FC<InputFieldProps> = ({
     step,
     autoFocus,
     readOnly,
+    max,
+    min,
 }) => {
     const [inputType, setInputType] = useState(type);
     const hasError = !!error && (Array.isArray(error) ? error.length > 0 : true);
@@ -75,6 +79,8 @@ export const InputField: FC<InputFieldProps> = ({
                         onBlur={onBlur}
                         autoFocus={autoFocus}
                         readOnly={readOnly}
+                        min={min}
+                        max={max}
                         className={cn(
                             'focus:ring-secondary-300 block w-full border border-gray-300 bg-transparent p-2 text-sm text-gray-900 focus:border-transparent focus:ring-2 focus:outline-none',
                             { 'border-red-500 focus:ring-red-500': hasError },

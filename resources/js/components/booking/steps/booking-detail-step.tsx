@@ -28,12 +28,9 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
         fee_per_km: 0,
         available_workers: 0,
     });
-
-    useEffect(() => {}, []);
-
     // Main logic: transport pricing + advance booking validation
     useEffect(() => {
-        if (!needCars || !form.values.date) {
+        if (form.values.car_type == undefined || !form.values.date) {
             form.setValue('transport_price', 0);
             store.errors.reset();
             return;
@@ -50,26 +47,24 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
         const minAllowedDate = addDays(today, requiredDays);
 
         // Update form values
+        console.log(basePrice);
         form.setValue('transport_price', basePrice);
 
         // Validation: not enough advance notice
         if (isBefore(selectedDate, minAllowedDate)) {
             const period = isWeekday ? t('weekday (Monday to Thursday)') : t('weekend (Friday to Sunday)');
-            const message = t('Vehicle booking for a {{period}} job must be made at least {{days}} days in advance.', { period, days: requiredDays });
+            const message = t('Vehicle booking for a :period job must be made at least :days days in advance.', { period, days: requiredDays });
             store.errors.set('date', message);
         } else {
             store.errors.reset();
         }
-    }, [needCars, form.values.date]);
+    }, [form.values.car_type, form.values.date, settings]);
 
     useEffect(() => {
         store.setting
             .fetch()
             .then((items: any) => {
                 setSettings(getSettingObject(items));
-                if (form.values.car_type != '' && form.values.car_type != null && form.values.car_type != undefined) {
-                    setNeedCars(true);
-                }
             })
             .catch(store.errors.catch);
     }, []);
@@ -79,6 +74,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
             <h3 className="text-lg font-semibold">{t('Provide details about the service')}</h3>
 
             <Show when={showError}>{store.errors.render()}</Show>
+            {form.values.car_type}
 
             <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div className="col-span-2 mt-4 space-y-6">
@@ -88,7 +84,12 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                             type="number"
                             label={t('How many workers do you need?')}
                             value={form.values.workers}
-                            onChange={form.handleChange}
+                            onChange={(e: any) => {
+                                const value = e.target.value;
+                                if (value <= parseInt(settings.available_workers)) {
+                                    form.setValue('workers', value);
+                                }
+                            }}
                         />
                         <p className="mt-1 text-xs text-gray-700">{t('Availables workers : :workers', { workers: settings.available_workers })}</p>
                     </div>
@@ -102,13 +103,13 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                     />
 
                     <ToggleSwitch
-                        checked={needCars}
+                        checked={form.values.car_type != undefined}
                         label={t('Does the job require vehicles?')}
                         onChange={(checked: boolean) => {
                             setNeedCars(checked);
                             if (!checked) {
                                 form.setValue('cars', 0);
-                                form.setValue('car_type', '');
+                                form.setValue('car_type', undefined);
                                 form.setValue('transport_price', 0);
                                 store.errors.reset();
                             } else {
@@ -124,7 +125,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                 </Show>
             </div>
 
-            <Show when={needCars}>
+            <Show when={form.values.car_type != undefined}>
                 <div className="mt-4 space-y-4">
                     <InputLabel>{t('Which type of vehicle do you need?')}</InputLabel>
 

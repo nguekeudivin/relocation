@@ -52,6 +52,18 @@ class SettingSeeder extends Seeder
                 'description' => "Fee per km",
                 'value' => '0.40'
             ],
+            [
+                'name' => "Tax for worker",
+                'code' => 'worker_tax',
+                'description' => "Tax for worker",
+                'value' => '0.40'
+            ],
+            [
+                'name' => "Tax for vehicle",
+                'code' => 'car_tax',
+                'description' => "Tax for vehicle",
+                'value' => '0.40'
+            ],
         ];
 
         DB::table('settings')->insert($settings);

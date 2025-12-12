@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('car_type')->nullable();
             $table->integer('duration');
             $table->decimal('amount');
+            $table->decimal('tax');
             $table->text('observation')->nullable();
             $table->enum('status',Booking::STATUSES)->default('pending');
             $table->timestamps();

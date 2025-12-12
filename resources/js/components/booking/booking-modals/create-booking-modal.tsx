@@ -21,37 +21,44 @@ export function CreateBookingModal() {
     const isVisible = display.visible[name];
     const toggleModal = () => display.toggle(name);
     const [reachedSteps, setReachedSteps] = useState<number[]>([0]);
+    const [step, setStep] = useState<number>(0);
+    const modalRef = useRef<any>(undefined);
 
     const { t } = useTranslation();
 
     const form = useSimpleForm({
         date: new Date(),
         time: undefined,
-        from_city: 'Berlin',
+        from_city: '',
+        from_postal_code: '',
         from_street: '',
         to_city: '',
         to_street: '',
+        to_postal_code: '',
         workers: 2,
-        car_type: '',
+        car_type: undefined,
         duration: 2,
         amount: 0,
-        transport_price: 150,
+        transport_price: 0,
         first_name: '',
         last_name: '',
         email: '',
         phone_number: '',
         password: '',
         with_account: true,
+        user_id: undefined,
     });
     // const form = useSimpleForm({
     //     date: new Date('2025-02-15'),
-    //     time: new Date('2025-02-15T10:00:00'),
+    //     time: undefined,
 
     //     from_city: 'Berlin',
     //     from_street: 'Alexanderplatz 5',
+    //     from_postal_code: '12345',
 
     //     to_city: 'Hamburg',
     //     to_street: 'Reeperbahn 120',
+    //     to_postal_code: '12345',
 
     //     workers: 2,
     //     car_type: 'van',
@@ -63,13 +70,11 @@ export function CreateBookingModal() {
     //     last_name: 'Keller',
     //     email: 'marie.keller@example.com',
     //     phone_number: '+49 151 2345678',
-    //     password: 'Test1234!',
+    //     password: 'password',
 
     //     with_account: false,
+    //     user_id: undefined,
     // });
-
-    const [step, setStep] = useState<number>(0);
-    const modalRef = useRef<any>(undefined);
 
     useEffect(() => {
         if (isVisible) {
@@ -95,7 +100,8 @@ export function CreateBookingModal() {
     const nextStep = () => {
         // If the step required validation. Write the validation here.
         store.errors.reset();
-        const schema = CreateBookingFormSchema(t)[step];
+        const schema = CreateBookingFormSchema(t, form.values)[step];
+
         if (schema) {
             const validation = validateObject(form.values, schema);
             if (!validation.valid) {
@@ -127,14 +133,17 @@ export function CreateBookingModal() {
                 'date',
                 'time',
                 'from_city',
+                'from_postal_code',
                 'from_street',
                 'to_city',
                 'to_street',
+                'to_postal_code',
                 'email',
                 'workers',
                 'car_type',
                 'duration',
                 'transport_price',
+                'user_id',
             ]),
             ...pick(form.values, ['first_name', 'last_name', 'phone_number', 'email', 'password']),
         };
@@ -238,7 +247,6 @@ export function CreateBookingModal() {
                                     {t('Continue')} <ChevronRight className="h-4 w-4" />
                                 </Button>
                             </Show>
-
                             {step == 3 && (
                                 <>
                                     <Button color="outline" onClick={prevStep}>

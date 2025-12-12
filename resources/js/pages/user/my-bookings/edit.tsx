@@ -6,7 +6,7 @@ import BookingLocationStep from '@/components/booking/steps/booking-location-ste
 import PageTitle from '@/components/common/PageTitle';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { useSimpleForm } from '@/hooks/use-simple-form';
+import { useSimpleForm, validateObject } from '@/hooks/use-simple-form';
 import useTranslation from '@/hooks/use-translation';
 import MemberLayout from '@/layouts/member-layout/member-layout';
 import { cn, formatDate, pick } from '@/lib/utils';
@@ -21,31 +21,27 @@ export default function MyProfilePage() {
     const [activeTab, setActiveTab] = useState<any>('location');
     const { t } = useTranslation();
 
-    const form = useSimpleForm(
-        {
-            //
-            date: new Date(booking.date),
-            time: new Date(booking.date),
-            // Location.
-            from_city: booking.origin.city,
-            from_street: booking.origin.street,
-            to_city: booking.destination.city,
-            to_street: booking.destination.street,
-            //
-            workers: booking.workers,
-            car_type: booking.car_type,
-            duration: booking.duration,
-            transport_price: 0,
-        },
-        {
-            schema: createEditBookingSchema(t),
-        },
-    );
+    const form = useSimpleForm({
+        //
+        date: new Date(booking.date),
+        time: new Date(booking.date),
+        // Location.
+        from_city: booking.origin.city,
+        from_street: booking.origin.street,
+        to_city: booking.destination.city,
+        to_street: booking.destination.street,
+        //
+        workers: booking.workers,
+        car_type: booking.car_type,
+        duration: booking.duration,
+        transport_price: 0,
+    });
 
     const submit = () => {
-        const validation = form.validate();
+        const schema = createEditBookingSchema(t, form.values);
+        const validation = validateObject(form.values, schema);
+
         if (!validation.valid) {
-            console.log(validation.errors);
             store.errors.setMany(validation.errors);
             return 0;
         }
