@@ -20,9 +20,6 @@ class DatabaseSeeder extends Seeder
             //UserSeeder::class,
             AdminSeeder::class,
             SettingSeeder::class,
-            SlotSeeder::class
-            //BookingSeeder::class,
-            //PaymentSeeder::class,
         ]);
     }
 }

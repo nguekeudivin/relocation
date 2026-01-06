@@ -17,19 +17,7 @@ class AdminPages extends Controller
     }
 
     public function users(){
-        return Inertia::render('admin/users/list');
-    }
-
-    public function userDetails(Request $request, User $user){
-        $user->load('image');
-        $bookings = Booking::with(Booking::LOAD)->where('user_id', $user->id)->get();
-        $payments = Payment::with(Payment::LOAD)->where('user_id', $user->id)->get();
-        
-        return Inertia::render('admin/users/details', [
-            'user' => $user,
-            'bookings' => $bookings,
-            'payments'=> $payments
-        ]);
+        return Inertia::render('admin/users');
     }
 
     public function bookings(){

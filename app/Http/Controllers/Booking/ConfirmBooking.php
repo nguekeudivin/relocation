@@ -8,32 +8,29 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use Illuminate\Support\Facades\Mail;
-use App\Mail\Booking\BookingConfirmedMail;
-use App\Mail\Booking\BookingConfirmedAdminMail;
-use App\Models\User;
+use App\Mail\BookingConfirmedMail;
 
 class ConfirmBooking extends Controller
 {
-    public function __invoke(Request $request, Booking $booking): JsonResponse
+    public function __invoke(Booking $booking): JsonResponse
     {
-        if ($booking->status === 'confirmed') {
+        if ($booking->status === 'paid') {
             return response()->json([
                 'message' => 'This booking is already confirmed.'
             ], 422);
         }
 
-        if (!in_array($booking->status, ['pending', 'paid'])) {
+        if (!in_array($booking->status, ['pending', 'notified'])) {
             return response()->json([
                 'message' => 'This booking cannot be confirmed.'
             ], 422);
         }
 
         $booking->update([
-            'status' => 'confirmed'
+            'status' => 'paid'
         ]);
 
         Mail::to($booking->email)->queue(new BookingConfirmedMail($booking));
-        Mail::to(User::getAdmin()->email)->queue(new BookingConfirmedAdminMail($booking));
 
         $booking->refresh();
         $booking->load(Booking::LOAD);

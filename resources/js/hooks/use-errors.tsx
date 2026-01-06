@@ -1,7 +1,7 @@
 import { pick } from '@/lib/utils';
 import { create } from 'zustand';
 
-const SERVER_ERROR = "Une erreur c'est produite";
+const SERVER_ERROR = 'Something wrong just happens. Please try again.';
 
 interface ErrorsState {
     values: Record<string, string[]>;
@@ -42,7 +42,7 @@ export const useErrors = create<ErrorsState>((setter, getter) => ({
         if (error.response != undefined) {
             if ([422, 401, 409, 404, 400].includes(error.response.status)) {
                 isServerError = false;
-                let values = { error: ['Le systeme est indisponible pour le moment'] };
+                let values = { error: ['Something wrong just happens. Please try again.'] };
 
                 if (error.response.data.hasOwnProperty('errors')) {
                     values = error.response.data.errors;

@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 import { ReactNode, useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import { Banknote, Book, LogOut, MessageCircle, X } from 'lucide-react';
+import { Book, LogOut, MessageCircle, X } from 'lucide-react';
 
 import { SimpleButtonForm } from '@/components/common/ButtonForm';
 import Logo from '@/components/common/Logo';
@@ -28,11 +28,11 @@ const menu = [
         icon: Book,
     },
 
-    {
-        route: '/user/payments',
-        label: 'Payments',
-        icon: Banknote,
-    },
+    // {
+    //     route: '/user/payments',
+    //     label: 'Payments',
+    //     icon: Banknote,
+    // },
     // {
     //     route: '/user/profile',
     //     label: 'My profile',

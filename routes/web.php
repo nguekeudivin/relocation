@@ -3,19 +3,47 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\QueryController;
+
+
 use App\Http\Controllers\User\UserPages;
 use App\Http\Controllers\User\ChangeUserLanguage;
-
 use App\Http\Controllers\User\AdminPages;
 use App\Http\Controllers\User\ChangeUserProfile;
-use App\Http\Controllers\QueryController;
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\User\GetUsers;
+use App\Http\Controllers\User\UpdateUser;
+use App\Http\Controllers\User\GetUser;
 
+use App\Http\Controllers\Booking\GenerateInvoice;
+use App\Http\Controllers\Booking\GenerateInvoiceById;
+use App\Http\Controllers\Booking\GetBookings;
+use App\Http\Controllers\Booking\CreateBooking;
+use App\Http\Controllers\Booking\CompleteBooking;
+use App\Http\Controllers\Booking\ConfirmBooking;
+use App\Http\Controllers\Booking\UpdateBooking;
+use App\Http\Controllers\Booking\NotifyPayment;
+
+use App\Http\Controllers\Setting\GetSettings;
+use App\Http\Controllers\Setting\SaveManySettings;
+use App\Http\Controllers\Stats\UserStats;
+use App\Http\Controllers\Stats\BookingStats;
 
 
 Route::get('/', function () {
    return Inertia::render('home');
 });
+
+Route::get('/terms', function(){
+    return Inertia::render('home');
+});
+
+Route::get('/privacy', function(){
+    return Inertia::render('home');
+});
+
+Route::get('/settings', GetSettings::class);
+Route::post('/bookings', CreateBooking::class);
+Route::get('/invoice', GenerateInvoice::class)->name('invoice');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -47,34 +75,38 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/messages', [UserPages::class,'messages'])->name('user.messages');
 
-    
+    Route::prefix('/stats')->group(function(){
+        Route::get('/user', UserStats::class);
+        Route::get('/booking', BookingStats::class);
+    });
+
+    Route::prefix('users')->group(function () {
+        Route::get('/', GetUsers::class);
+        Route::put('/{user}', UpdateUser::class);
+        Route::get('/{user}', GetUser::class);
+    });
+
+    Route::post('/settings/many', SaveManySettings::class);
+
+    Route::prefix('/bookings')->group(function(){
+        Route::get('/', GetBookings::class);
+        Route::get('/{booking}/invoice', GenerateInvoiceById::class);
+        Route::post('/{booking}/notify', NotifyPayment::class);
+        Route::post('/{booking}/confirm', ConfirmBooking::class);
+        Route::post('/{booking}/complete', CompleteBooking::class);
+        Route::put('/{booking}',UpdateBooking::class);
+    });
 });
 
-Route::get('/terms', function(){
-    return Inertia::render('home');
-});
 
-Route::get('/privacy', function(){
-    return Inertia::render('home');
-});
-
-// Payment.
-Route::get('/bookings/{booking}/pay', [PaymentController::class,'checkout']);
-Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
-Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
 Route::get('/preview-mail', function () {
-    
-    $booking = \App\Models\Booking::first(); // or fake() data
+    $booking = \App\Models\Booking::first(); 
     $user = \App\Models\User::first();
     $greetingName = $user ? $user->first_name : 'Guest';
-
     // return new \App\Mail\BookingCreatedMail($booking, $user, $greetingName);
-    // return new \App\Mail\BookingCreatedAdminMail($booking, $user, $greetingName);
-
-    return new \App\Mail\Booking\BookingConfirmedAdminMail($booking);
+    return new \App\Mail\BookingCreatedMail($booking, $user, $greetingName);
 });
 
 require __DIR__.'/auth.php';
 require __DIR__.'/chat-web.php';
-require __DIR__.'/api-web.php';

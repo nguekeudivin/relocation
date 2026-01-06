@@ -6,9 +6,8 @@ import Show from '@/components/ui/show';
 import useTranslation from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import useAppStore from '@/store';
-import { getSettingObject } from '@/store/Setting';
 import { addDays, getDay, isBefore, startOfDay } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import BookingCostCard from './booking-cost-card';
 
 interface Props {
@@ -20,14 +19,8 @@ interface Props {
 export default function BookingDetailStep({ form, showCost = true, showError = true }: Props) {
     const { t } = useTranslation();
     const store = useAppStore();
-    const [needCars, setNeedCars] = useState<boolean>(false);
+    const settings = store.setting.values;
 
-    const [settings, setSettings] = useState<Record<string, any>>({
-        car_price_weekday_job: 0,
-        car_price_weekend_job: 0,
-        fee_per_km: 0,
-        available_workers: 0,
-    });
     // Main logic: transport pricing + advance booking validation
     useEffect(() => {
         if (form.values.car_type == undefined || !form.values.date) {
@@ -47,7 +40,6 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
         const minAllowedDate = addDays(today, requiredDays);
 
         // Update form values
-        console.log(basePrice);
         form.setValue('transport_price', basePrice);
 
         // Validation: not enough advance notice
@@ -60,15 +52,6 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
         }
     }, [form.values.car_type, form.values.date, settings]);
 
-    useEffect(() => {
-        store.setting
-            .fetch()
-            .then((items: any) => {
-                setSettings(getSettingObject(items));
-            })
-            .catch(store.errors.catch);
-    }, []);
-
     return (
         <>
             <h3 className="text-lg font-semibold">{t('Provide details about the service')}</h3>
@@ -76,7 +59,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
             <Show when={showError}>{store.errors.render()}</Show>
             {form.values.car_type}
 
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+            <div className="mb-4 grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div className="col-span-2 mt-4 space-y-6">
                     <div>
                         <InputField
@@ -101,12 +84,10 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                         value={form.values.duration}
                         onChange={form.handleChange}
                     />
-
                     <ToggleSwitch
                         checked={form.values.car_type != undefined}
                         label={t('Does the job require vehicles?')}
                         onChange={(checked: boolean) => {
-                            setNeedCars(checked);
                             if (!checked) {
                                 form.setValue('cars', 0);
                                 form.setValue('car_type', undefined);
@@ -118,65 +99,71 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                         }}
                     />
                 </div>
-                <Show when={showCost}>
-                    <div className="col-span-2 hidden md:block">
-                        <BookingCostCard form={form} />
+                <Show when={form.values.car_type != undefined}>
+                    <div className="col-span-2 mt-4 space-y-4">
+                        <InputField
+                            name="km"
+                            type="number"
+                            label={t('How long is the distance in km ?')}
+                            value={form.values.distance}
+                            onChange={form.handleChange}
+                        />
+                        <InputLabel>{t('Which type of vehicle do you need?')}</InputLabel>
+                        <div className="flex gap-2">
+                            <button
+                                type="button"
+                                onClick={() => form.setValue('car_type', 'van')}
+                                className={cn(
+                                    'flex w-[150px] flex-col items-center justify-center rounded-lg border-2 p-2 transition-all',
+                                    form.values.car_type === 'van' ? 'border-primary-500 bg-primary-50' : 'hover:border-primary-300 border-gray-300',
+                                )}
+                            >
+                                <Van size={48} className="text-primary-500 mb-1" />
+                                <span className="text-sm font-medium">{t('3.5-ton Van')}</span>
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => form.setValue('car_type', 'bus')}
+                                className={cn(
+                                    'flex w-[150px] flex-col items-center justify-center rounded-lg border-2 p-2 transition-all',
+                                    form.values.car_type === 'bus' ? 'border-primary-500 bg-primary-50' : 'hover:border-primary-300 border-gray-300',
+                                )}
+                            >
+                                <Bus size={48} className="text-primary-500 mb-1" />
+                                <span className="text-sm font-medium">{t('Minibus / Coaster')}</span>
+                            </button>
+                        </div>
+
+                        {/* Helpful info box */}
+                        {form.values.date && (
+                            <div className="rounded-lg bg-gray-50 p-4 text-sm text-blue-900">
+                                {(() => {
+                                    const day = getDay(new Date(form.values.date));
+                                    const isWeekday = day >= 1 && day <= 4;
+                                    return isWeekday ? (
+                                        <p>
+                                            <strong>{t('Weekday job')}</strong> {'→'}
+                                            {`${settings.car_price_weekday_job}€ + ${settings.fee_per_km}€/km`}
+                                            <span className="ml-2">({t('booking required 5 days in advance')})</span>
+                                        </p>
+                                    ) : (
+                                        <p>
+                                            <strong>{t('Weekend job')}</strong> {'→'}
+                                            {`${settings.car_price_weekend_job}€ + ${settings.fee_per_km}€/km`}
+                                            <span className="ml-2">({t('booking required 14 days in advance')})</span>
+                                        </p>
+                                    );
+                                })()}
+                            </div>
+                        )}
                     </div>
                 </Show>
             </div>
 
-            <Show when={form.values.car_type != undefined}>
-                <div className="mt-4 space-y-4">
-                    <InputLabel>{t('Which type of vehicle do you need?')}</InputLabel>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <button
-                            type="button"
-                            onClick={() => form.setValue('car_type', 'van')}
-                            className={cn(
-                                'flex flex-col items-center justify-center rounded-lg border-2 p-6 transition-all',
-                                form.values.car_type === 'van' ? 'border-primary-500 bg-primary-50' : 'hover:border-primary-300 border-gray-300',
-                            )}
-                        >
-                            <Van size={48} className="text-primary-500 mb-3" />
-                            <span className="text-sm font-medium">{t('3.5-ton Van')}</span>
-                        </button>
-
-                        <button
-                            type="button"
-                            onClick={() => form.setValue('car_type', 'bus')}
-                            className={cn(
-                                'flex flex-col items-center justify-center rounded-lg border-2 p-6 transition-all',
-                                form.values.car_type === 'bus' ? 'border-primary-500 bg-primary-50' : 'hover:border-primary-300 border-gray-300',
-                            )}
-                        >
-                            <Bus size={48} className="text-primary-500 mb-3" />
-                            <span className="text-sm font-medium">{t('Minibus / Coaster')}</span>
-                        </button>
-                    </div>
-
-                    {/* Helpful info box */}
-                    {form.values.date && (
-                        <div className="rounded-lg bg-gray-50 p-4 text-sm text-blue-900">
-                            {(() => {
-                                const day = getDay(new Date(form.values.date));
-                                const isWeekday = day >= 1 && day <= 4;
-                                return isWeekday ? (
-                                    <p>
-                                        <strong>{t('Weekday job')}</strong> {'→'}
-                                        {`${settings.car_price_weekday_job}€ + ${settings.fee_per_km}€/km`}
-                                        <span className="ml-2">({t('booking required 5 days in advance')})</span>
-                                    </p>
-                                ) : (
-                                    <p>
-                                        <strong>{t('Weekend job')}</strong> {'→'}
-                                        {`${settings.car_price_weekend_job}€ + ${settings.fee_per_km}€/km`}
-                                        <span className="ml-2">({t('booking required 14 days in advance')})</span>
-                                    </p>
-                                );
-                            })()}
-                        </div>
-                    )}
+            <Show when={showCost}>
+                <div className="hidden md:block">
+                    <BookingCostCard form={form} />
                 </div>
             </Show>
 

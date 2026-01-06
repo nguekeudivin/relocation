@@ -9,13 +9,11 @@ class Booking extends Model
 {
     use HasFactory;
 
-    // Table name (optional if it follows Laravel naming conventions)
-    protected $table = 'bookings';
-
-    // Mass assignable fields
     protected $fillable = [
         'user_id',
         'email',
+        'first_name',
+        'last_name',
         'date',
         'origin_id',
         'destination_id',
@@ -23,33 +21,33 @@ class Booking extends Model
         'car_type',
         'duration',
         'amount',
-        'tax',
+        'worker_tax',
+        'car_tax',
+        'duration_cost',
         'observation',
         'status'
     ];
 
-    public const STATUSES = ['pending', 'confirmed','paid','cancelled', 'rejected', 'completed'];
+    public const STATUSES = ['pending', 'notified', 'paid', 'completed'];
 
     public const LOAD = ['origin', 'destination', 'user'];
 
-    // Attribute casting
     protected $casts = [
         'date' => 'datetime',
         'duration' => 'decimal:2',
         'amount' => 'decimal:2',
+        'tax' => 'decimal:2'
     ];
 
-    /**
-     * Relationships
-     */
+    protected $appends = [
+        'tax'
+    ];
 
-    // Booking belongs to a user
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Assuming origin and destination are stored in another table, e.g., "locations"
     public function origin()
     {
         return $this->belongsTo(Address::class, 'origin_id');
@@ -60,20 +58,8 @@ class Booking extends Model
         return $this->belongsTo(Address::class, 'destination_id');
     }
 
-    /**
-     * Optional helper methods
-     */
-
-    // Total number of vehicles + workers
-    public function totalResources()
+    public function getTaxAttribute()
     {
-        return $this->workers + $this->cars;
+        return $this->worker_tax + $this->car_tax;
     }
-
-    // Format amount for display
-    public function formattedAmount()
-    {
-        return number_format($this->amount, 2);
-    }
-
 }

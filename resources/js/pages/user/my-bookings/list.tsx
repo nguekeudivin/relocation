@@ -1,7 +1,5 @@
 import BookingCard from '@/components/booking/booking-card';
-import { CancelBookingModal } from '@/components/booking/booking-modals/cancel-booking-modal';
 import PageTitle from '@/components/common/PageTitle';
-import { ChoosePaymentMethod } from '@/components/payment/payment-modals/choose-payment-method';
 import { useSimpleForm } from '@/hooks/use-simple-form';
 import useTranslation from '@/hooks/use-translation';
 import MemberLayout from '@/layouts/member-layout/member-layout';
@@ -9,7 +7,7 @@ import useAppStore from '@/store';
 import { usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 
-export default function MyProfilePage() {
+export default function MyBookings() {
     const store = useAppStore();
     const { auth, success, warning } = usePage<any>().props;
 
@@ -27,8 +25,6 @@ export default function MyProfilePage() {
 
     return (
         <>
-            <CancelBookingModal />
-            <ChoosePaymentMethod />
             <MemberLayout breadcrumbds={[]}>
                 <div className="mx-auto max-w-4xl px-4 md:px-0">
                     <PageTitle title={t('My bookings')} />

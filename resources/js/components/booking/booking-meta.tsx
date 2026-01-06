@@ -1,24 +1,29 @@
 import TableActions from '@/components/shared/table-actions';
 import useTranslation from '@/hooks/use-translation';
-import { formatDate } from '@/lib/utils';
 import { Booking } from '@/store/Booking';
 
 export const BookingStatusMap: any = {
     pending: 'Waiting Payment',
-    completed: 'Completed',
+    notified: 'Payment notified',
     paid: 'Paid',
-    confirmed: 'Confirmed',
-    cancelled: 'Cancelled',
-    rejected: 'Rejected',
+    completed: 'Completed',
 };
+
+export const BookingStatusOptions = [
+    { value: 'pending', label: 'Waiting payment' },
+    {
+        value: 'notified',
+        label: 'Payment notified',
+    },
+    { value: 'paid', label: 'Paid' },
+    { value: 'completed', label: 'Completed' },
+];
 
 export const BookingStatusColors: any = {
     pending: 'bg-orange-800 text-white',
+    notified: 'bg-blue-700 text-white',
     paid: 'bg-green-700 text-white',
-    confirmed: 'bg-blue-700 text-white',
-    cancelled: 'bg-red-700 text-white',
-    completed: 'bg-sky-700 text-white',
-    rejected: 'bg-red-700 text-white',
+    completed: 'bg-green-700 text-white',
 };
 
 export const BookingCarTypeMap: any = {
@@ -26,9 +31,8 @@ export const BookingCarTypeMap: any = {
     bus: 'bus',
 };
 
-// --- Table Columns (Translated - uses t() hook) ---
 export const BookingTableColumns = ({ onView, onEdit, onDelete }: { onView?: any; onEdit?: any; onDelete?: any }) => {
-    const { t } = useTranslation();
+    const { t, formatDate } = useTranslation();
 
     return [
         {

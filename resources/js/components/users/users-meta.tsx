@@ -1,5 +1,5 @@
 import TableActions from '@/components/common/TableActions';
-import { formatDate } from '@/lib/utils';
+import useTranslation from '@/hooks/use-translation';
 import { getFullName, User } from '@/store/User';
 import { Link } from '@inertiajs/react';
 import Avatar from '../ui/avatar';
@@ -41,6 +41,7 @@ export const gendersMap: any = {
 };
 
 export const UsersTableColumns = ({ onView, onEdit, onDelete }: { onView?: any; onEdit?: any; onDelete?: any }) => {
+    const { t, formatDate } = useTranslation();
     return [
         {
             header: 'Nom',
@@ -52,9 +53,7 @@ export const UsersTableColumns = ({ onView, onEdit, onDelete }: { onView?: any; 
                     </div>
 
                     <div className="text-gray-800">
-                        <Link href={`/admin/users/${item.id}`} className="cursor-pointer hover:text-blue-800 hover:underline">
-                            {getFullName(item)}
-                        </Link>
+                        <Link href={`/admin/users/${item.id}`}>{getFullName(item)}</Link>
                         <p className="text-gray-500"> {item.email}</p>
                     </div>
                 </div>

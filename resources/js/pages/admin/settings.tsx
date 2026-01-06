@@ -6,7 +6,7 @@ import { useSimpleForm } from '@/hooks/use-simple-form';
 import useTranslation from '@/hooks/use-translation';
 import AppLayout from '@/layouts/app-layout/app-layout';
 import useAppStore from '@/store';
-import { getSettingObject } from '@/store/Setting';
+import { Setting } from '@/store/Setting';
 import { Loader2 } from 'lucide-react';
 import { useEffect } from 'react';
 
@@ -17,8 +17,8 @@ export default function SettingsPage() {
     const form = useSimpleForm({});
 
     useEffect(() => {
-        store.setting.queryFetch({ code: '', name: '', value: '' }).then((items: any[]) => {
-            const settingsObj = getSettingObject(items);
+        store.setting.fetch().then((items: any[]) => {
+            const settingsObj = Object.fromEntries(items.map((item: Setting) => [item.code, item.value]));
 
             // On prend TOUT ce qui vient de la DB → zéro filtre
             const formValues = items.reduce(

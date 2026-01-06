@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Booking;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Setting;
-use App\Services\Booking\SaveBooking;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 
 class UpdateBooking extends Controller
 {
@@ -32,7 +30,7 @@ class UpdateBooking extends Controller
         ]);
 
         $settings = Setting::all()->pluck('value', 'code');
-        $workersCost  = $settings['price_per_worker'] * $data['workers'];
+        $workersCost  = $settings['worker_tax'] * $data['workers'];
         $durationCost = $settings['price_per_hour']    * $data['duration'];
         $carsCost     = isset($data['car_type']) ?  $data['transport_price'] : 0;
 

@@ -1,11 +1,9 @@
 import DatePicker from '@/components/ui/datepicker';
 import Show from '@/components/ui/show';
 import useTranslation from '@/hooks/use-translation';
-import { cn, formatDate } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import useAppStore from '@/store';
-import { getSettingObject } from '@/store/Setting';
-import { Slot } from '@/store/Slot';
-import { format, subDays } from 'date-fns';
+import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 
 interface Props {
@@ -13,7 +11,7 @@ interface Props {
     showError?: boolean;
 }
 
-function generateTimeSlots(date: Date = new Date(), start: string = '08:00', end: string = '18:00', interval: number = 30): Date[] {
+function generateTimeSlots(date: Date = new Date(), start: string = '08:00', end: string = '21:00', interval: number = 30): Date[] {
     const slots: Date[] = [];
 
     const baseDate = new Date(date);
@@ -45,60 +43,10 @@ export default function BookingDateStep({ form, showError = true }: Props) {
 
     const [date, setDate] = useState<string>(form.values.date.toISOString().split('T')[0]);
     const [times, setTimes] = useState<Date[]>([]);
-    const [disabledDates, setDisabledDates] = useState<string[]>();
 
-    // Update times whenever the selected date changes
     useEffect(() => {
-        const slot: Slot = store.slot.items.find((item) => {
-            return formatDate(item.date, 'yyyy-MM-dd') == date;
-        }) as Slot;
-        if (slot) {
-            setTimes(generateTimeSlots(new Date(slot.date), format(new Date(slot.from_hour), 'HH:00'), format(new Date(slot.to_hour), 'HH:00')));
-        }
+        setTimes(generateTimeSlots(new Date(date)));
     }, [date, store.slot.items]);
-
-    useEffect(() => {
-        store.slot.fetch().then((items) => {
-            // Map slots by date for quick lookup
-            const slotByDates: Record<string, any[]> = {};
-            items.forEach((slot: any) => {
-                const key = new Date(slot.date).toISOString().split('T')[0];
-                if (!slotByDates[key]) slotByDates[key] = [];
-                slotByDates[key].push(slot);
-            });
-
-            // Generate disabledDates: all dates from today to 1 year ahead except dates with slots
-            const today = subDays(new Date(), 1);
-            const farFuture = new Date();
-            farFuture.setMonth(farFuture.getMonth() + 12);
-
-            const list: string[] = [];
-            for (let d = new Date(today); d <= farFuture; d.setDate(d.getDate() + 1)) {
-                const iso = d.toISOString().split('T')[0];
-                if (!slotByDates[iso]) {
-                    list.push(iso);
-                }
-            }
-            setDisabledDates(list);
-        });
-    }, []);
-
-    // Transport Price computation
-    const [settings, setSettings] = useState<Record<string, any>>({
-        car_price_weekday_job: 0,
-        car_price_weekend_job: 0,
-        fee_per_km: 0,
-        available_workers: 0,
-    });
-
-    useEffect(() => {
-        store.setting
-            .fetch()
-            .then((items: any) => {
-                setSettings(getSettingObject(items));
-            })
-            .catch(store.errors.catch);
-    }, []);
 
     return (
         <>
@@ -110,7 +58,7 @@ export default function BookingDateStep({ form, showError = true }: Props) {
                         className="w-auto p-0"
                         limitLeft={new Date()}
                         date={date}
-                        disabledDates={disabledDates}
+                        disabledDates={[]}
                         onPick={(pickedDate) => {
                             if (form.values.time) {
                                 pickedDate.setHours(form.values.time.getHours());

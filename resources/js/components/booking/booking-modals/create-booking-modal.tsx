@@ -19,62 +19,68 @@ export function CreateBookingModal() {
 
     const display = store.display;
     const isVisible = display.visible[name];
-    const toggleModal = () => display.toggle(name);
+    //const toggleModal = () => display.toggle(name);
     const [reachedSteps, setReachedSteps] = useState<number[]>([0]);
-    const [step, setStep] = useState<number>(0);
+    const [step, setStep] = useState<number>(3);
     const modalRef = useRef<any>(undefined);
 
     const { t } = useTranslation();
 
-    const form = useSimpleForm({
-        date: new Date(),
-        time: undefined,
-        from_city: '',
-        from_postal_code: '',
-        from_street: '',
-        to_city: '',
-        to_street: '',
-        to_postal_code: '',
-        workers: 2,
-        car_type: undefined,
-        duration: 2,
-        amount: 0,
-        transport_price: 0,
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone_number: '',
-        password: '',
-        with_account: true,
-        user_id: undefined,
-    });
     // const form = useSimpleForm({
-    //     date: new Date('2025-02-15'),
+    //     date: new Date(),
     //     time: undefined,
-
-    //     from_city: 'Berlin',
-    //     from_street: 'Alexanderplatz 5',
-    //     from_postal_code: '12345',
-
-    //     to_city: 'Hamburg',
-    //     to_street: 'Reeperbahn 120',
-    //     to_postal_code: '12345',
-
+    //     from_city: '',
+    //     from_postal_code: '',
+    //     from_street: '',
+    //     to_city: '',
+    //     to_street: '',
+    //     to_postal_code: '',
     //     workers: 2,
-    //     car_type: 'van',
+    //     car_type: undefined,
     //     duration: 2,
-    //     amount: 300,
-    //     transport_price: 150,
-
-    //     first_name: 'Marie',
-    //     last_name: 'Keller',
-    //     email: 'marie.keller@example.com',
-    //     phone_number: '+49 151 2345678',
-    //     password: 'password',
-
-    //     with_account: false,
+    //     amount: 0,
+    //     distance: 0,
+    //     transport_price: 0,
+    //     first_name: '',
+    //     last_name: '',
+    //     email: '',
+    //     phone_number: '',
+    //     password: '',
+    //     with_account: true,
     //     user_id: undefined,
     // });
+    const form = useSimpleForm({
+        date: new Date('2025-02-15'),
+        time: undefined,
+
+        from_city: 'Berlin',
+        from_street: 'Alexanderplatz 5',
+        from_postal_code: '12345',
+
+        to_city: 'Hamburg',
+        to_street: 'Reeperbahn 120',
+        to_postal_code: '12345',
+
+        workers: 2,
+        car_type: 'van',
+        distance: 10,
+        duration: 2,
+        amount: 300,
+        transport_price: 150,
+
+        first_name: 'Marie',
+        last_name: 'Keller',
+        email: 'marie.keller@example.com',
+        phone_number: '+49 151 2345678',
+        password: 'password',
+
+        with_account: false,
+        user_id: undefined,
+    });
+
+    useEffect(() => {
+        store.setting.fetch({});
+    }, []);
 
     useEffect(() => {
         if (isVisible) {
@@ -94,7 +100,6 @@ export function CreateBookingModal() {
             window.scrollTo(0, parseInt(scrollY || '0') * -1);
         }
     }, [isVisible]);
-
     if (!isVisible) return null;
 
     const nextStep = () => {
@@ -140,10 +145,13 @@ export function CreateBookingModal() {
                 'to_postal_code',
                 'email',
                 'workers',
+                'distance',
                 'car_type',
                 'duration',
                 'transport_price',
                 'user_id',
+                'first_name',
+                'last_name',
             ]),
             ...pick(form.values, ['first_name', 'last_name', 'phone_number', 'email', 'password']),
         };
@@ -173,10 +181,10 @@ export function CreateBookingModal() {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex h-screen w-full items-center justify-center bg-black/50" onClick={toggleModal}>
+        <div className="fixed inset-0 z-50 flex h-screen w-full items-center justify-center bg-black/50">
             <div
                 ref={modalRef}
-                className={cn('relative max-h-[100vh] overflow-y-auto bg-white md:max-h-[90vh] md:min-w-[900px]')}
+                className={cn('relative max-h-[100vh] overflow-y-auto bg-white md:min-h-[90vh] md:w-[1000px]')}
                 onClick={(e) => e.stopPropagation()}
             >
                 <button
@@ -188,7 +196,7 @@ export function CreateBookingModal() {
                     <X />
                 </button>
                 <div className="md:flex">
-                    <div className="bg-primary-500/70 w-full shrink-0 py-6 md:w-[250px]">
+                    <div className="bg-primary-500/70 w-full shrink-0 py-6 md:min-h-[90vh] md:w-[250px]">
                         <h3 className="text-semibold mt-4 px-6 text-2xl font-semibold text-white">
                             <span className="font-light">{t('Book a relocation')} </span>
                             <span>{t('prestation')}</span>

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Booking;
 
 use App\Http\Controllers\Controller;
-use App\Services\Booking\SaveBooking;
+use App\Services\TokenService;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
 
 class CreateBooking extends Controller
@@ -13,7 +12,7 @@ class CreateBooking extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(Request $request)
     {
 
         $validated = $request->validate([
@@ -23,7 +22,10 @@ class CreateBooking extends Controller
             'to_city'        => 'required',
             'from_street'    => 'required',
             'to_street'      => 'required',
+            'first_name'     => 'required',
+            'last_name'      => 'required',
             'email'          => 'required|email',
+            'distance'       => 'required',
             'workers'        => 'required|integer|min:1|max:100',
             'car_type'       => ['nullable', Rule::in(['bus', 'van'])],
             'duration'       => 'required|numeric|min:2',
@@ -33,8 +35,13 @@ class CreateBooking extends Controller
         $validated['user_id'] = $request->input("user_id");
 
         try { 
-            $booking = SaveBooking::run($validated, $request->input('lang', 'en'));
+            $booking = SaveBooking::call($validated, $request->input('lang', 'en'));
+            $booking->token = TokenService::generate([
+                'id' => $booking->id
+            ]);
+
         }catch(\Exception $e){
+
             return response()->json([
                 'message' => $e->getMessage()
             ],409);

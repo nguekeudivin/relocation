@@ -1,19 +1,6 @@
 import { addDays, addHours, getDay, isBefore, startOfDay } from 'date-fns';
 import { z } from 'zod';
 
-const coerceDate = (t: any) =>
-    z.preprocess(
-        (value) => {
-            if (value instanceof Date) return value;
-            if (typeof value === 'string' || typeof value === 'number') {
-                const d = new Date(value);
-                return isNaN(d.getTime()) ? undefined : d;
-            }
-            return undefined;
-        },
-        z.date({ required_error: t('A valid date is required.') }),
-    );
-
 export const CreateBookingFormSchema = (t: any, formValues: any) => [
     z.object({
         from_city: z.string({ required_error: t(`Pick-up city  is required.`) }).min(1, t(`Pick-up city  is required.`)),
@@ -71,11 +58,11 @@ export const CreateBookingFormSchema = (t: any, formValues: any) => [
 
         duration: z.coerce
             .number({
-                required_error: 'Duration is required',
-                invalid_type_error: 'Duration must be a number',
+                required_error: t('Duration is required'),
+                invalid_type_error: t('Duration must be a number'),
             })
-            .int({ message: 'Duration must be a whole number' })
-            .min(2, { message: 'Duration must be at least 2 hours' }),
+            .int({ message: t('Duration must be a whole number') })
+            .min(2, { message: t('Duration must be at least 2 hours') }),
     }),
 ];
 

@@ -10,8 +10,6 @@ class GetBookings extends Controller
 {
     public function __invoke(Request $request)
     {
-        $page     = $request->input('page', 1);
-        $perPage  = $request->input('per_page', 15);
         $keyword  = $request->input('keyword');
         $status   = $request->input('status');
         $userId   = $request->input('user_id');
@@ -48,10 +46,15 @@ class GetBookings extends Controller
             $query->whereIn('status', $statuses);
         }
 
-        $bookings = $query
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage, ['*'], 'page', $page);
+        $query = $query
+            ->orderBy('created_at', 'desc');
 
-        return response()->json($bookings);
+        if($request->has('page') || $request->has('per_page')){
+           $per_page = $request->input('per_page', 15);
+           return response()->json($query->paginate($per_page));
+        }else{
+           return response()->json($query->get());
+        }
+
     }
 }

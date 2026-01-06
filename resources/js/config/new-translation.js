@@ -24,3 +24,4 @@ export default {
 // booking-details-step
 // booking-schema
 // save-booking
+// booking-car

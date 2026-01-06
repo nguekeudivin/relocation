@@ -13,7 +13,7 @@ use Inertia\Response;
 use App\Models\Chat;
 use App\Models\User;
 use App\Models\Role;
-use App\Services\Booking\SaveBooking;
+use App\Http\Controllers\Booking\SaveBooking;
 use Illuminate\Support\Facades\DB; 
 use App\Mail\User\AccountCreatedMail;
 use App\Mail\User\AccountCreatedAdminMail;
@@ -52,7 +52,7 @@ class RegisteredUserController extends Controller
             if ($request->has('booking')) {
                 $data = $request->booking;
                 $data['user_id'] = $user->id;
-                $booking = SaveBooking::run($data);
+                $booking = SaveBooking::call($data, $request->input('lang', 'en'));
             }
 
             // Create a chat discussion.
@@ -67,13 +67,6 @@ class RegisteredUserController extends Controller
             }
 
             DB::commit();
-
-            Mail::to($booking->email)->queue(
-             new AccountCreatedMail($user)
-            );
-            Mail::to(User::getAdmin()->email)->queue(
-                new AccountCreatedAdminMail($user)
-            );
 
             event(new Registered($user));
             Auth::login($user);

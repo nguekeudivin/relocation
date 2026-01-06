@@ -12,6 +12,7 @@ export interface Booking {
     workers: number; // Number of workers
     duration: number; // Duration in hours
     amount: number; // Total price
+    distance: number;
     tax: number;
     email: string;
     status: string;
@@ -22,6 +23,10 @@ export interface Booking {
     created_at?: string | Date; // Timestamp
     updated_at?: string | Date; // Timestamp
     user: User;
+    //
+    token: string;
+    first_name: string;
+    last_name: string;
 }
 
 interface BookingStore extends ResourceStore<Booking> {
@@ -31,6 +36,7 @@ interface BookingStore extends ResourceStore<Booking> {
     reject: (id: number) => Promise<any>;
     confirm: (id: number) => Promise<any>;
     complete: (id: number) => Promise<any>;
+    notifyPayment: (id: number) => Promise<any>;
 }
 
 export const useBooking = createResourceStore<Booking, BookingStore>('bookings', (set, get) => ({
@@ -55,6 +61,9 @@ export const useBooking = createResourceStore<Booking, BookingStore>('bookings',
     complete: (id: number) => {
         return apiClient().post(`/bookings/${id}/complete`);
     },
+    notifyPayment: (id: number) => {
+        return apiClient().post(`/bookings/${id}/notify`);
+    },
 }));
 
 export const getTransportBasePrice = ({ date, settings }: { date: any; settings: any }) => {
@@ -66,4 +75,35 @@ export const getTransportBasePrice = ({ date, settings }: { date: any; settings:
 
     // Update form values
     return basePrice;
+};
+
+export const getWorkerTax = (form: any, settings: any) => {
+    return parseFloat(form.values.workers) * parseFloat(settings.worker_tax);
+};
+
+export const getVehicleTax = (form: any, settings: any) => {
+    return parseFloat(form.values.transport_price) + parseFloat(settings.fee_per_km) * parseInt(form.values.distance) * 2;
+};
+
+export const getDurationCost = (form: any, settings: any) => {
+    return parseFloat(form.values.workers) * form.values.duration * parseFloat(settings.price_per_hour);
+};
+
+export const createBookingInstance = (form: any, settings: any) => {
+    return {
+        origin: {
+            city: form.values.from_city,
+            street: form.values.from_street,
+        },
+        destination: {
+            city: form.values.to_city,
+            street: form.values.to_street,
+        },
+        workers: form.values.workers,
+        duration: form.values.duration,
+        car_type: form.values.car_type,
+        distance: form.values.distance,
+        amount: getWorkerTax(form, settings) + getVehicleTax(form, settings) + getDurationCost(form, settings),
+        tax: getWorkerTax(form, settings) + getVehicleTax(form, settings),
+    };
 };

@@ -2,12 +2,13 @@ import { BookingStatusColors, BookingStatusMap } from '@/components/booking/book
 import { Button } from '@/components/ui/button';
 import Show from '@/components/ui/show';
 import useTranslation from '@/hooks/use-translation';
-import { cn, formatDate } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import useAppStore from '@/store';
 import { Booking } from '@/store/Booking';
 import { Link } from '@inertiajs/react';
-import { Bus, Clock, Pencil, Users, X } from 'lucide-react';
+import { Bus, Check, Clock, FileText, Map, Pencil, UserIcon, Users } from 'lucide-react';
 import { ReactNode } from 'react';
+import { Alert } from '../ui/alert';
 
 interface Props {
     booking: Booking;
@@ -16,22 +17,38 @@ interface Props {
 }
 
 export default function BookingCard({ booking, header, mode }: Props) {
-    const { t } = useTranslation();
+    const { t, formatDate } = useTranslation();
     const store = useAppStore();
-
-    const canPay = booking.status == 'pending' && mode == 'user';
+    const notifyPayment = () => {
+        store.booking
+            .notifyPayment(booking.id)
+            .then(() => {
+                store.display.show('notify_payment_success');
+            })
+            .catch(store.errors.catch);
+    };
 
     return (
         <div className="overflow-hidden border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
             <div>{header}</div>
+            <Alert name="notify_payment_success" message={t('Payment notification send with succeess')} />
             <div className="flex flex-col md:flex-row">
                 {/* Partie gauche : trajet + date */}
-                <div className="flex-1 p-6">
-                    <div className="flex items-center justify-between">
-                        <time className="text-my-dark text-lg font-bold">{formatDate(new Date(booking.date), 'dd MMM yyyy, HH:mm')}</time>
+                <div className="flex-1 p-6 md:relative">
+                    {mode == 'admin' && (
+                        <div className="flex items-center gap-2 text-gray-600">
+                            <UserIcon className="h-4 w-4" />
+                            <span className="font-bold">
+                                {booking.first_name} {booking.last_name}
+                            </span>
+                        </div>
+                    )}
+
+                    <div className="mt-4 flex items-center justify-between">
+                        <time className="text-my-dark font-bold">{formatDate(new Date(booking.date), 'dd MMM yyyy, HH:mm')}</time>
                     </div>
 
-                    <div className="mt-5 flex items-start gap-4">
+                    <div className="mt-2 flex items-start gap-4">
                         <div className="flex flex-col items-center">
                             <div className="bg-my-dark h-3 w-3 rounded-full" />
                             <div className="bg-my-dark/30 my-2 h-20 w-0.5" />
@@ -51,28 +68,46 @@ export default function BookingCard({ booking, header, mode }: Props) {
                         </div>
                     </div>
 
-                    <Show when={booking.status == 'pending' && mode == 'user'}>
-                        <div className="mt-4 flex items-center gap-4 text-sm">
-                            <Link href={`/user/bookings/${booking.id}/edit`} className="flex items-center gap-1 hover:underline">
+                    <div className="absolute mt-8 flex items-center gap-4 text-sm md:bottom-6">
+                        <Show when={mode == 'admin'}>
+                            <Show when={booking.status == 'notified'}>
+                                <button
+                                    onClick={() => {
+                                        store.booking.setCurrent(booking as any);
+                                        store.display.show('confirm_booking');
+                                    }}
+                                    className="flex items-center gap-1 border-2 border-green-600 px-4 py-1.5 font-semibold text-green-600 hover:underline"
+                                >
+                                    <Check className="h-4 w-4" />
+                                    {t('Confirm payment')}
+                                </button>
+                            </Show>
+                            <Show when={booking.status == 'paid'}>
+                                <button
+                                    onClick={() => {
+                                        store.booking.setCurrent(booking as any);
+                                        store.display.show('complete_booking');
+                                    }}
+                                    className="flex items-center gap-1 border-2 border-blue-600 bg-sky-50 px-4 py-1.5 font-semibold text-blue-600 hover:underline"
+                                >
+                                    <Check className="h-4 w-4" />
+                                    {t('Mark as complete')}
+                                </button>
+                            </Show>
+                        </Show>
+
+                        <Show when={booking.status == 'pending' && mode == 'user'}>
+                            <Link href={`/user/bookings/${booking.id}/edit`} className="flex items-center gap-1 border-2 p-2 px-4 hover:underline">
                                 <Pencil className="h-3 w-3" />
                                 {t('Edit')}
                             </Link>
-                            <button
-                                onClick={() => {
-                                    store.booking.setCurrent(booking as any);
-                                    store.display.show('cancel_booking');
-                                }}
-                                className="flex items-center gap-1 text-red-700 hover:underline"
-                            >
-                                <X className="h-3 w-3" />
-                                {t('Cancel')}
-                            </button>
-                        </div>
-                    </Show>
+                            <Button onClick={notifyPayment}>{t('Notify paiement')}</Button>
+                        </Show>
+                    </div>
                 </div>
 
                 {/* Partie droite : détails + prix */}
-                <div className="bg-my-gray relative flex-1 p-6">
+                <div className="bg-my-gray relative flex-2 p-6">
                     <div className="space-y-2">
                         <div className="flex items-center gap-3">
                             <Bus className="text-my-dark/70 h-5 w-5" />
@@ -92,29 +127,29 @@ export default function BookingCard({ booking, header, mode }: Props) {
                                 {booking.duration} {t('hours')}
                             </span>
                         </div>
+                        <div className="flex items-center gap-3">
+                            <Map className="text-my-dark/70 h-5 w-5" />
+                            <span className="text-my-dark">
+                                {t('Distance')} {booking.distance}km x 2
+                            </span>
+                        </div>
                     </div>
 
                     <div className="border-my-dark/20 my-4 border-t border-dashed"></div>
 
                     <div className="">
-                        {canPay && (
-                            <>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-sm font-medium">{t('Total HT')}</span>
-                                    <span className="font-semibold">{booking.amount} €</span>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-sm font-medium">{t('Tax')}</span>
-                                    <span className="font-semibold">{booking.tax} €</span>
-                                </div>
-                            </>
-                        )}
+                        <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium">{t('Total HT')}</span>
+                            <span className="font-semibold">{booking.amount} €</span>
+                        </div>
+                        <div className="my-1 border-t border-gray-300"></div>
 
                         <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium">{t('Total amount')}</span>
-                            <span className="font-semibold">{parseFloat(booking.amount as any) + parseFloat(booking.tax as any)} €</span>
+                            <span className="text-sm font-medium">{t('Reversation fee (workers and vehicle taxes):')}</span>
+                            <span className="font-semibold">{booking.tax} €</span>
                         </div>
                     </div>
+
                     <div className="absolute top-4 right-4">
                         <span
                             className={cn(
@@ -125,24 +160,26 @@ export default function BookingCard({ booking, header, mode }: Props) {
                             {t(BookingStatusMap[booking.status])}
                         </span>
                     </div>
-                    {canPay && (
-                        <>
+                    <>
+                        {mode == 'user' && (
                             <p className="mt-4 rounded-md bg-blue-50 p-2 text-sm text-blue-900">
                                 {t('You paid only the tax online. The remaining amount will be pay to the workers at the end of the job')}
                             </p>
-                            <div className="mt-4">
-                                <Button
-                                    color="secondary"
-                                    onClick={() => {
-                                        window.location.assign(window.location.origin + `/bookings/${booking.id}/pay`);
-                                    }}
-                                    className="px-2 py-2 text-sm"
-                                >
-                                    Click to pay
-                                </Button>
-                            </div>
-                        </>
-                    )}
+                        )}
+
+                        <div className="mt-4">
+                            <Button
+                                color="secondary"
+                                onClick={() => {
+                                    window.open(`/bookings/${booking.id}/invoice`, '_blank');
+                                }}
+                                className="flex items-center gap-2"
+                            >
+                                <FileText className="h-4 w-4" />
+                                {t('View invoice')}
+                            </Button>
+                        </div>
+                    </>
                 </div>
             </div>
         </div>

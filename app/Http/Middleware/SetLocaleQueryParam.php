@@ -20,10 +20,10 @@ class SetLocaleQueryParam
         if ($request->has('lang')) {
             $locale = $request->query('lang','en');
             App::setLocale($locale);
+        }else{
+            // Optionally, you can append the app locale to the request object
+            $request->merge(['lang' => App::getLocale()]);
         }
-
-        // Optionally, you can append the app locale to the request object
-        $request->merge(['lang' => App::getLocale()]);
 
         return $next($request);
     }

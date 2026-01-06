@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 
 import Logo from '@/components/common/Logo';
 import { Link } from '@inertiajs/react';
-import { BanknoteIcon, CalendarDays, Caravan, LayoutDashboard, LogOut, MessageCircle, Settings, Users } from 'lucide-react';
+import { CalendarDays, Caravan, LayoutDashboard, LogOut, MessageCircle, Settings, Users } from 'lucide-react';
 import { Menu } from './menu';
 import TopBar from './top-bar';
 
@@ -20,13 +20,8 @@ const menu = [
     },
     {
         route: '/admin/users',
-        label: 'Users',
+        label: 'Clients',
         icon: Users,
-    },
-    {
-        route: '/admin/payments',
-        label: 'Payments',
-        icon: BanknoteIcon,
     },
     {
         route: '/admin/bookings',

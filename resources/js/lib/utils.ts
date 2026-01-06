@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 // utils/formatDate.ts
-import { format as formatFn } from 'date-fns';
+import { format as formatFn, isValid, parseISO } from 'date-fns';
 import { enUS, fr } from 'date-fns/locale';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 
@@ -89,14 +89,25 @@ export function valueIsSet(value: any) {
     }
 }
 
-export function formatDate(date: string | Date | null | undefined, format: string = 'd MMMM yyyy', locale: string = 'en'): string {
+export function formatDate(date: string | Date | null | undefined, formatStr: string = 'd MMMM yyyy', locale: string): string {
     if (!date) return '';
 
-    const localesMap: any = {
-        fr,
-        en: enUS,
-    };
-    return formatFn(new Date(date), format, { locale: localesMap[locale] });
+    // 1. Dictionnaire des locales encapsulé
+    const localesMap: any = { fr, en: enUS };
+
+    // 2. Conversion sécurisée en objet Date
+    // parseISO est essentiel pour les chaînes provenant d'une API
+    const parsedDate = typeof date === 'string' ? parseISO(date) : date;
+
+    // 3. Validation pour éviter les crashs si la string est malformée
+    if (!isValid(parsedDate)) {
+        return '';
+    }
+
+    // 4. Formatage final (On force le cast en Date car isValid garantit la validité)
+    return formatFn(parsedDate as Date, formatStr, {
+        locale: localesMap[locale],
+    });
 }
 
 /**

@@ -6,10 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\Booking\BookingCompletedMail;
-use App\Mail\Booking\BookingCompletedAdminMail;
-use App\Models\User;
 
 class CompleteBooking extends Controller
 {
@@ -21,7 +17,7 @@ class CompleteBooking extends Controller
             ], 422);
         }
 
-        if (!in_array($booking->status, ['confirmed'])) {
+        if (!in_array($booking->status, ['paid'])) {
             return response()->json([
                 'message' => 'Only confirmed bookings can be marked as completed.'
             ], 422);
@@ -30,9 +26,6 @@ class CompleteBooking extends Controller
         $booking->update([
             'status' => 'completed'
         ]);
-
-        Mail::to($booking->email)->queue(new BookingCompletedMail($booking));
-        Mail::to(User::getAdmin()->email)->queue(new BookingCompletedAdminMail($booking));
 
         $booking->refresh();
         $booking->load(Booking::LOAD);

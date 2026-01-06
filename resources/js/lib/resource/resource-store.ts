@@ -1,43 +1,10 @@
 import { useLoading } from '@/hooks/use-loading';
 import { create } from 'zustand';
 import { apiClient } from '../http';
-import { createQuery, execute, shape } from '../query';
 import { createPrimitive, destroyPrimitive, fakePagination, loadingKey, updatePrimitive, withLoading } from './primitives';
 import { BaseResourceStore, ID, Operation, Pagination } from './type';
 
 export const initResourceStore = <T>(index: string, set: any, get: any): BaseResourceStore<T> => {
-    const runQuery = <T>(q: any, one: boolean = false): Promise<any> => {
-        return execute(q).then((res: any) => {
-            // If there is no data on the result.
-            if (!res.hasOwnProperty('data')) {
-                return Promise.resolve(one ? {} : []);
-            }
-
-            if (res.data == undefined) return Promise.resolve(one ? {} : []);
-
-            if (!res.data.hasOwnProperty(index)) return Promise.resolve(one ? {} : []);
-
-            if (res.data[index].length == 0) return Promise.resolve(one ? {} : []);
-
-            if (one) {
-                set({ current: res.data[index][0], pagination: fakePagination([]) });
-                return Promise.resolve(res.data[index][0]);
-            } else {
-                if (q[index].paginate) {
-                    if (res.data[index].hasOwnProperty('data')) {
-                        get().setPaginated(res.data[index], res.data[index].data as T[]);
-                        return Promise.resolve(res.data[index].data);
-                    } else {
-                        return Promise.resolve([]);
-                    }
-                } else {
-                    get().setPaginated(fakePagination(res.data[index]), res.data[index] as T[]);
-                    return Promise.resolve(res.data[index]);
-                }
-            }
-        });
-    };
-
     return {
         items: [],
         pagination: fakePagination([]) as Pagination,
@@ -65,14 +32,6 @@ export const initResourceStore = <T>(index: string, set: any, get: any): BaseRes
                     items: items.map((item: T) => get().transform(item)),
                 };
             });
-        },
-
-        queryFetch: (q: any = {}) => {
-            return runQuery(createQuery({ [index]: q }));
-        },
-
-        queryFetchOne: (q: any = {}) => {
-            return runQuery(createQuery({ [index]: shape(q).limit(1) }), true);
         },
 
         fetch: (params: any = {}) => {

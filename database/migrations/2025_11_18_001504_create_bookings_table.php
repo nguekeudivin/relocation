@@ -15,6 +15,8 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('email');
             $table->datetime('date');
             $table->unsignedBigInteger('origin_id');
@@ -23,7 +25,9 @@ return new class extends Migration
             $table->string('car_type')->nullable();
             $table->integer('duration');
             $table->decimal('amount');
-            $table->decimal('tax');
+            $table->decimal('worker_tax');
+            $table->decimal('car_tax');
+            $table->decimal('duration_cost');
             $table->text('observation')->nullable();
             $table->enum('status',Booking::STATUSES)->default('pending');
             $table->timestamps();

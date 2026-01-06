@@ -1,5 +1,6 @@
 'use client';
 
+import useTranslation from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
@@ -16,6 +17,7 @@ interface CustomerCalendarProps {
 export default function DatePicker({ date, limitLeft, limitRight, disabledDates = [], onPick, className }: CustomerCalendarProps) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [highlightedDate, setHighlightedDate] = useState<string | undefined>(date);
+    const { t } = useTranslation();
 
     // Convert array to Set for fast lookup
     const disabledSet = new Set(disabledDates);
@@ -107,7 +109,7 @@ export default function DatePicker({ date, limitLeft, limitRight, disabledDates 
         <div className={cn('w-[400px] bg-white p-4', className)}>
             <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <h2 className="font-semibold">{currentDate.toLocaleString('default', { month: 'long' })}</h2>
+                    <h2 className="font-semibold">{t(currentDate.toLocaleString('default', { month: 'long' }))}</h2>
                 </div>
                 <div className="flex gap-2">
                     <button
@@ -136,7 +138,7 @@ export default function DatePicker({ date, limitLeft, limitRight, disabledDates 
             <div className="mt-2 grid w-full grid-cols-7 gap-4">
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
                     <div key={day} className="flex items-center text-center font-medium text-gray-700">
-                        {day}
+                        {t(day)}
                     </div>
                 ))}
                 {renderCalendar()}

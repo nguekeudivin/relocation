@@ -47,9 +47,6 @@ interface AbstractResourceStore<T> {
 export interface BaseResourceStore<T> extends AbstractResourceStore<T> {
     pagination: Pagination;
     items: T[];
-    // Query Fetch
-    queryFetch: (q?: any) => Promise<any>;
-    queryFetchOne: (q?: any) => Promise<any>;
     // Client side update functions.
     setItems: (inputs: T[]) => void;
     setPaginated: (pagination: Pagination, items: T[]) => void;
