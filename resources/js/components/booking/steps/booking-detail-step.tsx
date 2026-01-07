@@ -102,7 +102,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                 <Show when={form.values.car_type != undefined}>
                     <div className="col-span-2 mt-4 space-y-4">
                         <InputField
-                            name="km"
+                            name="distance"
                             type="number"
                             label={t('How long is the distance in km ?')}
                             value={form.values.distance}
