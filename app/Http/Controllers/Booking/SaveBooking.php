@@ -16,12 +16,14 @@ class SaveBooking
         $settings = Setting::all()->pluck('value', 'code');
 
         $workerTax  = (float)$settings['worker_tax'] * (float)$data['workers'];
+        $carTax = (float)$settings['car_tax'];
         $durationCost = (float)$data['workers'] * (float)$settings['price_per_hour'] * (float)$data['duration'];
-        $carTax  = (float)$data['transport_price'] + (float)$data['distance'] * (float)$settings['fee_per_km'] * 2;
+        $transport  = (float)$data['transport_price'] + (float)$data['distance'] * (float)$settings['fee_per_km'] * 2;
 
         // Make sure that car type is correctly define.
         if(!isset($data['car_type'])){
             $carTax = 0;
+            $transport = 0;
         }
 
         $origin = Address::create([
@@ -57,6 +59,7 @@ class SaveBooking
             'amount'         => $durationCost + $carTax + $workerTax,
             'worker_tax'     => $workerTax,
             'car_tax'        => $carTax,
+            'transport'      => $transport,
             'duration_cost'  => $durationCost,
             'status'         => 'pending',
         ]);

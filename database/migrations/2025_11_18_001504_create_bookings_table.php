@@ -27,6 +27,7 @@ return new class extends Migration
             $table->decimal('amount');
             $table->decimal('worker_tax');
             $table->decimal('car_tax');
+            $table->decimal('transport');
             $table->decimal('duration_cost');
             $table->text('observation')->nullable();
             $table->enum('status',Booking::STATUSES)->default('pending');

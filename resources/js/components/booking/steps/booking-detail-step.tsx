@@ -60,30 +60,40 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
             {form.values.car_type}
 
             <div className="mb-4 grid grid-cols-1 gap-8 md:grid-cols-4">
-                <div className="col-span-2 mt-4 space-y-6">
-                    <div>
-                        <InputField
-                            name="workers"
-                            type="number"
-                            label={t('How many workers do you need?')}
-                            value={form.values.workers}
-                            onChange={(e: any) => {
-                                const value = e.target.value;
-                                if (value <= parseInt(settings.available_workers)) {
-                                    form.setValue('workers', value);
-                                }
-                            }}
-                        />
-                        <p className="mt-1 text-xs text-gray-700">{t('Availables workers : :workers', { workers: settings.available_workers })}</p>
-                    </div>
-
+                <div className="col-span-2">
                     <InputField
-                        name="duration"
+                        name="workers"
                         type="number"
-                        label={t('How long will the job take (in hours)?')}
+                        label={t('How many workers do you need?')}
+                        value={form.values.workers}
+                        onChange={(e: any) => {
+                            const value = e.target.value;
+                            if (value <= parseInt(settings.available_workers)) {
+                                form.setValue('workers', value);
+                            }
+                        }}
+                    />
+                    <p className="mt-1 text-xs text-gray-700">{t('Availables workers : :workers', { workers: settings.available_workers })}</p>
+                </div>
+                <InputField
+                    className="col-span-2"
+                    name="duration"
+                    type="number"
+                    label={t('How long will the job take (in hours)?')}
+                    value={form.values.duration}
+                    onChange={form.handleChange}
+                />
+                <div className="col-span-4">
+                    <InputField
+                        name="distance_paterborn"
+                        type="number"
+                        label={t('What is the distance the pickup place you and Paterborn ?')}
                         value={form.values.duration}
                         onChange={form.handleChange}
                     />
+                    <small>{t('You pay transport if you are outside Paterbon')}</small>
+                </div>
+                <div className="col-span-2 mt-4 space-y-6">
                     <ToggleSwitch
                         checked={form.values.car_type != undefined}
                         label={t('Does the job require vehicles?')}
@@ -99,6 +109,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                         }}
                     />
                 </div>
+
                 <Show when={form.values.car_type != undefined}>
                     <div className="col-span-2 mt-4 space-y-4">
                         <InputField

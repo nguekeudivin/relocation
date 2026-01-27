@@ -32,6 +32,7 @@ class GetInvoiceData
                 'prestation_cost'  => $booking->duration_cost,
                 'total_service'    => $booking->amount,
                 'booking_fee'      => $booking->worker_tax + $booking->car_tax,
+                'transport'       => $booking->transport,
 
                 'description' => t("Provision of a moving service including :workers assistants :transport for a total duration of up to :duration working hours. The total cost of the service is :price €, which includes the initial booking fees required to secure the date.", 
                             [

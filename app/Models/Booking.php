@@ -23,6 +23,7 @@ class Booking extends Model
         'amount',
         'worker_tax',
         'car_tax',
+        'transport',
         'duration_cost',
         'observation',
         'status'
