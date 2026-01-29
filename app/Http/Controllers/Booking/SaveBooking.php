@@ -9,6 +9,7 @@ use App\Models\Address;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingCreatedMail;
+use App\Services\TokenService;
 
 class SaveBooking
 {
@@ -74,6 +75,11 @@ class SaveBooking
             'transport'      => $transport,
             'duration_cost'  => $durationCost,
             'status'         => 'pending',
+        ]);
+
+
+        $booking->token = TokenService::generate([
+            'id' => $booking->id
         ]);
 
         Mail::to($booking->email)->send(

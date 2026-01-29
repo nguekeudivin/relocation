@@ -100,8 +100,11 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/preview-mail', function () {
     $booking = \App\Models\Booking::first(); 
+    $booking->token = \App\Services\TokenService::generate([
+            'id' => $booking->id
+        ]);
     // return new \App\Mail\BookingCreatedMail($booking, $user, $greetingName);
-    return new \App\Mail\NotifyPaymentMail($booking );
+    return new \App\Mail\BookingCreatedMail($booking);
 });
 
 require __DIR__.'/auth.php';

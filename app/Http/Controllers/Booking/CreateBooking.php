@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Booking;
 
 use App\Http\Controllers\Controller;
-use App\Services\TokenService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -37,9 +36,7 @@ class CreateBooking extends Controller
 
         try { 
             $booking = SaveBooking::call($validated, $request->input('lang', 'en'));
-            $booking->token = TokenService::generate([
-                'id' => $booking->id
-            ]);
+            
 
         }catch(\Exception $e){
 
