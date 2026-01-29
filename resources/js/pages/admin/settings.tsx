@@ -31,18 +31,22 @@ export default function SettingsPage() {
 
             form.setValues(formValues);
         });
-    }, [store.setting]);
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         store.errors.reset();
+        store.loading.start('settings');
 
         await store.setting
             .save({ settings: form.values })
             .then(() => {
                 // toast.success(t('Settings saved successfully'));
             })
-            .catch(store.errors.catch);
+            .catch(store.errors.catch)
+            .finally(() => {
+                store.loading.stop('settings');
+            });
     };
 
     // Liste des codes pour le rendu (dans l'ordre de la réponse API)
@@ -68,7 +72,7 @@ export default function SettingsPage() {
                         <div className="p-6">
                             <h2 className="mb-6 text-lg font-semibold text-gray-900">{t('All Settings')}</h2>
 
-                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                                 {settingCodes.map((code) => (
                                     <InputField
                                         key={code}
@@ -79,8 +83,8 @@ export default function SettingsPage() {
                                                 .join(' '),
                                         )}
                                         name={code}
-                                        type="number"
-                                        step="0.01"
+                                        type={code == 'notification_email' ? 'text' : 'number'}
+                                        //step="0.01"
                                         value={form.values[code] ?? ''}
                                         onChange={form.handleChange}
                                         error={store.errors.values[code]}
@@ -91,7 +95,7 @@ export default function SettingsPage() {
                         </div>
 
                         <footer className="flex justify-end border-t border-gray-200 bg-gray-50 px-6 py-4">
-                            <Button type="submit" loading={store.loading.status.setting} disabled={store.loading.status.setting}>
+                            <Button type="submit" loading={store.loading.status.settings} disabled={store.loading.status.settings}>
                                 {t('Save changes')}
                             </Button>
                         </footer>
