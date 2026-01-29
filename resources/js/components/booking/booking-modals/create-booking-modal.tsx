@@ -177,6 +177,7 @@ export function CreateBookingModal() {
                 },
             });
         } else {
+            store.loading.start('booking');
             store.booking
                 .create(data.booking)
                 .then((created) => {
@@ -187,6 +188,9 @@ export function CreateBookingModal() {
                 .catch((error) => {
                     modalRef.current.scrollTo({ top: 0 });
                     store.errors.catch(error);
+                })
+                .finally(() => {
+                    store.loading.stop('booking');
                 });
         }
     };
@@ -271,7 +275,7 @@ export function CreateBookingModal() {
                                     <Button color="outline" onClick={prevStep}>
                                         {t('Back')} <ChevronLeft className="h-4 w-4" />
                                     </Button>
-                                    <Button color="dark" onClick={submit}>
+                                    <Button color="dark" onClick={submit} loading={store.loading.status.booking}>
                                         {t('Submit')} <ChevronRight className="h-4 w-4" />
                                     </Button>
                                 </>

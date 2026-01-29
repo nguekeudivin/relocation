@@ -30,7 +30,7 @@ class ConfirmBooking extends Controller
             'status' => 'paid'
         ]);
 
-        Mail::to($booking->email)->queue(new BookingConfirmedMail($booking));
+        Mail::to($booking->email)->send(new BookingConfirmedMail($booking));
 
         $booking->refresh();
         $booking->load(Booking::LOAD);

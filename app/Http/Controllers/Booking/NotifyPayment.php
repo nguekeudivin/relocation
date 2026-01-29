@@ -17,7 +17,7 @@ class NotifyPayment extends Controller
         $booking->update(['status' => 'notified']);
         $settings = Setting::all()->pluck('value', 'code');
 
-        Mail::to($settings['notification_email'])->queue(new NotifyPaymentMail(($booking)));
+        Mail::to($settings['notification_email'])->send(new NotifyPaymentMail(($booking)));
 
         return response()->json($booking, 200);
     }

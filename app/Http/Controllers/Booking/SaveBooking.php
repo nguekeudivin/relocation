@@ -76,11 +76,11 @@ class SaveBooking
             'status'         => 'pending',
         ]);
 
-        Mail::to($booking->email)->queue(
+        Mail::to($booking->email)->send(
             new BookingCreatedMail($booking, $lang)
         );
         
-        Mail::to($settings['notification_email'])->queue(
+        Mail::to($settings['notification_email'])->send(
             new AdminBookingCreatedMail($booking, $lang)
         );
 
