@@ -9,17 +9,12 @@
 
 ---
 
-## {{ t('Payment Details') }}
-
-**{{ t('Declared Amount') }}:** **€{{ number_format($booking->amount, 2) }}** **{{ t('Booking Reference') }}:** #{{ $booking->id }}
-
-## {{ t('Booking Summary') }}
-
-**{{ t('Scheduled Date') }}:** {{ $booking->date->translatedFormat('M d, Y \\a\\t g:i A') }}
+## {{ t('Details') }}
 
 @component('mail::panel')
-**{{ t('Pickup') }}:** {{ $booking->origin->full_address }}  
-**{{ t('Destination') }}:** {{ $booking->destination->full_address }}
+{{ t('Total cost of service') }}: **{{ number_format($booking->amount, 2) }}€**  <br/>
+{{ t('Booking fee') }}: **{{ number_format($booking->workers_tax + $booking->car_tax, 2) }}€**  <br/>
+{{ t('Scheduled Date') }}:** {{ $booking->date->translatedFormat('M d, Y \\a\\t g:i A') }}**
 @endcomponent
 
 ---

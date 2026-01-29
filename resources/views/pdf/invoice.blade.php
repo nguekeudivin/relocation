@@ -27,12 +27,27 @@
 <body>
 
     <div class="page-break">
-        <div class="header">
-            <div class="company-name">Arnold Umzug</div>
-            <div>Boris Arnold</div>
-            <div>Rathenaustraße 6, 33102 Paderborn</div>
-        </div>
 
+        <table style="width:100%"> 
+            <tr> 
+                <td style="width: 75%; vertical-align: top;">
+                    <div class="header">
+                        <div class="company-name">Arnold Umzug</div>
+                            <div>Boris Arnold</div>
+                        <div>Rathenaustraße 6, 33102 Paderborn</div>
+                    </div>
+                </td>
+                <td style=""> 
+                    <div style="">
+                        <img 
+                            src="{{ public_path('images/invoice-image.png') }}" 
+                            alt="Arnold Umzug"
+                            style="height: 100px;"
+                        >
+                    </div>
+                </td>
+            </td>
+        </table>
         <table class="address-container">
             <tr>
                 <td style="width: 60%; vertical-align: top;">
@@ -66,43 +81,53 @@
                 <tr>
                     <th>{{ t('Description') }}</th>
                     <th>{{ t('Date') }}</th>
-                    <th>{{ t('Quantity') }}</th>
                     <th>{{ t('Unit') }}</th>
+                    <th>{{ t('Quantity') }}</th>
                     <th>{{ t('Price') }}</th>
-                    <th>{{ t('VAT %') }}</th>
+                    {{-- <th>{{ t('VAT %') }}</th> --}}
                     <th style="text-align: right;">{{ t('Amount') }}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>{{ t('Worker Tax:') }}</strong> ({{ number_format($worker_tax_unit, 2) }}€) x {{ $workers }} {{ t('workers') }}</td>
+                    <td><strong>{{ t('Workers Tax:') }}</strong></td>
                     <td>{{ $date }}</td>
-                    <td>{{ number_format($workers, 2, '.', '') }}</td>
                     <td>{{ t('Pcs.') }}</td>
+                    <td>{{ number_format($workers, 2, '.', '') }}</td>
                     <td>{{ number_format($worker_tax_unit, 2, '.', ',') }} €</td>
-                    <td>0.00%</td>
-                    <td style="text-align: right;">{{ number_format($worker_tax_total, 2, '.', ',') }} €</td>
+                    {{-- <td>0.00%</td> --}}
+                    <td style="text-align: right;">{{ number_format($workers_tax, 2, '.', ',') }} €</td>
                 </tr>
 
-                @if($vehicle_tax > 0)
+                @if($car_tax > 0)
                 <tr>
-                    <td><strong>{{ t('Vehicle Tax:') }}</strong> {{ t('Transport base + fee per km') }}</td>
+                    <td><strong>{{ t('Vehicle Tax:') }}</strong></td>
                     <td>{{ $date }}</td>
-                    <td>1.00</td>
                     <td>{{ t('Pcs.') }}</td>
-                    <td>{{ number_format($vehicle_tax, 2, '.', ',') }} €</td>
-                    <td>0.00%</td>
-                    <td style="text-align: right;">{{ number_format($vehicle_tax, 2, '.', ',') }} €</td>
+                    <td>1.00</td>
+                    <td>{{ number_format($car_tax, 2, '.', ',') }} €</td>
+                    {{-- <td>0.00%</td> --}}
+                    <td style="text-align: right;">{{ number_format($car_tax, 2, '.', ',') }} €</td>
                 </tr>
                 @endif
 
-                <tr>
-                    <td><strong>{{ t('Prestation Cost:') }}</strong> ({{ number_format($price_per_hour, 2) }}€) x {{ $workers }} {{ t('workers') }} x {{ $duration }} {{ t('hours') }}</td>
+                 <tr>
+                    <td><strong>{{ t('Transport') }}</strong></td>
                     <td>{{ $date }}</td>
-                    <td>{{ number_format($workers * $duration, 2, '.', '') }}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    {{-- <td>0.00%</td> --}}
+                    <td style="text-align: right;">{{ number_format($transport, 2, '.', ',') }} €</td>
+                </tr>
+
+                <tr>
+                    <td><strong>{{ t('Prestation Cost:') }}</strong></td>
+                    <td>{{ $date }}</td>
                     <td>{{ t('Hrs.') }}</td>
+                    <td>{{ number_format($workers * $duration, 2, '.', '') }}</td>
                     <td>{{ number_format($price_per_hour, 2, '.', ',') }} €</td>
-                    <td>0.00%</td>
+                    {{-- <td>0.00%</td> --}}
                     <td style="text-align: right;">{{ number_format($prestation_cost, 2, '.', ',') }} €</td>
                 </tr>
             </tbody>
@@ -113,12 +138,12 @@
             <div class="total-row">{{ t('VAT 0.00% :') }}  <span style="float:right"> 0.00 €</span></div>
             
             <div style="background: #f2f2f2; padding: 10px; margin-top: 15px; border: 1px solid #000; overflow: hidden;">
-                <strong style="text-transform: uppercase;">{{ t('Invoiced Booking Costs:') }}</strong>
+                <strong style="">{{ t('Booking fee: ') }}</strong>
                 <span style="float: right; font-weight: bold;">{{ number_format($booking_fee, 2, '.', ',') }} €</span>
             </div>
 
             <div class="grand-total">
-                {{ t('Total Global Amount:') }} 
+                {{ t('Total Global Amount : ') }} 
                 <span style="float:right">{{ number_format($total_service, 2, '.', ',') }} €</span>
             </div>
         </div>

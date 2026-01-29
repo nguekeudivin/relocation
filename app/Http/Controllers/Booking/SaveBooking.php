@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Booking;
 
+use App\Mail\AdminBookingCreatedMail;
 use App\Models\Setting;
 use App\Models\Booking;
 use App\Models\Address;
@@ -13,17 +14,26 @@ class SaveBooking
 {
     public static function call($data, $lang){
 
+        $distancePaderborn = $data['distance_paderborn'] ?? 0;
+        $distance = $data['distance'] ?? 0;
+
         $settings = Setting::all()->pluck('value', 'code');
 
         $workerTax  = (float)$settings['worker_tax'] * (float)$data['workers'];
+
         $carTax = (float)$settings['car_tax'];
+
         $durationCost = (float)$data['workers'] * (float)$settings['price_per_hour'] * (float)$data['duration'];
-        $transport  = (float)$data['transport_price'] + (float)$data['distance'] * (float)$settings['fee_per_km'] * 2;
+
+        $carTransport  = (float)$data['transport_price'] + (float)$distance * (float)$settings['fee_per_km'] * 2;
+        $paderbornTransport = (float)$distancePaderborn * (float)$settings['fee_per_km'] * 2;
+
+        $transport = $carTransport + $paderbornTransport;
 
         // Make sure that car type is correctly define.
         if(!isset($data['car_type'])){
             $carTax = 0;
-            $transport = 0;
+            $transport = $paderbornTransport;
         }
 
         $origin = Address::create([
@@ -56,16 +66,22 @@ class SaveBooking
             'email'          => $data['email'],
             'first_name'     => isset($data['first_name']) ? $data['first_name'] : null,
             'last_name'      => isset($data['last_name']) ? $data['last_name'] : null,
-            'amount'         => $durationCost + $carTax + $workerTax,
-            'worker_tax'     => $workerTax,
+            'amount'         => $durationCost + $carTax + $workerTax + $transport,
+            'workers_tax'     => $workerTax,
             'car_tax'        => $carTax,
+            'distance'       => (float)$data['distance'],
+            'distance_paderborn' => (float)$data['distance_paderborn'],
             'transport'      => $transport,
             'duration_cost'  => $durationCost,
             'status'         => 'pending',
         ]);
 
         Mail::to($booking->email)->queue(
-             new BookingCreatedMail($booking, $lang)
+            new BookingCreatedMail($booking, $lang)
+        );
+        
+        Mail::to($settings['notification_email'])->queue(
+            new AdminBookingCreatedMail($booking, $lang)
         );
 
         return $booking;

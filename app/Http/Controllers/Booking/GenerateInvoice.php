@@ -36,7 +36,9 @@ class GenerateInvoice extends Controller
             
         } catch (\Exception $e) {
 
-            return redirect()->back()->withErrors(['error' => 'Invoice generation failed.']);
+        dd($e);
+
+            //return redirect()->back()->withErrors(['error' => 'Invoice generation failed.']);
         }
     }
 }

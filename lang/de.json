@@ -413,5 +413,23 @@
     "View my invoice now": "Meine Rechnung jetzt ansehen",
     "Reversation fee (workers and vehicle taxes)": "Reservierungsgebühr (Helfer- und Fahrzeugpauschalen)",
     "You paid only the reservation fee online. The remaining amount will be paid to the workers at the end of the job": "Sie haben online nur die Reservierungsgebühr bezahlt. Der restliche Betrag wird am Ende des Auftrags direkt an die Helfer gezahlt",
-    "Reversation fee (workers and vehicle taxes):": "Reservierungsgebühr (Helfer- und Fahrzeugpauschalen):"
+    "Reversation fee (workers and vehicle taxes):": "Reservierungsgebühr (Helfer- und Fahrzeugpauschalen):",
+    "Customer obligations": "Pflichten des Auftraggebers.",
+    "terms_and_conditions": "Allgemeine Geschäftsbedingungen §5. Pflichten des Auftraggebers. Der Kunde ist verpflichtet, den Helfer auf die besondere Beschaffenheit des Transportgutes und dessenSchadenanfälligkeit aufmerksam zu machen. Sobald Arnold-Umzug nicht mit Einpackservice beauftragt ist, sind diebesonders gefährdeten Gegenstände wie Marmor, Glas, Porzellan, Rahmen, Lampen, Lampenschirme und ähnlicheGegenstände von großer Empfindlichkeit ausreichend für den Transport zu sichern. Eine Original- oder gleichwertigeVerpackung wird dabei empfohlen. Soweit nichts anders vereinbart, ist der Kunde verpflichtet, die empfindlichen Böden,Wände, Gitter in der Wohnung, Treppenhaus und Aufzug mit den dafür vorgesehenen Mitteln zu schützen.",
+    "Moving out address": "Auszugsadresse",
+    "Moving in address": "Einzugsadresse",
+
+    "Bus": "Bus",
+    "Van": "Transporter",
+
+    "Distance to Paderborn": "Entfernung nach Paderborn",
+
+    "Reservation fee (workers and vehicle charges)": "Reservierungsgebühr (Personal- und Fahrzeugkosten)",
+
+    "First name": "Vorname",
+    "Last name": "Nachname",
+
+    "booking.payment_notice": "Online wird lediglich die Reservierungsgebühr bezahlt. Der verbleibende Betrag ist nach Abschluss der Leistung direkt an die Mitarbeiter zu entrichten.",
+
+    "booking.consent.label": "Mit dem Absenden dieser Buchungsanfrage bestätige ich, dass meine Angaben gespeichert und verarbeitet werden dürfen, um die gewünschte Dienstleistung zu erbringen. Ich nehme zur Kenntnis, dass eine Rechnung ausgestellt wird und die Zahlung gemäß den vereinbarten Bedingungen fällig ist. Ich habe die Allgemeinen Geschäftsbedingungen sowie die Datenschutzerklärung gelesen und akzeptiert."
 }

@@ -415,5 +415,19 @@
     "View my invoice now": "View my invoice now",
     "Reversation fee (workers and vehicle taxes)": "Reversation fee (workers and vehicle taxes)",
     "You paid only the reservation fee online. The remaining amount will be paid to the workers at the end of the job": "You paid only the reservation fee online. The remaining amount will be paid to the workers at the end of the job",
-    "Reversation fee (workers and vehicle taxes):": "Reversation fee (workers and vehicle taxes):"
+    "Reversation fee (workers and vehicle taxes):": "Reversation fee (workers and vehicle taxes):",
+    "Customer obligations": "Customer obligations",
+    "terms_and_conditions": "The customer is obligated to inform the mover of the specific nature of the goods being transported and their susceptibility to damage. Unless Arnold-Umzug has been contracted for packing services, particularly vulnerable items—such as marble, glass, porcelain, frames, lamps, lampshades, and similarly highly sensitive objects—must be sufficiently secured for transport. Original or equivalent packaging is recommended for this purpose. Unless otherwise agreed, the customer is responsible for protecting sensitive floors, walls, and railings within the apartment, stairwell, and elevator using appropriate protective materials.",
+    "Moving out address": "Moving out address",
+    "Moving in address": "Moving in address",
+    "Distance to Paderborn": "Distance to Paderborn",
+
+    "Reservation fee (workers and vehicle charges)": "Reservation fee (workers and vehicle charges)",
+
+    "First name": "First name",
+    "Last name": "Last name",
+
+    "booking.payment_notice": "You only pay the reservation fee online. The remaining balance must be paid directly to the workers once the service has been completed.",
+
+    "booking.consent.label": "By submitting this booking request, I confirm that the information provided may be stored and processed for the purpose of delivering the requested service. I acknowledge that an invoice will be issued and that payment is due in accordance with the agreed conditions. I have read and accept the Terms and Conditions as well as the Privacy Policy."
 }

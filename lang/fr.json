@@ -412,5 +412,17 @@
     "View my invoice now": "Consulter ma facture",
     "Reversation fee (workers and vehicle taxes)": "Frais de réservation (taxes travailleurs et véhicule)",
     "You paid only the reservation fee online. The remaining amount will be paid to the workers at the end of the job": "Vous n'avez payé que les frais de réservation en ligne. Le solde restant sera à régler aux intervenants à la fin de la prestation",
-    "Reversation fee (workers and vehicle taxes):": "Frais de réservation (taxes travailleurs et véhicule) :"
+    "Reversation fee (workers and vehicle taxes):": "Frais de réservation (taxes travailleurs et véhicule) :",
+    "Customer obligations": "Obligations du client",
+    "terms_and_conditions": "Le client est tenu d'attirer l'attention du déménageur sur la nature particulière des biens à transporter et sur leur fragilité. Dès lors que l’entreprise Arnold-Umzug n'est pas mandatée pour le service d'emballage, les objets particulièrement exposés tels que le marbre, le verre, la porcelaine, les cadres, les lampes, les abat-jours et autres objets de grande sensibilité doivent être suffisamment sécurisés pour le transport. L'utilisation d'un emballage d'origine ou équivalent est recommandée. Sauf convention contraire, le client est tenu de protéger les sols, murs et rampes fragiles de l'appartement, de la cage d'escalier et de l'ascenseur avec les moyens de protection prévus à cet effet.",
+    "Moving out address": "Adresse de départ",
+    "Moving in address": "Adresse d’arrivée",
+    "Distance to Paderborn": "Distance jusqu’à Paderborn",
+    "Reservation fee (workers and vehicle charges)": "Frais de réservation (main-d’œuvre et véhicule)",
+
+    "First name": "Prénom",
+    "Last name": "Nom",
+    "booking.payment_notice": "Seuls les frais de réservation sont payés en ligne. Le solde restant devra être réglé directement aux ouvriers à la fin de la prestation.",
+
+    "booking.consent.label": "En soumettant cette demande de réservation, je confirme que les informations fournies peuvent être enregistrées et traitées dans le cadre de l’exécution du service demandé. Je reconnais qu’une facture sera émise et que le paiement devra être effectué conformément aux conditions convenues. J’ai lu et j’accepte les Conditions Générales ainsi que la Politique de confidentialité."
 }

@@ -41,16 +41,28 @@ class SettingSeeder extends Seeder
                 'value' => '10'
             ],
             [
-                'name' => "Car fee week day monday - thursday",
-                'code' => 'car_price_weekday_job',
+                'name' => "Van fee week day monday - thursday",
+                'code' => 'van_price_weekday',
                 'description' => "Car fee week day Monday - Thursday",
                 'value' => '75'
             ],
             [
-                'name' => "Car fee week day friday - sunday",
-                'code' => 'car_price_weekend_job',
-                'description' => "Car fee week day Monday - Thursday",
+                'name' => "Van fee week day friday - sunday",
+                'code' => 'van_price_weekend',
+                'description' => "Van fee week day Monday - Thursday",
                 'value' => '130'
+            ],
+            [
+                'name' => "Bus fee week day monday - thursday",
+                'code' => 'bus_price_weekday',
+                'description' => "Car fee week day Monday - Thursday",
+                'value' => '60'
+            ],
+            [
+                'name' => "Bus fee week day friday - sunday",
+                'code' => 'bus_price_weekend',
+                'description' => "Van fee week day Monday - Thursday",
+                'value' => '120'
             ],
             [
                 'name' => "Fee per Km",
@@ -58,6 +70,12 @@ class SettingSeeder extends Seeder
                 'description' => "Fee per km",
                 'value' => '0.40'
             ],
+            [
+                'name' => 'Notification Email',
+                'code' => 'notification_email',
+                'description' => "It's the email that receive the notification",
+                'value' => 'kenelly391@gmail.com'
+            ]
            
         ];
 

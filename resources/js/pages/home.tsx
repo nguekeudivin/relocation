@@ -2,6 +2,7 @@ import { BookingSuccessModal } from '@/components/booking/booking-modals/booking
 import { CreateBookingModal } from '@/components/booking/booking-modals/create-booking-modal';
 import Logo from '@/components/common/Logo';
 import ChangeLanguage from '@/components/shared/change-language';
+import TermsModal from '@/components/terms/terms-modal';
 import { Button } from '@/components/ui/button';
 import useTranslation from '@/hooks/use-translation';
 import useAppStore from '@/store';
@@ -259,8 +260,6 @@ export default function Welcome() {
                                 { text: t('Book a reservation'), link: '#booking' },
                                 { text: t('Login into account'), link: '/login' },
                                 { text: t('About Us'), link: '#about' },
-                                { text: t('Policy'), link: '#policy' },
-                                { text: t('Terms and conditions'), link: '#terms' },
                             ].map((item, index) => (
                                 <li key={index}>
                                     <Link className="hover:text-primary-500 transition duration-300" href={item.link}>
@@ -268,12 +267,23 @@ export default function Welcome() {
                                     </Link>
                                 </li>
                             ))}
+                            <li>
+                                <button
+                                    onClick={() => {
+                                        store.display.show('terms_and_conditions');
+                                    }}
+                                    className="hover:text-primary-500 transition duration-300"
+                                >
+                                    {t('Terms and conditions')}
+                                </button>
+                            </li>
                         </ul>
                     </div>
                 </div>
 
                 <div className="mx-auto max-w-6xl border-t border-gray-300 py-4 text-gray-600">{`Copyright ${new Date().getFullYear()} Relocation`}</div>
             </footer>
+            <TermsModal />
         </>
     );
 }

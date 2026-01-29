@@ -25,7 +25,9 @@ return new class extends Migration
             $table->string('car_type')->nullable();
             $table->integer('duration');
             $table->decimal('amount');
-            $table->decimal('worker_tax');
+            $table->decimal('distance');
+            $table->decimal('distance_paderborn');
+            $table->decimal('workers_tax');
             $table->decimal('car_tax');
             $table->decimal('transport');
             $table->decimal('duration_cost');

@@ -40,6 +40,7 @@ export function CreateBookingModal() {
         duration: 2,
         amount: 0,
         distance: 0,
+        distance_paderborn: 0,
         transport_price: 0,
         first_name: '',
         last_name: '',
@@ -48,6 +49,7 @@ export function CreateBookingModal() {
         password: '',
         with_account: true,
         user_id: undefined,
+        accept: false,
     });
     // const form = useSimpleForm({
     //     date: new Date('2025-02-15'),
@@ -65,6 +67,7 @@ export function CreateBookingModal() {
     //     car_type: 'van',
     //     distance: 10,
     //     duration: 2,
+    //     distance_paderborn: 10,
     //     amount: 300,
     //     transport_price: 150,
 
@@ -76,6 +79,7 @@ export function CreateBookingModal() {
 
     //     with_account: false,
     //     user_id: undefined,
+    //     accept: true,
     // });
 
     useEffect(() => {
@@ -133,6 +137,12 @@ export function CreateBookingModal() {
 
     const submit = () => {
         store.errors.reset();
+
+        if (!form.values.accept) {
+            store.errors.set('accept', 'Please confirmed the use');
+            return 0;
+        }
+
         const data = {
             booking: pick(form.values, [
                 'date',
@@ -146,6 +156,7 @@ export function CreateBookingModal() {
                 'email',
                 'workers',
                 'distance',
+                'distance_paderborn',
                 'car_type',
                 'duration',
                 'transport_price',

@@ -1,6 +1,5 @@
 import { apiClient } from '@/lib/http';
 import { createResourceStore, ResourceStore } from '@/lib/resource';
-import { getDay, startOfDay } from 'date-fns';
 import { User } from './User';
 
 export interface Booking {
@@ -66,23 +65,32 @@ export const useBooking = createResourceStore<Booking, BookingStore>('bookings',
     },
 }));
 
-export const getTransportBasePrice = ({ date, settings }: { date: any; settings: any }) => {
-    const selectedDate = startOfDay(new Date(date));
-    const dayOfWeek = getDay(selectedDate); // 0=Sunday, 1=Monday, ..., 6=Saturday
+export const getTransportBasePrice = (form: any, settings: any, isWeekday: any) => {
+    if (form.values.car_type == 'van') {
+        return isWeekday ? settings.van_price_weekday : settings.van_price_weekend;
+    } else if (form.values.car_type == 'bus') {
+        return isWeekday ? settings.bus_price_weekday : settings.bus_price_weekend;
+    }
 
-    const isWeekday = dayOfWeek >= 1 && dayOfWeek <= 4; // Mon–Thu
-    const basePrice = isWeekday ? settings.car_price_weekday_job : settings.car_price_weekend_job;
-
-    // Update form values
-    return basePrice;
+    return 0;
 };
 
 export const getWorkerTax = (form: any, settings: any) => {
     return parseFloat(form.values.workers) * parseFloat(settings.worker_tax);
 };
 
-export const getVehicleTax = (form: any, settings: any) => {
-    return parseFloat(form.values.transport_price) + parseFloat(settings.fee_per_km) * parseInt(form.values.distance) * 2;
+export const getCarTax = (form: any, settings: any) => {
+    return form.values.car_type != undefined ? parseFloat(settings.car_tax) : 0;
+};
+
+export const getCarTransport = (form: any, settings: any) => {
+    return form.values.car_type != undefined
+        ? parseFloat(form.values.transport_price) + parseFloat(settings.fee_per_km) * parseInt(form.values.distance) * 2
+        : 0;
+};
+
+export const getPaderbornTransport = (form: any, settings: any) => {
+    return parseFloat(settings.fee_per_km) * parseInt(form.values.distance_paderborn) * 2;
 };
 
 export const getDurationCost = (form: any, settings: any) => {
@@ -103,7 +111,10 @@ export const createBookingInstance = (form: any, settings: any) => {
         duration: form.values.duration,
         car_type: form.values.car_type,
         distance: form.values.distance,
-        amount: getWorkerTax(form, settings) + getVehicleTax(form, settings) + getDurationCost(form, settings),
-        tax: getWorkerTax(form, settings) + getVehicleTax(form, settings),
+        amount: getWorkerTax(form, settings) + getCarTax(form, settings) + getDurationCost(form, settings),
+        tax: getWorkerTax(form, settings) + getCarTax(form, settings),
+        car_transport: getCarTransport(form, settings),
+        distance_paderborn: form.values.distance_paderborn,
+        paderborn_transport: getPaderbornTransport(form, settings),
     };
 };

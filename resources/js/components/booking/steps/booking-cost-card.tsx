@@ -1,7 +1,7 @@
 import Show from '@/components/ui/show';
 import useTranslation from '@/hooks/use-translation';
 import useAppStore from '@/store';
-import { getDurationCost, getVehicleTax, getWorkerTax } from '@/store/Booking';
+import { getCarTax, getCarTransport, getDurationCost, getPaderbornTransport, getWorkerTax } from '@/store/Booking';
 
 export default function BookingCostCard({ form }: { form: any }) {
     const store = useAppStore();
@@ -9,10 +9,16 @@ export default function BookingCostCard({ form }: { form: any }) {
     const settings = store.setting.values;
 
     const workerTax = getWorkerTax(form, settings);
-    const carTax = getVehicleTax(form, settings);
+    const carTax = getCarTax(form, settings);
+
+    const carTransport = getCarTransport(form, settings);
+    const paderbornTransport = getPaderbornTransport(form, settings);
+
     const durationCost = getDurationCost(form, settings);
-    const total = workerTax + carTax + durationCost;
-    const tax = workerTax + (form.values.car_type == undefined ? 0 : carTax);
+
+    const transport = carTransport + paderbornTransport;
+    const total = workerTax + carTax + carTransport + paderbornTransport + durationCost;
+    const tax = workerTax + carTax;
 
     return (
         <div className="bg-gray-200 p-4">
@@ -20,10 +26,7 @@ export default function BookingCostCard({ form }: { form: any }) {
             <ul className="mt-2 text-sm">
                 <li className="flex justify-between">
                     <div>
-                        <span>{t('Worker tax :')}</span>
-                        <span className="ml-1 font-semibold">
-                            {`( ${parseFloat(settings.worker_tax)}€ )`} {` x `} {form.values.workers} {t('workers')}
-                        </span>
+                        <span>{t('Workers tax')}</span>
                     </div>
                     <div>
                         <span className="md:hidden"> = </span>
@@ -35,14 +38,10 @@ export default function BookingCostCard({ form }: { form: any }) {
                 </li>
                 <div className="my-1 border-t border-gray-300"></div>
 
-                <Show when={form.values.car_type != undefined}>
+                <Show when={carTax != 0}>
                     <li className="flex justify-between">
                         <div>
-                            <span>{t('Vehicle tax :')}</span>
-                            <span className="ml-1 font-semibold">
-                                {`( ${form.values.transport_price}€ )`} {` + `} {`fee per km (${settings.fee_per_km}€)`} {`x`} {form.values.distance}{' '}
-                                {t('km')} {`x 2`}
-                            </span>
+                            <span>{t('Vehicle tax')}</span>
                         </div>
                         <div>
                             <span className="md:hidden"> = </span>
@@ -51,14 +50,20 @@ export default function BookingCostCard({ form }: { form: any }) {
                     </li>
                 </Show>
                 <div className="my-1 border-t border-gray-300"></div>
+                <li className="flex justify-between">
+                    <div>
+                        <span>{t('Transport')}</span>
+                    </div>
+                    <div>
+                        <span className="md:hidden"> = </span>
+                        <span className="font-semibold">{`${transport}€ `}</span>
+                    </div>
+                </li>
+                <div className="my-1 border-t border-gray-300"></div>
 
                 <li className="flex justify-between">
                     <div>
-                        <span>{t('Prestation cost : Rate per worker')}</span>
-                        <span className="ml-1 font-semibold">
-                            {`( ${parseFloat(settings.price_per_hour)}€ )`} x {form.values.workers} {t('workers')} x {form.values.duration}{' '}
-                            {t('hours')}
-                        </span>
+                        <span>{t('Prestation cost')}</span>
                     </div>
                     <div>
                         <span className="md:hidden"> = </span>

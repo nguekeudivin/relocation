@@ -52,7 +52,7 @@ class RegisteredUserController extends Controller
             if ($request->has('booking')) {
                 $data = $request->booking;
                 $data['user_id'] = $user->id;
-                $booking = SaveBooking::call($data, $request->input('lang', 'en'));
+                SaveBooking::call($data, $request->input('lang', 'en'));
             }
 
             // Create a chat discussion.

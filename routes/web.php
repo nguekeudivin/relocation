@@ -98,14 +98,10 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-
-
 Route::get('/preview-mail', function () {
     $booking = \App\Models\Booking::first(); 
-    $user = \App\Models\User::first();
-    $greetingName = $user ? $user->first_name : 'Guest';
     // return new \App\Mail\BookingCreatedMail($booking, $user, $greetingName);
-    return new \App\Mail\BookingCreatedMail($booking, $user, $greetingName);
+    return new \App\Mail\NotifyPaymentMail($booking );
 });
 
 require __DIR__.'/auth.php';

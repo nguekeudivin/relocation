@@ -21,9 +21,11 @@ class Booking extends Model
         'car_type',
         'duration',
         'amount',
-        'worker_tax',
+        'workers_tax',
         'car_tax',
         'transport',
+        'distance_paderborn',
+        'distance',
         'duration_cost',
         'observation',
         'status'
