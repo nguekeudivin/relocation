@@ -24,8 +24,7 @@
         .cgv-section h4 { margin-bottom: 5px; font-size: 11px; text-transform: uppercase; }
     </style>
 </head>
-<body>
-
+<body>    
     <div class="page-break">
 
         <table style="width:100%"> 

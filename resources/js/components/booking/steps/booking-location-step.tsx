@@ -21,7 +21,7 @@ export default function BookingLocationStep({ form, showError = true }: Props) {
             <ol className="relative mt-6">
                 <li className="border-l-3 border-gray-300 pb-8 pl-4">
                     <div className="bg-primary-100 absolute -top-2 -left-2 flex h-8 w-[80px] items-center justify-center border-4 border-white">
-                        <span className="text-primary-500 text-xs font-bold">{t('Pick-up')}</span>
+                        <span className="text-primary-500 text-xs font-bold">{t('Moving out address')}</span>
                     </div>
 
                     <h4 className="text-sm font-semibold">{t('From')}</h4>
@@ -60,7 +60,7 @@ export default function BookingLocationStep({ form, showError = true }: Props) {
             <ol className="relative">
                 <li className="border-primary-600 pb-8 pl-4">
                     <div className="bg-primary-100 absolute -top-2 -left-2 flex h-8 w-[80px] items-center justify-center border-4 border-white">
-                        <span className="text-primary-500 text-xs font-bold">{t('Delivery')}</span>
+                        <span className="text-primary-500 text-xs font-bold">{t('Moving in address')}</span>
                     </div>
                     <h4 className="text-sm font-semibold">{t('To')}</h4>
                     <div className="mt-3 space-y-3">

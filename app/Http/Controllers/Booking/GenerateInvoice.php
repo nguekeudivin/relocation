@@ -35,10 +35,7 @@ class GenerateInvoice extends Controller
             return $pdf->stream("Invoice_AR-{$booking->id}.pdf");
             
         } catch (\Exception $e) {
-
-        dd($e);
-
-            //return redirect()->back()->withErrors(['error' => 'Invoice generation failed.']);
+            return redirect()->back()->withErrors(['error' => 'Invoice generation failed.']);
         }
     }
 }
