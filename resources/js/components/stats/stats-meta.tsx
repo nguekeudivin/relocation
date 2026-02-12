@@ -5,14 +5,23 @@ export const overviewElements = [
     {
         label: 'Total bookings',
         key: 'total_bookings',
-        value: 12,
+        value: 0,
         surfix: '',
         color: 'text-blue-600',
         bg: 'bg-blue-100/70',
         icon: Caravan,
     },
     {
-        label: 'Total clients',
+        label: 'Paid bookings',
+        key: 'total_paid',
+        value: 0,
+        surfix: '',
+        color: 'text-pink-600',
+        bg: 'bg-pink-100/70',
+        icon: Caravan,
+    },
+    {
+        label: 'Accounts created',
         key: 'total_new_users',
         value: 0,
         surfix: '',
@@ -20,7 +29,6 @@ export const overviewElements = [
         bg: 'bg-indigo-100/70',
         icon: Users,
     },
-
     {
         label: 'Total revenue',
         key: 'total_revenue',

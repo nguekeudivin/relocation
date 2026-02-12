@@ -10,14 +10,14 @@ import { useEffect, useState } from 'react';
 
 export default function DashboardPage() {
     const store = useAppStore();
-    const [year, setYear] = useState<string>('2025');
-    const [years, setYears] = useState<string[]>(['2025']);
-    const [overview, setOverview] = useState<any>(overviewElements);
     const { t } = useTranslation();
 
-    useEffect(() => {
-        setYear(`${new Date().getFullYear()}`);
-    }, []);
+    const currentYear = new Date().getFullYear();
+    const generatedYears = Array.from({ length: currentYear - 2025 + 1 }, (_, index) => 2025 + index).map(String);
+
+    const [year, setYear] = useState<string>(String(currentYear));
+    const [years, setYears] = useState<string[]>(generatedYears);
+    const [overview, setOverview] = useState<any>(overviewElements);
 
     const setOverviewStats = (key: string, data: any) => {
         setOverview((overview: any) => {
@@ -29,14 +29,19 @@ export default function DashboardPage() {
         });
     };
 
-    useEffect(() => {
+    const fetchStats = () => {
         store.user.getStats(year).then((data) => setOverviewStats('total_actives', data));
         store.booking.getStats(year).then((data) => {
             setOverviewStats('total_bookings', data);
             setOverviewStats('total_new_users', data);
             setOverviewStats('total_revenue', data);
-            setYears(data.years);
+            setOverviewStats('total_pending', data);
+            setOverviewStats('total_paid', data);
         });
+    };
+
+    useEffect(() => {
+        fetchStats();
     }, []);
     return (
         <AppLayout breadcrumbds={[]}>
@@ -46,7 +51,10 @@ export default function DashboardPage() {
                     <div className="flex items-center gap-2">
                         <select
                             value={year}
-                            onChange={(e: any) => setYear(e.target.value)}
+                            onChange={(e: any) => {
+                                setYear(e.target.value);
+                                fetchStats();
+                            }}
                             className="border-secondary-200 rounded-md border-2 border-gray-300 px-4 py-1 text-sm"
                         >
                             {years.map((item) => (
@@ -56,7 +64,7 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
-                <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-3">
+                <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-4">
                     {overview.map((stat: any, index: number) => (
                         <Card key={index} className={cn('rounded-2xl bg-blue-100 transition hover:shadow', stat.bg)}>
                             <CardContent className="flex items-center gap-4 p-3">
@@ -86,6 +94,27 @@ export default function DashboardPage() {
                                 {
                                     name: t('Bookings'),
                                     data: store.booking.stats.booking_serie,
+                                },
+                            ]}
+                        />
+                    </aside>
+
+                    <aside className="w-full space-y-8">
+                        <LineGraph
+                            title={t('Bookings by status')}
+                            colors={['#f59e0b', '#155dfc', '#16a34a']}
+                            series={[
+                                {
+                                    name: t('Pending bookings'),
+                                    data: store.booking.stats.booking_status_series.pending,
+                                },
+                                {
+                                    name: t('Paid bookings'),
+                                    data: store.booking.stats.booking_status_series.paid,
+                                },
+                                {
+                                    name: t('Completed bookings'),
+                                    data: store.booking.stats.booking_status_series.completed,
                                 },
                             ]}
                         />

@@ -39,7 +39,32 @@ interface BookingStore extends ResourceStore<Booking> {
 }
 
 export const useBooking = createResourceStore<Booking, BookingStore>('bookings', (set, get) => ({
-    stats: {},
+    stats: {
+        years: ['2026'],
+        scope: 2026,
+        total_bookings: 0,
+        total_pending: 0,
+        total_paid: 0,
+        total_new_users: 0,
+        total_revenue: 0,
+        bookings_by_status: {
+            pending: 0,
+            paid: 0,
+            completed: 0,
+        },
+        booking_serie: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        new_user_serie: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        revenue_serie: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        booking_status_series: {
+            pending: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            paid: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            completed: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        },
+        average_paid_booking_value: 0,
+        paid_rate: 0,
+        completion_rate: 0,
+        conversion_rate: 0,
+    },
     getStats: (year: string) => {
         return apiClient()
             .get(`/stats/booking?year=${year}`)
