@@ -43,6 +43,7 @@ class UserPages extends Controller
     public function bookings(Request $request){
         return Inertia::render('user/my-bookings/list', [
             'success' => $request->session()->get('success'),
+            'bookings' =>  Booking::with(Booking::LOAD)->where('user_id', $request->user()->id)->get()
         ]);
     }
 

@@ -63,6 +63,6 @@ class Booking extends Model
 
     public function getTaxAttribute()
     {
-        return $this->worker_tax + $this->car_tax;
+        return $this->workers_tax + $this->car_tax;
     }
 }

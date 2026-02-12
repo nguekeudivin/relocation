@@ -1,32 +1,33 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\Booking\CompleteBooking;
+use App\Http\Controllers\Booking\ConfirmBooking;
 
-use App\Http\Controllers\QueryController;
+use App\Http\Controllers\Booking\CreateBooking;
 
 
-use App\Http\Controllers\User\UserPages;
-use App\Http\Controllers\User\ChangeUserLanguage;
-use App\Http\Controllers\User\AdminPages;
-use App\Http\Controllers\User\ChangeUserProfile;
-use App\Http\Controllers\User\GetUsers;
-use App\Http\Controllers\User\UpdateUser;
-use App\Http\Controllers\User\GetUser;
-
+use App\Http\Controllers\Booking\DeleteBooking;
 use App\Http\Controllers\Booking\GenerateInvoice;
 use App\Http\Controllers\Booking\GenerateInvoiceById;
 use App\Http\Controllers\Booking\GetBookings;
-use App\Http\Controllers\Booking\CreateBooking;
-use App\Http\Controllers\Booking\CompleteBooking;
-use App\Http\Controllers\Booking\ConfirmBooking;
-use App\Http\Controllers\Booking\UpdateBooking;
 use App\Http\Controllers\Booking\NotifyPayment;
+use App\Http\Controllers\Booking\UpdateBooking;
+use App\Http\Controllers\QueryController;
 
 use App\Http\Controllers\Setting\GetSettings;
 use App\Http\Controllers\Setting\SaveManySettings;
-use App\Http\Controllers\Stats\UserStats;
 use App\Http\Controllers\Stats\BookingStats;
+use App\Http\Controllers\Stats\UserStats;
+use App\Http\Controllers\User\AdminPages;
+use App\Http\Controllers\User\ChangeUserLanguage;
+use App\Http\Controllers\User\ChangeUserProfile;
+use App\Http\Controllers\User\GetUser;
+
+use App\Http\Controllers\User\GetUsers;
+use App\Http\Controllers\User\UpdateUser;
+use App\Http\Controllers\User\UserPages;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 
 Route::get('/', function () {
@@ -95,6 +96,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/{booking}/confirm', ConfirmBooking::class);
         Route::post('/{booking}/complete', CompleteBooking::class);
         Route::put('/{booking}',UpdateBooking::class);
+        Route::post('/{booking}/delete',DeleteBooking::class);
     });
 });
 

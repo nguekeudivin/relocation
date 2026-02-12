@@ -20,67 +20,67 @@ export function CreateBookingModal() {
     const display = store.display;
     const isVisible = display.visible[name];
     //const toggleModal = () => display.toggle(name);
-    const [reachedSteps, setReachedSteps] = useState<number[]>([0]);
-    const [step, setStep] = useState<number>(0);
+    const [reachedSteps, setReachedSteps] = useState<number[]>([0, 1, 2, 3]);
+    const [step, setStep] = useState<number>(3);
     const modalRef = useRef<any>(undefined);
 
     const { t } = useTranslation();
 
-    const form = useSimpleForm({
-        date: new Date(),
-        time: undefined,
-        from_city: '',
-        from_postal_code: '',
-        from_street: '',
-        to_city: '',
-        to_street: '',
-        to_postal_code: '',
-        workers: 2,
-        car_type: undefined,
-        duration: 2,
-        amount: 0,
-        distance: 0,
-        distance_paderborn: 0,
-        transport_price: 0,
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone_number: '',
-        password: '',
-        with_account: true,
-        user_id: undefined,
-        accept: false,
-    });
     // const form = useSimpleForm({
-    //     date: new Date('2025-02-15'),
+    //     date: new Date(),
     //     time: undefined,
-
-    //     from_city: 'Berlin',
-    //     from_street: 'Alexanderplatz 5',
-    //     from_postal_code: '12345',
-
-    //     to_city: 'Hamburg',
-    //     to_street: 'Reeperbahn 120',
-    //     to_postal_code: '12345',
-
+    //     from_city: '',
+    //     from_postal_code: '',
+    //     from_street: '',
+    //     to_city: '',
+    //     to_street: '',
+    //     to_postal_code: '',
     //     workers: 2,
-    //     car_type: 'van',
-    //     distance: 10,
+    //     car_type: undefined,
     //     duration: 2,
-    //     distance_paderborn: 10,
-    //     amount: 300,
-    //     transport_price: 150,
-
-    //     first_name: 'Marie',
-    //     last_name: 'Keller',
-    //     email: 'marie.keller@example.com',
-    //     phone_number: '+49 151 2345678',
-    //     password: 'password',
-
-    //     with_account: false,
+    //     amount: 0,
+    //     distance: 0,
+    //     distance_paderborn: 0,
+    //     transport_price: 0,
+    //     first_name: '',
+    //     last_name: '',
+    //     email: '',
+    //     phone_number: '',
+    //     password: '',
+    //     with_account: true,
     //     user_id: undefined,
-    //     accept: true,
+    //     accept: false,
     // });
+    const form = useSimpleForm({
+        date: new Date('2025-02-15'),
+        time: undefined,
+
+        from_city: 'Berlin',
+        from_street: 'Alexanderplatz 5',
+        from_postal_code: '12345',
+
+        to_city: 'Hamburg',
+        to_street: 'Reeperbahn 120',
+        to_postal_code: '12345',
+
+        workers: 2,
+        car_type: 'van',
+        distance: 10,
+        duration: 2,
+        distance_paderborn: 10,
+        amount: 300,
+        transport_price: 150,
+
+        first_name: 'Marie',
+        last_name: 'Keller',
+        email: 'marie.keller@example.com',
+        phone_number: '+49 151 2345678',
+        password: 'password',
+
+        with_account: false,
+        user_id: undefined,
+        accept: true,
+    });
 
     useEffect(() => {
         store.setting.fetch({});
@@ -139,7 +139,7 @@ export function CreateBookingModal() {
         store.errors.reset();
 
         if (!form.values.accept) {
-            store.errors.set('accept', 'Please confirmed the use');
+            store.errors.set('accept', t('Please provide your confirmation'));
             return 0;
         }
 
@@ -167,13 +167,16 @@ export function CreateBookingModal() {
             ...pick(form.values, ['first_name', 'last_name', 'phone_number', 'email', 'password']),
         };
         if (form.values.with_account) {
+            store.loading.start('booking');
             router.post(route('register'), data, {
                 onSuccess: (res) => {
                     store.display.hide(name);
+                    store.loading.stop('booking');
                 },
                 onError: (error) => {
                     modalRef.current.scrollTo({ top: 0 });
                     store.errors.setMany(error);
+                    store.loading.stop('booking');
                 },
             });
         } else {
@@ -181,9 +184,15 @@ export function CreateBookingModal() {
             store.booking
                 .create(data.booking)
                 .then((created) => {
-                    store.display.hide(name);
-                    store.booking.setCurrent(created);
-                    store.display.show('success_booking');
+                    // If the user_id was not undefined we redirect to user booking.
+                    if (form.values.user_id != undefined) {
+                        window.location.assign('/user/bookings');
+                    } else {
+                        // Otherwise we just display the modal.
+                        store.display.hide(name);
+                        store.booking.setCurrent(created);
+                        store.display.show('success_booking');
+                    }
                 })
                 .catch((error) => {
                     modalRef.current.scrollTo({ top: 0 });
@@ -255,7 +264,7 @@ export function CreateBookingModal() {
                         </Show>
 
                         <Show when={step == 3}>
-                            <BookingRecapStep form={form} />
+                            <BookingRecapStep form={form} submit={submit} />
                         </Show>
 
                         <div className="left-8 flex gap-4 md:absolute md:bottom-6">
@@ -275,9 +284,12 @@ export function CreateBookingModal() {
                                     <Button color="outline" onClick={prevStep}>
                                         {t('Back')} <ChevronLeft className="h-4 w-4" />
                                     </Button>
-                                    <Button color="dark" onClick={submit} loading={store.loading.status.booking}>
-                                        {t('Submit')} <ChevronRight className="h-4 w-4" />
-                                    </Button>
+
+                                    {!store.display.visible.hide_submit && (
+                                        <Button color="dark" onClick={submit} loading={store.loading.status.booking}>
+                                            {t('Submit')} <ChevronRight className="h-4 w-4" />
+                                        </Button>
+                                    )}
                                 </>
                             )}
                         </div>

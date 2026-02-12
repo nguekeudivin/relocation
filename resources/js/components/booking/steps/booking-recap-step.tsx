@@ -6,19 +6,26 @@ import useTranslation from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import useAppStore from '@/store';
 import { createBookingInstance } from '@/store/Booking';
+import { User } from '@/store/User';
 import { usePage } from '@inertiajs/react';
 import { Bus, Clock, Map, Users } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import BookingRecapUserLogged from '../booking-recap-user-logged';
 
-export default function BookingRecapStep({ form }: { form: any }) {
+export default function BookingRecapStep({ form, submit }: { form: any; submit: any }) {
     const { t, formatDate } = useTranslation();
     const store = useAppStore();
     const { auth } = usePage<any>().props;
+    const [loggedUser, setLoggedUser] = useState<User | undefined>(undefined);
 
     useEffect(() => {
         if (auth.user) {
+            // With account means that an account is created as the same time with the booking.
+            // If we create a booking with the current user account with_account = false because a new account is not created.
             form.setValue('with_account', false);
             form.setValue('user_id', auth.user.id);
+            setLoggedUser(auth.user);
+            store.display.show('hide_submit');
         }
     }, [auth.user]);
 
@@ -120,7 +127,7 @@ export default function BookingRecapStep({ form }: { form: any }) {
             </div>
 
             {/* FORM */}
-            <Show when={!auth.user}>
+            <Show when={!loggedUser}>
                 <ToggleSwitch
                     className="mt-4"
                     checked={form.values.with_account}
@@ -227,6 +234,8 @@ export default function BookingRecapStep({ form }: { form: any }) {
                     />
                 </div>
             </Show>
+
+            <BookingRecapUserLogged loggedUser={loggedUser} setLoggedUser={setLoggedUser} form={form} submit={submit} />
 
             <div className="h-8 md:h-20" />
         </>

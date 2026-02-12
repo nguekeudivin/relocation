@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import useAppStore from '@/store';
 import { Booking } from '@/store/Booking';
 import { Link } from '@inertiajs/react';
-import { Bus, Check, Clock, FileText, Map, Pencil, UserIcon, Users } from 'lucide-react';
+import { Bus, Check, Clock, FileText, Map, Trash, UserIcon, Users } from 'lucide-react';
 import { ReactNode } from 'react';
 import { Alert } from '../ui/alert';
 
@@ -97,9 +97,14 @@ export default function BookingCard({ booking, header, mode }: Props) {
                         </Show>
 
                         <Show when={booking.status == 'pending' && mode == 'user'}>
-                            <Link href={`/user/bookings/${booking.id}/edit`} className="flex items-center gap-1 border-2 p-2 px-4 hover:underline">
-                                <Pencil className="h-3 w-3" />
-                                {t('Edit')}
+                            <Link
+                                method="post"
+                                preserveState={false}
+                                href={`/bookings/${booking.id}/delete`}
+                                className="flex items-center gap-1 border-2 p-2 px-4 hover:underline"
+                            >
+                                <Trash className="h-3 w-3" />
+                                {t('Delete')}
                             </Link>
                             <Button onClick={notifyPayment}>{t('Notify paiement')}</Button>
                         </Show>
@@ -167,7 +172,7 @@ export default function BookingCard({ booking, header, mode }: Props) {
                             </p>
                         )}
 
-                        <div className="mt-4">
+                        <div className="mt-4 flex space-x-4">
                             <Button
                                 color="secondary"
                                 onClick={() => {
