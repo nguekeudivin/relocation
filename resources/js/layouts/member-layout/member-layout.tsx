@@ -76,7 +76,7 @@ export default function MemberLayout({ breadcrumbds, children }: AppSidebarProps
                                     <Link href={item.route}>
                                         <button className="flex items-center gap-1.5">
                                             <item.icon className="text-secondary-600 h-4 w-4" />
-                                            {item.label}
+                                            {t(item.label)}
                                         </button>
                                     </Link>
                                 </li>
@@ -157,7 +157,7 @@ export default function MemberLayout({ breadcrumbds, children }: AppSidebarProps
                                         className="hover:bg-primary-100 flex w-full items-center gap-2 rounded rounded-full bg-gray-100 px-3 py-2 transition"
                                     >
                                         <LogOut className="h-4 w-4" />
-                                        <span> Logout </span>
+                                        <span> {t('Logout')} </span>
                                     </Link>
                                 </nav>
                             </motion.div>

@@ -86,9 +86,9 @@ class SaveBooking
             new BookingCreatedMail($booking, $lang)
         );
         
-        // Mail::to($settings['notification_email'])->send(
-        //     new AdminBookingCreatedMail($booking, $lang)
-        // );
+        Mail::to($settings['notification_email'])->send(
+            new AdminBookingCreatedMail($booking, $lang)
+        );
 
         return $booking;
     }
