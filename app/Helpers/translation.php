@@ -14,3 +14,19 @@ if (!function_exists('t')) {
         return __($key, $params, $lang);
     }
 }
+
+
+if (!function_exists('t2')) {
+    /**
+     * Translate a key or literal text using JSON dictionaries in resources/lang.
+     *
+     * @param string $key       The key or literal text
+     * @param array $params     Optional parameters for interpolation (:param)
+     * @param string|null $lang Optional language code ('fr', 'en', 'de'), default = app locale
+     * @return string
+     */
+    function t2(string $key,  string $lang, array $params = []): string
+    {
+        return __($key, $params, $lang);
+    }
+}

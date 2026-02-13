@@ -426,8 +426,53 @@
 
     "First name": "First name",
     "Last name": "Last name",
+    "All rights reserved": "All rights reserved",
 
-    "booking.payment_notice": "You only pay the reservation fee online. The remaining balance must be paid directly to the workers once the service has been completed.",
+    "booking.payment_notice": "The reservation fee must be paid online. The remaining balance must be settled directly with the movers at the end of the service. The reservation fee must be paid no later than five (5) days before the scheduled moving date.",
 
-    "booking.consent.label": "By submitting this booking request, I confirm that the information provided may be stored and processed for the purpose of delivering the requested service. I acknowledge that an invoice will be issued and that payment is due in accordance with the agreed conditions. I have read and accept the Terms and Conditions as well as the Privacy Policy."
+    "booking.consent.label": "By submitting this booking request, I confirm that the information provided may be stored and processed for the purpose of delivering the requested service. I acknowledge that an invoice will be issued and that payment is due in accordance with the agreed conditions. I have read and accept the Terms and Conditions as well as the Privacy Policy.",
+
+    "home.best.first": "The best move you",
+    "home.best.second": "will",
+    "home.best.third": "ever make",
+    "home.safe_title.first": "Save moving",
+    "home.safe_title.second": "Procedures",
+
+    "home.safe_card_1.first": "Make your",
+    "home.safe_card_1.second": "reservation",
+    "home.safe_card_2.first": "Load your",
+    "home.safe_card_2.second": "container",
+    "home.safe_card_3.first": "We will take it",
+    "home.safe_card_3.second": "from there",
+
+    "Transport fee": "Call-out fee",
+    "Workers tax": "Workers tax",
+    "Reversation fee (workers taxes):": "Reversation fee (workers taxes):",
+
+    "What is the distance between the pickup location and Paderborn ? ": "What is the distance between the pickup location and Paderborn ? ",
+    "Transport fees apply if you are outside Paderborn.": "Transport fees apply if you are outside Paderborn.",
+    "You are connected to your account": "You are connected to your account",
+    "Do you want to submit this with your current information, or create a new account?": "Do you want to submit this with your current information, or create a new account?",
+    "Submit with my account": "Submit with my account",
+    "Continue with new account": "Continue with new account",
+    "Continue without account": "Continue without account",
+    "Additional Information": "Additional Information",
+    "If you have any additional details regarding your move, please use the message section to chat with our team. You can also upload photos and provide specific information about the items you would like us to transport.": "If you have any additional details regarding your move, please use the message section to chat with our team. You can also upload photos and provide specific information about the items you would like us to transport.",
+    "Waiting Payment": "Waiting Payment",
+    "Waiting payment": "Waiting payment",
+    "Payment notified": "Payment notified",
+    "Paid": "Paid",
+    "Facture :no": "Invoice :no",
+    "De :name": "From :name",
+    "Hello :name,": "Hello :name,",
+    "Thank you for using our service! You will find your invoice attached to this email.": "Thank you for using our service! You will find your invoice attached to this email.",
+    "Please take note of the payment terms and general terms and conditions.": "Please take note of the payment terms and general terms and conditions.",
+    "Note:": "Note:",
+    "As soon as we receive the booking costs, we will firmly record the appointment in our calendar.": "As soon as we receive the booking costs, we will firmly record the appointment in our calendar.",
+    "For:": "For:",
+    "Total Amount:": "Total Amount:",
+    "View Invoice": "View Invoice",
+    "Best regards,": "Best regards,",
+    "B. Arnold": "B. Arnold",
+    "Created and sent with :app.": "Created and sent with :app."
 }

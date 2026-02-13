@@ -28,16 +28,6 @@ const menu = [
         icon: Book,
     },
 
-    // {
-    //     route: '/user/payments',
-    //     label: 'Payments',
-    //     icon: Banknote,
-    // },
-    // {
-    //     route: '/user/profile',
-    //     label: 'My profile',
-    //     icon: User,
-    // },
     {
         route: '/user/messages',
         label: 'Messages',

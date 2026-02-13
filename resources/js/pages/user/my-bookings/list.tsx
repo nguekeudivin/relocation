@@ -37,11 +37,12 @@ export default function MyBookings() {
 
                             {/* Content */}
                             <div>
-                                <h3 className="text-sm font-semibold text-blue-900">Additional Information</h3>
+                                <h3 className="text-sm font-semibold text-blue-900">{t('Additional Information')}</h3>
 
                                 <p className="mt-1 text-sm leading-relaxed text-blue-800">
-                                    If you have any additional details regarding your move, please use the message section to chat with our team. You
-                                    can also upload photos and provide specific information about the items you would like us to transport.
+                                    {t(
+                                        'If you have any additional details regarding your move, please use the message section to chat with our team. You can also upload photos and provide specific information about the items you would like us to transport.',
+                                    )}
                                 </p>
                             </div>
                         </div>

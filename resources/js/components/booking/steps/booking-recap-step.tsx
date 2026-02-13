@@ -20,8 +20,6 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
 
     useEffect(() => {
         if (auth.user) {
-            // With account means that an account is created as the same time with the booking.
-            // If we create a booking with the current user account with_account = false because a new account is not created.
             form.setValue('with_account', false);
             form.setValue('user_id', auth.user.id);
             setLoggedUser(auth.user);

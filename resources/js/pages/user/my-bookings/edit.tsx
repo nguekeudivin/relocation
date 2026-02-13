@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { useSimpleForm, validateObject } from '@/hooks/use-simple-form';
 import useTranslation from '@/hooks/use-translation';
 import MemberLayout from '@/layouts/member-layout/member-layout';
-import { cn, formatDate, pick } from '@/lib/utils';
+import { cn, pick } from '@/lib/utils';
 import useAppStore from '@/store';
 import { usePage } from '@inertiajs/react';
 import { Clock, FileCheck, MapPinHouse } from 'lucide-react';
@@ -19,7 +19,7 @@ export default function MyProfilePage() {
     const store = useAppStore();
     const { booking } = usePage<any>().props;
     const [activeTab, setActiveTab] = useState<any>('location');
-    const { t } = useTranslation();
+    const { t, formatDate } = useTranslation();
 
     const form = useSimpleForm({
         //

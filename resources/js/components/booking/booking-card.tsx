@@ -166,17 +166,13 @@ export default function BookingCard({ booking, header, mode }: Props) {
                         </span>
                     </div>
                     <>
-                        {mode == 'user' && (
-                            <p className="mt-4 rounded-md bg-blue-50 p-2 text-sm text-blue-900">
-                                {t('You paid only the tax online. The remaining amount will be pay to the workers at the end of the job')}
-                            </p>
-                        )}
+                        {mode == 'user' && <p className="mt-4 rounded-md bg-blue-50 p-2 text-sm text-blue-900">{t('booking.payment_notice')}</p>}
 
                         <div className="mt-4 flex space-x-4">
                             <Button
                                 color="secondary"
                                 onClick={() => {
-                                    window.open(`/bookings/${booking.id}/invoice`, '_blank');
+                                    window.open(`/bookings/${booking.id}/invoice?lang=${localStorage.getItem('locale') || 'en'}`, '_blank');
                                 }}
                                 className="flex items-center gap-2"
                             >

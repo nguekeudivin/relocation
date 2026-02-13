@@ -111,7 +111,7 @@
                 @endif
 
                  <tr>
-                    <td><strong>{{ t('Transport') }}</strong></td>
+                    <td><strong>{{ t('Transport fee') }}</strong></td>
                     <td>{{ $date }}</td>
                     <td>-</td>
                     <td>-</td>

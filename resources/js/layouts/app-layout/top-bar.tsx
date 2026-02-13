@@ -1,6 +1,7 @@
 'use client';
 
 import { SelectProfileModal } from '@/components/users/select-profile-modal';
+import useTranslation from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import useAppStore from '@/store';
 import { Profile } from '@/store/User';
@@ -15,6 +16,7 @@ export default function TopBar({ className, menu }: { className: string; menu: a
     const store = useAppStore();
 
     const currentProfile = auth.profiles.find((item: Profile) => item.role_id == auth.user.current_user_role_id);
+    const { t } = useTranslation();
 
     useEffect(() => {
         // store.notification.fetch({
@@ -109,7 +111,7 @@ export default function TopBar({ className, menu }: { className: string; menu: a
                                         className="hover:bg-primary-100 flex w-full items-center gap-2 rounded rounded-full px-3 py-2 transition"
                                     >
                                         <LogOut className="h-4 w-4" />
-                                        <span> Logout </span>
+                                        <span> {t('Logout')} </span>
                                     </Link>
                                 </nav>
                             </motion.div>

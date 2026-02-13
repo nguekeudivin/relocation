@@ -18,7 +18,7 @@
 **{{ t('Due Date:') }}** {{ $booking->date->addDays(5)->translatedFormat('d.m.Y') }}   
 **{{ t('Total Amount:') }}** **{{ number_format($booking->amount, 2, ',', ' ') }} €** 
 
-@component('mail::button', ['url' => url('/invoice?token='.$booking->token)])
+@component('mail::button', ['url' => url('/invoice?lang='.$lang.'&token='.$booking->token)])
 {{ t('View Invoice') }}
 @endcomponent
 

@@ -51,9 +51,9 @@ export default function Welcome() {
                     <section className="mx-auto grid max-w-6xl grid-cols-1 gap-12 pt-[180px] md:grid-cols-2">
                         <aside className="space-y-6">
                             <div className="text-3xl font-light md:text-5xl">
-                                <h2>{t('The best move you')}</h2>
+                                <h2>{t('home.best.first')}</h2>
                                 <h2 className="mt-2 font-semibold">
-                                    {t('will')} <span className="bg-primary-500/50">{t('ever make')}</span>
+                                    {t('home.best.second')} <span className="bg-primary-500/50">{t('home.best.third')}</span>
                                 </h2>
                             </div>
 
@@ -85,7 +85,8 @@ export default function Welcome() {
                     <h3 className="text-center text-xl font-light">{t('We move safely')}</h3>
                     <div className="border-primary-600 mx-auto mt-1 w-[120px] border-2"></div>
                     <h4 className="mt-4 text-center text-4xl">
-                        <span className="font-light">{t('Safe moving')}</span> <span className="font-semibold">{t('Procedures')}</span>
+                        <span className="font-light">{t('home.safe_title.first')}</span>{' '}
+                        <span className="font-semibold">{t('home.safe_title.second')}</span>
                     </h4>
 
                     <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-3">
@@ -281,7 +282,11 @@ export default function Welcome() {
                     </div>
                 </div>
 
-                <div className="mx-auto max-w-6xl border-t border-gray-300 py-4 text-gray-600">{`Copyright ${new Date().getFullYear()} Relocation`}</div>
+                <div className="mx-auto max-w-6xl border-t border-gray-300 py-4 text-gray-600">
+                    &copy;
+                    {` ${new Date().getFullYear()} `}
+                    {t('All rights reserved')} Arnold Umzug
+                </div>
             </footer>
             <TermsModal />
         </>

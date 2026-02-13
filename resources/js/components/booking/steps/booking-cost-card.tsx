@@ -52,7 +52,7 @@ export default function BookingCostCard({ form }: { form: any }) {
                 <div className="my-1 border-t border-gray-300"></div>
                 <li className="flex justify-between">
                     <div>
-                        <span>{t('Transport')}</span>
+                        <span>{t('Transport fee')}</span>
                     </div>
                     <div>
                         <span className="md:hidden"> = </span>
@@ -74,11 +74,19 @@ export default function BookingCostCard({ form }: { form: any }) {
             <div className="border-primary-600 my-2 border-t border-dashed"></div>
             <ul className="text-sm">
                 <li className="flex justify-between">
-                    <span>{t('Total cost of the service : ')} </span> <span className="font-semibold">{total}€ </span>
+                    {carTax != 0 ? (
+                        <>
+                            <span>{t('Reversation fee (workers and vehicle taxes):')} </span> <span className="font-semibold">{tax}€ </span>
+                        </>
+                    ) : (
+                        <>
+                            <span>{t('Reversation fee (workers taxes)')} </span> <span className="font-semibold">{tax}€ </span>
+                        </>
+                    )}
                 </li>
                 <li className="my-1 border-t border-gray-300"></li>
                 <li className="flex justify-between">
-                    <span>{t('Reversation fee (workers and vehicle taxes):')} </span> <span className="font-semibold">{tax}€ </span>
+                    <span>{t('Total cost of the service : ')} </span> <span className="font-semibold">{total}€ </span>
                 </li>
             </ul>
         </div>

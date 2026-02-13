@@ -1,9 +1,12 @@
+import useTranslation from '@/hooks/use-translation';
 import { cn } from '@/lib/utils'; // assuming a utility for classNames
 import type { MenuItemType } from '@/types';
 import { Link } from '@inertiajs/react';
 
 export const Menu = ({ menu, className }: { menu: any; className: string }) => {
     const pathname = '';
+
+    const { t } = useTranslation();
 
     return (
         <div className={cn('scrollbar-thin w-full overflow-hidden hover:overflow-auto', className)}>
@@ -20,7 +23,7 @@ export const Menu = ({ menu, className }: { menu: any; className: string }) => {
                                     })}
                                 >
                                     <item.icon className="h-5 w-5" />
-                                    <span className="ms-3">{item.label}</span>
+                                    <span className="ms-3">{t(item.label)}</span>
                                 </Link>
                             ) : (
                                 <Link
@@ -30,7 +33,7 @@ export const Menu = ({ menu, className }: { menu: any; className: string }) => {
                                     })}
                                 >
                                     <item.icon className="h-5 w-5" />
-                                    <span className="ms-3">{item.label}</span>
+                                    <span className="ms-3">{t(item.label)}</span>
                                 </Link>
                             )}
                         </li>

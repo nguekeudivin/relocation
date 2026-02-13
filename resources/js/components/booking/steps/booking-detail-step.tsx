@@ -92,7 +92,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                             value={form.values.distance_paderborn}
                             onChange={form.handleChange}
                         />
-                        <small className="text-xs text-gray-600">{t('You pay transport if you are outside Paterbon')}</small>
+                        <small className="text-xs text-gray-600">{t('You pay transport if you are outside Paderborn')}</small>
                     </div>
                 </div>
 

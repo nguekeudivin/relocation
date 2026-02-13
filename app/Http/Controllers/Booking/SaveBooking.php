@@ -82,9 +82,9 @@ class SaveBooking
             'id' => $booking->id
         ]);
 
-        // Mail::to($booking->email)->send(
-        //     new BookingCreatedMail($booking, $lang)
-        // );
+        Mail::to($booking->email)->send(
+            new BookingCreatedMail($booking, $lang)
+        );
         
         // Mail::to($settings['notification_email'])->send(
         //     new AdminBookingCreatedMail($booking, $lang)

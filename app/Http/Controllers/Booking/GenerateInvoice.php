@@ -24,7 +24,7 @@ class GenerateInvoice extends Controller
             $booking = Booking::with(['origin', 'destination', 'user'])->find($tokenData->id);
             if (!$booking) return redirect()->back();
 
-            $data = GetInvoiceData::call($booking);
+            $data = GetInvoiceData::call($booking, $request->input('lang'));
 
             $pdf = Pdf::loadView('pdf.invoice', $data);
 

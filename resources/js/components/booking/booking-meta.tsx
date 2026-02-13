@@ -41,7 +41,6 @@ export const BookingTableColumns = ({ onView, onEdit, onDelete }: { onView?: any
             row: (booking: Booking) => (
                 <div onClick={() => onView(booking)} className="cursor-pointer hover:text-blue-800 hover:underline">
                     <div>{formatDate(booking.date)}</div>
-                    {/* <div className="text-xs text-gray-600">{formatDate(booking.date)}</div> */}
                 </div>
             ),
         },

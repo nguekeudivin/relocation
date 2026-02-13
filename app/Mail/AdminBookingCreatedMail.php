@@ -18,9 +18,12 @@ class AdminBookingCreatedMail extends Mailable
 
     public Booking $booking;
 
-    public function __construct(Booking $booking)
+    public string $lang;
+
+    public function __construct(Booking $booking, $lang)
     {
         $this->booking = $booking->loadMissing(['user', 'origin', 'destination']);
+        $this->lang = $lang;
     }
 
     protected function withCommonData(): array
@@ -49,7 +52,7 @@ class AdminBookingCreatedMail extends Mailable
 
     public function attachments(): array
     {
-        $data = GetInvoiceData::call($this->booking);
+        $data = GetInvoiceData::call($this->booking, $this->lang);
 
         $pdf = Pdf::loadView('pdf.invoice', $data);
 
