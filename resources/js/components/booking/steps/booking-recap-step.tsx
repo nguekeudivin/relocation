@@ -110,12 +110,12 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                         <div>
                             <div className="flex justify-between">
                                 <span className="text-sm font-medium">{t('Total amount')}</span>
-                                <span className="font-semibold">{parseFloat(booking.amount as any)} €</span>
+                                <span className="font-semibold">{parseFloat(booking.amount as any).toFixed(2)} €</span>
                             </div>
 
                             <div className="flex justify-between">
                                 <span className="text-sm font-medium">{t('Reservation fee (workers and vehicle charges)')}</span>
-                                <span className="font-semibold">{parseFloat(booking.tax as any)} €</span>
+                                <span className="font-semibold">{parseFloat(booking.tax as any).toFixed(2)} €</span>
                             </div>
                         </div>
 
@@ -157,16 +157,24 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                             label={t('Last name')}
                             error={store.errors.values.last_name}
                         />
-                    </div>
 
-                    <InputField
-                        className="mt-4"
-                        name="email"
-                        value={form.values.email}
-                        onChange={form.handleChange}
-                        label={t('Email address')}
-                        error={store.errors.values.email}
-                    />
+                        <InputField
+                            className="col-span-2"
+                            name="email"
+                            value={form.values.email}
+                            onChange={form.handleChange}
+                            label={t('Email address')}
+                            error={store.errors.values.email}
+                        />
+
+                        {/* <InputField
+                            name="address"
+                            value={form.values.address}
+                            onChange={form.handleChange}
+                            label={t('Full Address')}
+                            error={store.errors.values.address}
+                        /> */}
+                    </div>
                 </Show>
 
                 {/* Account */}
@@ -194,6 +202,14 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                             label={t('Email address')}
                             error={store.errors.values.email}
                         />
+
+                        {/* <InputField
+                            name="address"
+                            value={form.values.address}
+                            onChange={form.handleChange}
+                            label={t('Full Address')}
+                            error={store.errors.values.address}
+                        /> */}
 
                         <div>
                             <label className="mb-1.5 block text-sm font-medium text-gray-900">{t('Phone number')}</label>

@@ -20,6 +20,8 @@ class CreateBooking extends Controller
             'from_city'      => 'required',      
             'to_city'        => 'required',
             'from_street'    => 'required',
+            'from_postal_code' => 'required',
+            'to_postal_code' => 'required',
             'to_street'      => 'required',
             'first_name'     => 'required',
             'last_name'      => 'required',

@@ -7,6 +7,7 @@ import FullPagination from '@/components/common/FullPagination';
 import PageTitle from '@/components/common/PageTitle';
 import { SearchEngine } from '@/components/shared/search-engine';
 import { useSimpleForm } from '@/hooks/use-simple-form';
+import useTranslation from '@/hooks/use-translation';
 import AppLayout from '@/layouts/app-layout/app-layout';
 import useAppStore from '@/store';
 import debounce from 'lodash.debounce';
@@ -15,6 +16,7 @@ import { useEffect, useMemo } from 'react';
 
 export default function BookingsPage() {
     const store = useAppStore();
+    const { t } = useTranslation();
 
     const searchForm = useSimpleForm({ keyword: undefined, page: 1, per_page: 10 });
 
@@ -41,7 +43,7 @@ export default function BookingsPage() {
             <CompleteBookingModal />
             <AppLayout breadcrumbds={[]}>
                 <div className="mx-auto max-w-5xl px-4 md:px-0">
-                    <PageTitle title="Bookings" />
+                    <PageTitle title={t('Bookings')} />
 
                     <div className="mt-5"></div>
 
@@ -52,7 +54,7 @@ export default function BookingsPage() {
                         autoComplete={autoCompleteDebounced}
                         selects={[
                             {
-                                placeholder: 'All statuses',
+                                placeholder: t('All statuses'),
                                 options: BookingStatusOptions,
                                 name: 'status',
                                 icon: <Package className="h-4 w-4" />,
@@ -68,7 +70,7 @@ export default function BookingsPage() {
                                 <div className="mx-auto text-center">
                                     <Package className="mx-auto h-8 w-8 text-gray-600" />
                                 </div>
-                                <div className="mt-2 text-center text-gray-600">No data available</div>
+                                <div className="mt-2 text-center text-gray-600">{t('No data available')}</div>
                             </div>
                         </div>
                     ) : (

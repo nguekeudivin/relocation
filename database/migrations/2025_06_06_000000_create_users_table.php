@@ -15,6 +15,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('email');
             $table->string('phone_number');
+            $table->string('address')->nullable();
             $table->unsignedBigInteger('address_id')->nullable();
             $table->enum('status', User::STATUSES)->default('active');
             $table->timestamp('email_verified_at')->nullable();

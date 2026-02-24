@@ -20,7 +20,7 @@ class GetInvoiceData
                 
                 'client_name'  => trim(($booking->first_name ?? '') . ' ' . ($booking->last_name ?? '')) ?: ($booking->user->full_name ?? $booking->email),
                 'client_street'=> $booking->origin->street ?? 'N/A',
-                'client_city'  => trim(($booking->origin->zip ?? '') . ' ' . ($booking->origin->city ?? '')),
+                'client_city'  => trim(($booking->origin->postal_code ?? '') . ' ' . ($booking->origin->city ?? '')),
                 
                 'date' => $booking->date->format('d.m.Y'),
                 'workers'      => $booking->workers,

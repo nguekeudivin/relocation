@@ -15,9 +15,6 @@ use App\Models\User;
 use App\Models\Role;
 use App\Http\Controllers\Booking\SaveBooking;
 use Illuminate\Support\Facades\DB; 
-use App\Mail\User\AccountCreatedMail;
-use App\Mail\User\AccountCreatedAdminMail;
-use Illuminate\Support\Facades\Mail;
 
 class RegisteredUserController extends Controller
 {

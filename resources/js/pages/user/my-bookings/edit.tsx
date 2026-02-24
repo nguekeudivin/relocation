@@ -68,14 +68,14 @@ export default function MyProfilePage() {
                             <div className="border-b border-gray-200">
                                 <ul className="-mb-px flex flex-wrap text-center text-sm font-medium text-gray-500">
                                     {[
-                                        { name: 'Location', icon: MapPinHouse, key: 'location' },
+                                        { name: t('Location'), icon: MapPinHouse, key: 'location' },
                                         {
-                                            name: 'Date and time',
+                                            name: t('Date and time'),
                                             icon: Clock,
                                             key: 'date',
                                         },
                                         {
-                                            name: 'Details',
+                                            name: t('Details'),
                                             icon: FileCheck,
                                             key: 'details',
                                         },

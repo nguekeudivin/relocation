@@ -44,7 +44,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
     return (
         <AuthLayout>
-            <Head title="Connexion" />
+            <Head title={t('Login')} />
 
             <h3 className="mt-8 text-center text-3xl font-semibold">{t('Welcome back')}!</h3>
             <h4 className="mt-1 text-center text-gray-700">{t('Connect to your account and manage your bookings')}</h4>
@@ -62,10 +62,17 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             )}
 
             <form onSubmit={submit} className="mt-6 space-y-6">
-                <InputField label="Email address" name="email" value={data.email} onChange={handleChange} canToggleType={true} error={errors.email} />
+                <InputField
+                    label={t('Email address')}
+                    name="email"
+                    value={data.email}
+                    onChange={handleChange}
+                    canToggleType={true}
+                    error={errors.email}
+                />
 
                 <InputField
-                    label="Password"
+                    label={t('Password')}
                     name="password"
                     value={data.password}
                     onChange={handleChange}
@@ -76,9 +83,9 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
                 <div className="mt-4 text-sm text-gray-700">
                     {canResetPassword && (
-                        <TextLink href="#" className="ml-auto text-sm" tabIndex={5}>
-                            <span>{t('Password forget ?')}</span>
-                            <span className="ml-1 text-teal-800 hover:underline">{`Yes`}</span>
+                        <TextLink href={route('password.request')} className="ml-auto text-sm" tabIndex={5}>
+                            <span>{t('Forgot password?')}</span>
+                            <span className="ml-1 text-teal-800 hover:underline">{t('Yes')}</span>
                         </TextLink>
                     )}
                 </div>

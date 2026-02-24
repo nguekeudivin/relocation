@@ -45,18 +45,20 @@ export default function BookingCostCard({ form }: { form: any }) {
                         </div>
                         <div>
                             <span className="md:hidden"> = </span>
-                            <span className="font-semibold">{`${carTax}€ `}</span>
+                            <span className="font-semibold">{`${carTax.toFixed(2)}€ `}</span>
                         </div>
                     </li>
                 </Show>
+
                 <div className="my-1 border-t border-gray-300"></div>
+
                 <li className="flex justify-between">
                     <div>
                         <span>{t('Transport fee')}</span>
                     </div>
                     <div>
                         <span className="md:hidden"> = </span>
-                        <span className="font-semibold">{`${transport}€ `}</span>
+                        <span className="font-semibold">{`${transport.toFixed(2)}€ `}</span>
                     </div>
                 </li>
                 <div className="my-1 border-t border-gray-300"></div>
@@ -67,7 +69,7 @@ export default function BookingCostCard({ form }: { form: any }) {
                     </div>
                     <div>
                         <span className="md:hidden"> = </span>
-                        <span className="font-semibold">{durationCost}€</span>
+                        <span className="font-semibold">{durationCost.toFixed(2)}€</span>
                     </div>
                 </li>
             </ul>
@@ -76,17 +78,18 @@ export default function BookingCostCard({ form }: { form: any }) {
                 <li className="flex justify-between">
                     {carTax != 0 ? (
                         <>
-                            <span>{t('Reversation fee (workers and vehicle taxes):')} </span> <span className="font-semibold">{tax}€ </span>
+                            <span>{t('Reversation fee (workers and vehicle taxes):')} </span>{' '}
+                            <span className="font-semibold">{tax.toFixed(2)}€ </span>
                         </>
                     ) : (
                         <>
-                            <span>{t('Reversation fee (workers taxes)')} </span> <span className="font-semibold">{tax}€ </span>
+                            <span>{t('Reversation fee (workers taxes)')} </span> <span className="font-semibold">{tax.toFixed(2)}€ </span>
                         </>
                     )}
                 </li>
                 <li className="my-1 border-t border-gray-300"></li>
                 <li className="flex justify-between">
-                    <span>{t('Total cost of the service : ')} </span> <span className="font-semibold">{total}€ </span>
+                    <span>{t('Total cost of the service : ')} </span> <span className="font-semibold">{total.toFixed(2)}€ </span>
                 </li>
             </ul>
         </div>

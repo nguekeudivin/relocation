@@ -280,3 +280,7 @@ export function getFirstColors(x: number) {
     return result;
 }
 // Example usage:
+
+export function numberValueOrZero(value: any) {
+    return value == undefined || value == null || value == '' ? 0 : value;
+}

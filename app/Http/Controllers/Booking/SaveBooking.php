@@ -40,11 +40,13 @@ class SaveBooking
         $origin = Address::create([
             'city'   => $data['from_city'],
             'street' => $data['from_street'],
+            'postal_code' => $data['from_postal_code']
         ]);
 
         $destination = Address::create([
             'city'   => $data['to_city'],
             'street' => $data['to_street'],
+            'postal_code' => $data['to_postal_code']
         ]);
 
         $user = null;

@@ -10,14 +10,23 @@ class Address extends Model
         'country',
         'state',
         'city',
-        'street'
+        'street',
+        'postal_code'
     ];
 
     protected $appends = [
         'full_address'
     ];
 
-    public function getFullAddressAttribute(){
-        return $this->country." ".$this->state." ".$this->city." ".$this->street;
+    public function getFullAddressAttribute(): string
+    {
+        return collect([
+            $this->street,
+            $this->postal_code ? $this->postal_code . ' ' . $this->city : $this->city,
+            $this->state,
+            $this->country
+        ])
+        ->filter() 
+        ->implode(', '); 
     }
 }

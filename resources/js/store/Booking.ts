@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/http';
 import { createResourceStore, ResourceStore } from '@/lib/resource';
+import { numberValueOrZero } from '@/lib/utils';
 import { User } from './User';
 
 export interface Booking {
@@ -101,7 +102,7 @@ export const getTransportBasePrice = (form: any, settings: any, isWeekday: any) 
 };
 
 export const getWorkerTax = (form: any, settings: any) => {
-    return parseFloat(form.values.workers) * parseFloat(settings.worker_tax);
+    return parseFloat(numberValueOrZero(form.values.workers)) * parseFloat(settings.worker_tax);
 };
 
 export const getCarTax = (form: any, settings: any) => {
@@ -110,16 +111,17 @@ export const getCarTax = (form: any, settings: any) => {
 
 export const getCarTransport = (form: any, settings: any) => {
     return form.values.car_type != undefined
-        ? parseFloat(form.values.transport_price) + parseFloat(settings.fee_per_km) * parseInt(form.values.distance) * 2
+        ? parseFloat(numberValueOrZero(form.values.transport_price)) +
+              parseFloat(settings.fee_per_km) * parseInt(numberValueOrZero(form.values.distance)) * 2
         : 0;
 };
 
 export const getPaderbornTransport = (form: any, settings: any) => {
-    return parseFloat(settings.fee_per_km) * parseInt(form.values.distance_paderborn) * 2;
+    return parseFloat(settings.fee_per_km) * parseInt(numberValueOrZero(form.values.distance_paderborn)) * 2;
 };
 
 export const getDurationCost = (form: any, settings: any) => {
-    return parseFloat(form.values.workers) * form.values.duration * parseFloat(settings.price_per_hour);
+    return parseFloat(numberValueOrZero(form.values.workers)) * form.values.duration * parseFloat(settings.price_per_hour);
 };
 
 export const createBookingInstance = (form: any, settings: any) => {

@@ -5,6 +5,7 @@ import { ChangeEvent, FormEventHandler } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { InputField } from '@/components/ui/form';
+import useTranslation from '@/hooks/use-translation';
 
 interface ResetPasswordProps {
     token: string;
@@ -19,6 +20,8 @@ type ResetPasswordForm = {
 };
 
 export default function ResetPassword({ token, email }: ResetPasswordProps) {
+    const { t } = useTranslation();
+
     const { data, setData, post, processing, errors, reset } = useForm<Required<ResetPasswordForm>>({
         token: token,
         email: email,
@@ -40,18 +43,18 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
 
     return (
         <AuthLayout>
-            <Head title="Réinitialiser le mot de passe" />
+            <Head title={t('Reset password')} />
 
             <div className="mx-auto h-[100px] w-[100px] bg-cover" style={{ backgroundImage: `url(/images/logo-1.jpeg)` }}></div>
 
-            <h3 className="mt-8 text-center text-3xl font-semibold">Réinitialiser votre mot de passe</h3>
-            <h4 className="mt-1 text-center text-gray-700">Veuillez entrer votre nouvelle adresse e-mail et votre nouveau mot de passe.</h4>
+            <h3 className="mt-8 text-center text-3xl font-semibold">{t('Reset your password')}</h3>
+            <h4 className="mt-1 text-center text-gray-700">{t('Please enter your email address and your new password.')}</h4>
 
             <form onSubmit={submit} className="mt-6">
                 <div className="space-y-6">
                     <InputField
                         inputClass="bg-gray-200"
-                        label="Addresse email"
+                        label={t('Email address')}
                         name="email"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
@@ -62,7 +65,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                     />
 
                     <InputField
-                        label="Nouveau mot de passe"
+                        label={t('New password')}
                         name="password"
                         value={data.password}
                         onChange={handleChange}
@@ -73,7 +76,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                     />
 
                     <InputField
-                        label="Confirmer le mot de passe"
+                        label={t('Confirm password')}
                         name="password_confirmation"
                         value={data.password_confirmation}
                         onChange={handleChange}
@@ -86,7 +89,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                 <div className="mt-8">
                     <Button className="w-full" loading={processing} type="submit">
                         {processing ? <LoaderCircle className="mr-2 h-4 w-4 animate-spin" /> : null}
-                        Réinitialiser le mot de passe
+                        {t('Reset password')}
                     </Button>
                 </div>
             </form>

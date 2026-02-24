@@ -88,7 +88,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                         <InputField
                             name="distance_paderborn"
                             type="number"
-                            label={t('What is the distance the pickup place you and Paterborn ?')}
+                            label={t('What is the distance between the pickup place and Paderborn?')}
                             value={form.values.distance_paderborn}
                             onChange={form.handleChange}
                         />

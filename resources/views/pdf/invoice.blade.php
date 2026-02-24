@@ -53,7 +53,7 @@
                     <div class="client-box">
                         <strong>{{ $client_name }}</strong><br>
                         {{ $client_street }}<br>
-                        {{ $client_city }}
+                        {{ $client_city }} <br>
                     </div>
                 </td>
                 <td style="vertical-align: top;">
@@ -124,7 +124,7 @@
                     <td><strong>{{ t('Prestation Cost:') }}</strong></td>
                     <td>{{ $date }}</td>
                     <td>{{ t('Hrs.') }}</td>
-                    <td>{{ number_format($workers * $duration, 2, '.', '') }}</td>
+                    <td>{{ number_format($duration, 2, '.', '') }}</td>
                     <td>{{ number_format($price_per_hour, 2, '.', ',') }} €</td>
                     {{-- <td>0.00%</td> --}}
                     <td style="text-align: right;">{{ number_format($prestation_cost, 2, '.', ',') }} €</td>
@@ -183,7 +183,7 @@
         <p style="text-align: right; font-size: 12px;">{{ t('As of:') }} {{ $date }}</p>
 
         <div class="cgv-section" style="margin-top: 20px;">
-            <h4>{{ __('5. Obligations of the Customer') }}</h4>
+            <h4>{{ t('5. Obligations of the Customer') }}</h4>
             <p>{{ t('The customer is obliged to inform the service provider of the specific nature of the goods to be transported and their susceptibility to damage.') }}</p>
             <p>{{ t('Unless Arnold-Umzug is explicitly commissioned for a professional packing service, particularly sensitive objects such as marble, glass, porcelain, frames, lighting fixtures, and other objects of high fragility must be adequately protected and secured by the customer for transport.') }}</p>
             <p>{{ t('Original or equivalent packaging is recommended. Unless otherwise agreed, the customer is responsible for protecting sensitive floors, walls, and elevators at both the pickup and delivery locations with appropriate means.') }}</p>

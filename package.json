@@ -17,6 +17,8 @@
         "@types/google-libphonenumber": "^7.4.30",
         "@types/lodash.debounce": "^4.0.9",
         "@types/node": "^22.13.5",
+        "base": "^3.0.0",
+        "baseline-browser-mapping": "^2.10.0",
         "eslint": "^9.17.0",
         "eslint-config-prettier": "^10.0.1",
         "eslint-plugin-react": "^7.37.3",
