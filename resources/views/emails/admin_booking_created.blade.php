@@ -9,7 +9,7 @@
 {{ t('A new booking has been submitted. The customer is about to pay the reservation fee. The invoice is attached to this email.') }}
 
 @component('mail::panel')
-**{{ t('Customer') }}:** {{ $booking->user->full_name ?? $booking->email }}  
+**{{ t('Customer') }}:** {{ $booking->first_name.' '.$booking->last_name }}  
 **{{ t('Email') }}:** {{ $booking->email ?? $booking->user?->email }}  
 **{{ t('Moving out address') }}:** {{ $booking->origin?->city }}{{ $booking->origin?->street ? ' - ' . $booking->origin->street : '' }}  
 **{{ t('Moving in address') }}:** {{ $booking->destination?->city }}{{ $booking->destination?->street ? ' - ' . $booking->destination->street : '' }}  

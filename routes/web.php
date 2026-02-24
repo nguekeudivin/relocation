@@ -106,7 +106,7 @@ Route::get('/preview-mail', function () {
             'id' => $booking->id
         ]);
     // return new \App\Mail\BookingCreatedMail($booking, $user, $greetingName);
-    return new \App\Mail\BookingCreatedMail($booking, 'de');
+    return new \App\Mail\AdminBookingCreatedMail($booking, 'de');
 });
 
 require __DIR__.'/auth.php';
