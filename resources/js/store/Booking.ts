@@ -138,7 +138,12 @@ export const createBookingInstance = (form: any, settings: any) => {
         duration: form.values.duration,
         car_type: form.values.car_type,
         distance: form.values.distance,
-        amount: getWorkerTax(form, settings) + getCarTax(form, settings) + getDurationCost(form, settings),
+        amount:
+            getWorkerTax(form, settings) +
+            getCarTax(form, settings) +
+            getCarTransport(form, settings) +
+            getPaderbornTransport(form, settings) +
+            getDurationCost(form, settings),
         tax: getWorkerTax(form, settings) + getCarTax(form, settings),
         car_transport: getCarTransport(form, settings),
         distance_paderborn: form.values.distance_paderborn,
