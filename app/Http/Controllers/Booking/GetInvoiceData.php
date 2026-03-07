@@ -36,14 +36,9 @@ class GetInvoiceData
                 'booking_fee'      => $booking->workers_tax + $booking->car_tax,
                 'transport'       => $booking->transport,
 
-                'description' => t("Provision of a moving service including :workers assistants :transport for a total duration of up to :duration working hours. The total cost of the service is :price €, which includes the initial booking fees required to secure the date.", 
-                            [
-                                'workers'  => $booking->workers,
-                                'duration' => $booking->duration,
-                                'price'    => number_format($booking->amount, 2),
-                                'transport' => $booking->car_type == null ? '' : 'and a '.($booking->car_type == 'bus' ? t('bus') : t('van'))
-                            ]
-                ),
+
+                'car_type' => $booking->car_type == null ? '' : 'and a '.($booking->car_type == 'bus' ? t('bus') : t('van')),
+
                 'email' => 'kenelly391@gmail.com',
                 'tel'   => '0151 47353235',
                 'bank'  => 'N26',

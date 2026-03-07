@@ -73,7 +73,14 @@
             {{ t('We thank you for your inquiry regarding the work on :date at :street in :city.', ['date' => $date, 'street' => $client_street, 'city' => $client_city]) }}
         </p>
         
-        <p style="font-size: 12px;">{{ $description }}</p>
+        <p style="font-size: 12px;">{{ t("Provision of a moving service including :workers assistants :transport for a total duration of up to :duration working hours. The total cost of the service is :price €, which includes the initial booking fees required to secure the date.", 
+                            [
+                                'workers'  => $workers,
+                                'duration' => $duration,
+                                'price'    => number_format($total_service, 2),
+                                'transport' => $car_type
+                            ]
+                ) }}</p>
 
         <table class="items-table">
             <thead>
