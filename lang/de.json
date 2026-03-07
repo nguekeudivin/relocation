@@ -511,5 +511,6 @@
     "Your booking has been confirmed.": "Ihre Buchung wurde bestätigt.",
     "View Booking Details": "Buchungsdetails anzeigen",
     "What is the distance between the pickup place and Paderborn?": "Wie groß ist die Entfernung zwischen dem Abholort und Paderborn?",
-    "You pay transport if you are outside Paderborn": "Anfahrtskosten fallen nur außerhalb von Paderborn an"
+    "You pay transport if you are outside Paderborn": "Anfahrtskosten fallen nur außerhalb von Paderborn an",
+    "Provision of a moving service including :workers assistants :transport for a total duration of up to :duration working hours. The total cost of the service is :price €, which includes the initial booking fees required to secure the date.": "Bereitstellung eines Umzugsservice inklusive Umzugshelfern und Transportmittel für eine Gesamtdauer von bis zu :duration Arbeitsstunden. Der Gesamtpreis der Dienstleistung beträgt :price €, einschließlich der für die Terminreservierung erforderlichen Anzahlung."
 }

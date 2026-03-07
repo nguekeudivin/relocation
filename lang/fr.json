@@ -504,5 +504,6 @@
     "Your booking has been confirmed.": "Votre réservation a été confirmée.",
     "View Booking Details": "Voir les détails de la réservation",
     "What is the distance the pickup place you and Paterborn ?": "Entfernung zwischen Abholort und Paderborn",
-    "You pay transport if you are outside Paderborn": "Anfahrtskosten fallen außerhalb von Paderborn an"
+    "You pay transport if you are outside Paderborn": "Anfahrtskosten fallen außerhalb von Paderborn an",
+    "Provision of a moving service including :workers assistants :transport for a total duration of up to :duration working hours. The total cost of the service is :price €, which includes the initial booking fees required to secure the date.": "Prestation de service de déménagement comprenant : :workers assistants :transport pour une durée totale allant jusqu'à :duration heures de travail. Le coût total de la prestation est de :price €, incluant les frais de réservation initiaux nécessaires pour garantir la date."
 }
