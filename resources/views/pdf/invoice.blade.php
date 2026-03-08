@@ -96,7 +96,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>{{ t('Workers Tax:') }}</strong></td>
+                    <td><strong>{{ t('Workers tax') }}</strong></td>
                     <td>{{ $date }}</td>
                     <td>{{ t('Pcs.') }}</td>
                     <td>{{ number_format($workers, 2, '.', '') }}</td>

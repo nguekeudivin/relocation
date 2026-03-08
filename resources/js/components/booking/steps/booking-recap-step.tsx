@@ -22,6 +22,9 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
         if (auth.user) {
             form.setValue('with_account', false);
             form.setValue('user_id', auth.user.id);
+            form.setValue('first_name', auth.user.first_name);
+            form.setValue('last_name', auth.user.last_name);
+            form.setValue('email', auth.user.email);
             setLoggedUser(auth.user);
             store.display.show('hide_submit');
         }

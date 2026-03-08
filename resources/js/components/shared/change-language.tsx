@@ -11,10 +11,10 @@ const LANGUAGES = [
 
 export default function ChangeLanguage() {
     const { t } = useTranslation();
-    const [currentLang, setCurrentLang] = useState<string>('en');
+    const [currentLang, setCurrentLang] = useState<string>('de');
 
     useEffect(() => {
-        const storedLang = localStorage.getItem('locale') || 'en';
+        const storedLang = localStorage.getItem('locale') || 'de';
         setCurrentLang(storedLang);
     }, []);
 

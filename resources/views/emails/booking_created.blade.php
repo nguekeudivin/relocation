@@ -20,7 +20,7 @@
 
 @component('mail::button', ['url' => url('/invoice?lang='.$lang.'&token='.$booking->token)])
 {{ t('View Invoice') }}
-@endcomponent
+@endcomponent   
 
 {{ t('Best regards,') }}  
 **{{ t('B. Arnold') }}** 
