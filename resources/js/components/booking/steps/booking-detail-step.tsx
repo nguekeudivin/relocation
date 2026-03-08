@@ -119,7 +119,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                             <InputField
                                 name="distance"
                                 type="number"
-                                label={t('How long is the distance in km ?')}
+                                label={t('How long is the distance between the moving out address and the moving in address in km ?')}
                                 value={form.values.distance}
                                 onChange={form.handleChange}
                             />

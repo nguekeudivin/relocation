@@ -1,16 +1,16 @@
 @component('mail::message')
 
-# {{ t('Booking Confirmed') }}
+# Buchung bestaetigt
 
-{{ t('Hello :name', ['name' => $greetingName]) }}
+Hallo {{ $greetingName }},
 
-{{ t('Your booking has been confirmed.', ['id' => $booking->id]) }}
+Ihre Umzugsbuchung wurde erfolgreich bestaetigt.
 
 @component('mail::button', ['url' => route('user.bookings')])
-{{ t('View Booking Details') }}
+Buchungsdetails ansehen
 @endcomponent
 
-{{ t('Regards') }},  
+Freundliche Grusse,  
 **{{ config('app.name') }}**
 
 @endcomponent

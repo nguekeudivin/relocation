@@ -32,10 +32,16 @@ class PasswordResetLinkController extends Controller
             'email' => 'required|email',
         ]);
 
-        Password::sendResetLink(
+        $status = Password::sendResetLink(
             $request->only('email')
         );
 
-        return back()->with('status', __('A reset link will be sent if the account exists.'));
+        if ($status === Password::RESET_LINK_SENT) {
+            return back()->with('status', __($status));
+        }
+
+        throw \Illuminate\Validation\ValidationException::withMessages([
+            'email' => [__($status)],
+        ]);
     }
 }

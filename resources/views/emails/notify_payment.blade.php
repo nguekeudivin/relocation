@@ -1,28 +1,28 @@
 @component('mail::message')
 
-# {{ t('Payment Notification Received') }}
+# Zahlungsbestaetigung erhalten
 
-{{ t('A customer has just notified us that they have sent the payment for their booking.') }}
+Ein Kunde hat uns soeben informiert, dass die Zahlung fuer seine Umzugsbuchung ueberwiesen wurde.
 
-**{{ t('Customer') }}:** @if($user) {{ $user->first_name }} {{ $user->last_name }} @else {{ $booking->first_name }} {{ $booking->last_name }} @endif  
-**{{ t('Contact Email') }}:** {{ $email }}
+**Kunde:** @if($user) {{ $user->first_name }} {{ $user->last_name }} @else {{ $booking->first_name }} {{ $booking->last_name }} @endif  
+**Kontakt E-Mail:** {{ $email }}
 
 ---
 
-## {{ t('Details') }}
+## Details
 
 @component('mail::panel')
-{{ t('Total cost of service') }}: **{{ number_format($booking->amount, 2) }}€**  <br/>
-{{ t('Booking fee') }}: **{{ number_format($booking->workers_tax + $booking->car_tax, 2) }}€**  <br/>
-{{ t('Scheduled Date') }}:** {{ $booking->date->translatedFormat('M d, Y \\a\\t g:i A') }}**
+Gesamtkosten der Dienstleistung: **{{ number_format($booking->amount, 2) }}€**  <br/>
+Reservierungsgebuehr: **{{ number_format($booking->workers_tax + $booking->car_tax, 2) }}€**  <br/>
+Geplanter Termin: **{{ $booking->date->translatedFormat('M d, Y \\a\\t g:i A') }}**
 @endcomponent
 
 ---
 
-{{ t('Please verify your bank account or payment gateway to confirm that the funds have been received before approving this booking.') }}
+Bitte pruefen Sie Ihr Bankkonto oder Zahlungsportal, bevor Sie diese Buchung freigeben, um den Zahlungseingang zu bestaetigen.
 
 @component('mail::button', ['url' => config('app.url') . '/admin/bookings/' . $booking->id])
-{{ t('View Booking in Dashboard') }}
+Buchung im Dashboard anzeigen
 @endcomponent
 
 @endcomponent

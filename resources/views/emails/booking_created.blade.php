@@ -1,31 +1,31 @@
 @component('mail::message')
 
-# {{ t('Facture :no', ['no' => 'AR-' . $booking->id]) }}
-**{{ t('De :name', ['name' => config('app.name', 'Arnold Umzug')]) }}**
+# Rechnung {{ 'AR-' . $booking->id }}
+**Von {{ config('app.name', 'Arnold Umzug') }}**
 
-{{ t('Hello :name,', ['name' => $greetingName]) }}
+Hallo {{ $greetingName }},
 
-{{ t('Thank you for using our service! You will find your invoice attached to this email.') }} 
-{{ t('Please take note of the payment terms and general terms and conditions.') }} 
+vielen Dank, dass Sie unseren Umzugsservice nutzen. Ihre Rechnung finden Sie im Anhang dieser E-Mail.  
+Bitte beachten Sie die Zahlungsbedingungen sowie unsere Allgemeinen Geschäftsbedingungen.
 
 @component('mail::panel')
-**{{ t('Note:') }}** {{ t('As soon as we receive the booking costs, we will firmly record the appointment in our calendar.') }} 
+**Hinweis:** Sobald die Buchungskosten bei uns eingegangen sind, bestätigen wir Ihren Umzugstermin verbindlich in unserem Kalender.
 @endcomponent
 
 ---
 
-**{{ t('For:') }}** {{ $booking->user->full_name ?? $booking->email }}   
-**{{ t('Due Date:') }}** {{ $booking->date->addDays(5)->translatedFormat('d.m.Y') }}   
-**{{ t('Total Amount:') }}** **{{ number_format($booking->amount, 2, ',', ' ') }} €** 
+**Kunde:** {{ $booking->user->full_name ?? $booking->email }}   
+**Fälligkeitsdatum:** {{ $booking->date->addDays(5)->translatedFormat('d.m.Y') }}   
+**Gesamtbetrag:** **{{ number_format($booking->amount, 2, ',', ' ') }} €** 
 
 @component('mail::button', ['url' => url('/invoice?lang='.$lang.'&token='.$booking->token)])
-{{ t('View Invoice') }}
+Rechnung ansehen
 @endcomponent   
 
-{{ t('Best regards,') }}  
-**{{ t('B. Arnold') }}** 
+Mit freundlichen Grussen  
+**B. Arnold** 
 
 ---
-<small>{{ t('Created and sent with :app.', ['app' => config('app.name')]) }}</small>
+<small>Erstellt und versendet mit {{ config('app.name') }}.</small>
 
 @endcomponent

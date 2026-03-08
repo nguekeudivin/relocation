@@ -1,35 +1,35 @@
 {{-- resources/views/emails/admin_booking_submitted.blade.php --}}
 @component('mail::message')
 
-# {{ t('New booking submitted :no', ['no' => 'AR-' . $booking->id]) }}
-**{{ t('To: :name', ['name' => config('app.name', 'Arnold Umzug') . ' (Admin)']) }}**
+# Neue Buchung eingegangen {{ 'AR-' . $booking->id }}
+**Empfaenger: {{ config('app.name', 'Arnold Umzug') }} (Admin)**
 
-{{ t('Hello,') }}
+Hallo,
 
-{{ t('A new booking has been submitted. The customer is about to pay the reservation fee. The invoice is attached to this email.') }}
+es wurde eine neue Umzugsbuchung erstellt. Der Kunde wird in Kuerze die Reservierungsgebuehr zahlen. Die Rechnung ist dieser E-Mail beigefuegt.
 
 @component('mail::panel')
-**{{ t('Customer') }}:** {{ $booking->first_name.' '.$booking->last_name }}  
-**{{ t('Email') }}:** {{ $booking->email ?? $booking->user?->email }}  
-**{{ t('Moving out address') }}:** {{ $booking->origin?->city }}{{ $booking->origin?->street ? ' - ' . $booking->origin->street : '' }}  
-**{{ t('Moving in address') }}:** {{ $booking->destination?->city }}{{ $booking->destination?->street ? ' - ' . $booking->destination->street : '' }}  
-**{{ t('Date & time') }}:** {{ $booking->date?->translatedFormat('d.m.Y H:i') }}
+**Kunde:** {{ $booking->first_name.' '.$booking->last_name }}  
+**E-Mail:** {{ $booking->email ?? $booking->user?->email }}  
+**Auszugsadresse:** {{ $booking->origin?->city }}{{ $booking->origin?->street ? ' - ' . $booking->origin->street : '' }}  
+**Einzugsadresse:** {{ $booking->destination?->city }}{{ $booking->destination?->street ? ' - ' . $booking->destination->street : '' }}  
+**Datum & Uhrzeit:** {{ $booking->date?->translatedFormat('d.m.Y H:i') }}
 @endcomponent
 
 ---
 
-**{{ t('Invoice No:') }}** {{ 'AR-' . $booking->id }}  
-**{{ t('Total Amount:') }}** **{{ number_format($booking->amount, 2, ',', ' ') }} €**  
-**{{ t('Booking fee') }}** **{{ number_format($booking->workers_tax + $booking->car_tax, 2, ',', ' ') }} €**  
+**Rechnungsnummer:** {{ 'AR-' . $booking->id }}  
+**Gesamtbetrag:** **{{ number_format($booking->amount, 2, ',', ' ') }} €**  
+**Reservierungsgebuehr:** **{{ number_format($booking->workers_tax + $booking->car_tax, 2, ',', ' ') }} €**  
 
 @component('mail::button', ['url' => route('invoice', $booking->id)])
-{{ t('View Invoice') }}
+Rechnung ansehen
 @endcomponent
 
-{{ t('Best regards,') }}  
-**{{ t('System Notification') }}**
+Mit freundlichen Grussen  
+**Systembenachrichtigung**
 
 ---
-<small>{{ t('Created and sent with :app.', ['app' => config('app.name')]) }}</small>
+<small>Erstellt und versendet mit {{ config('app.name') }}.</small>
 
 @endcomponent

@@ -505,5 +505,6 @@
     "View Booking Details": "Voir les détails de la réservation",
     "What is the distance the pickup place you and Paterborn ?": "Entfernung zwischen Abholort und Paderborn",
     "You pay transport if you are outside Paderborn": "Anfahrtskosten fallen außerhalb von Paderborn an",
-    "Provision of a moving service including :workers assistants :transport for a total duration of up to :duration working hours. The total cost of the service is :price €, which includes the initial booking fees required to secure the date.": "Prestation de service de déménagement comprenant : :workers assistants :transport pour une durée totale allant jusqu'à :duration heures de travail. Le coût total de la prestation est de :price €, incluant les frais de réservation initiaux nécessaires pour garantir la date."
+    "Provision of a moving service including :workers assistants :transport for a total duration of up to :duration working hours. The total cost of the service is :price €, which includes the initial booking fees required to secure the date.": "Prestation de service de déménagement comprenant : :workers assistants :transport pour une durée totale allant jusqu'à :duration heures de travail. Le coût total de la prestation est de :price €, incluant les frais de réservation initiaux nécessaires pour garantir la date.",
+    "How long is the distance between the moving out address and the moving in address in km ?": "Quelle est la distance en km entre l’adresse de départ et l’adresse d’arrivée ?"
 }
