@@ -1,10 +1,9 @@
-import { Head } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
 import TextLink from '@/components/typography/text-link';
 import { Button } from '@/components/ui/button';
 import { InputField } from '@/components/ui/form';
-import { useSimpleForm } from '@/hooks/use-simple-form';
 import useTranslation from '@/hooks/use-translation';
 import AuthLayout from '@/layouts/auth-layout';
 
@@ -19,7 +18,7 @@ interface ForgotPasswordProps {
 export default function ForgotPassword({ status }: ForgotPasswordProps) {
     const { t } = useTranslation();
 
-    const { data, setData, post, processing, errors } = useSimpleForm<ForgotPasswordForm>({
+    const { data, setData, post, processing, errors } = useForm<ForgotPasswordForm>({
         email: '',
     });
 
@@ -36,9 +35,7 @@ export default function ForgotPassword({ status }: ForgotPasswordProps) {
 
             <h3 className="mt-8 text-center text-3xl font-semibold">{t('Forgot password?')}</h3>
             <h4 className="mt-1 text-center text-gray-700">
-                {t(
-                    'No problem. Just enter your email address and we will send you a password reset link so you can choose a new one.',
-                )}
+                {t('No problem. Just enter your email address and we will send you a password reset link so you can choose a new one.')}
             </h4>
 
             {status && <div className="mt-6 mb-4 rounded-md bg-green-50 p-3 text-center text-sm font-medium text-green-600">{status}</div>}
