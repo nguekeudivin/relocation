@@ -100,12 +100,14 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                                 </div>
                             )}
 
-                            <div className="flex items-center gap-3">
-                                <Map className="text-my-dark/70 h-5 w-5" />
-                                <span className="text-my-dark">
-                                    {t('Distance to Paderborn')} {booking.distance_paderborn} km × 2
-                                </span>
-                            </div>
+                            {booking.distance_paderborn > 0 && (
+                                <div className="flex items-center gap-3">
+                                    <Map className="text-my-dark/70 h-5 w-5" />
+                                    <span className="text-my-dark">
+                                        {t('Distance to Paderborn')} {booking.distance_paderborn} km × 2
+                                    </span>
+                                </div>
+                            )}
 
                             <div className="flex justify-between">
                                 <span className="text-sm font-medium">{t('Reservation fee (workers and vehicle charges)')}</span>

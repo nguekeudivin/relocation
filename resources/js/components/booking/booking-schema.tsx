@@ -56,6 +56,12 @@ export const CreateBookingFormSchema = (t: any, formValues: any) => [
                 }),
             ),
 
+        distance: z.coerce.number({ invalid_type_error: t('Distance must be a number') }).refine(
+            (distance) => {
+                return formValues.car_type != undefined && parseFloat(formValues.distance) >= 1;
+            },
+            (distance) => ({ message: t('The distance must be at least 1km') }),
+        ),
         duration: z.coerce
             .number({
                 required_error: t('Duration is required'),
