@@ -60,7 +60,7 @@
                 <td style="vertical-align: top;">
                     <table class="info-table">
                         <tr><td>Rechnungsnummer:</td><td><strong>{{ $facture_no }}</strong></td></tr>
-                        <tr><td>Rechnungsdatum:</td><td><strong>{{ $date }}</strong></td></tr>
+                        <tr><td>Rechnungsdatum:</td><td><strong>{{ $facture_date }}</strong></td></tr>
                         <tr><td>Zahlungsbedingungen:</td><td><strong>5 Tage</strong></td></tr>
                         <tr><td>Fälligkeitsdatum:</td><td><strong>{{ $echeance }}</strong></td></tr>
                     </table>

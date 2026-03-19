@@ -15,7 +15,7 @@ class GetInvoiceData
                 // Invoice Header Data [cite: 8]
                 'lang' => $lang,
                 'facture_no'   => 'AR-' . $booking->id,
-                'date'         => now()->format('d.m.Y'),
+                'facture_date'         => now()->format('d.m.Y'),
                 'echeance'     => $booking->date->subDays(5)->format('d.m.Y'), // Due 5 days before service [cite: 8]
                 
                 'client_name'  => trim(($booking->first_name ?? '') . ' ' . ($booking->last_name ?? '')) ?: ($booking->user->full_name ?? $booking->email),
