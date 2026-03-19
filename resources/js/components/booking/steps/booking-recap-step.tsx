@@ -106,23 +106,43 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                                     {t('Distance to Paderborn')} {booking.distance_paderborn} km × 2
                                 </span>
                             </div>
+
+                            <div className="flex justify-between">
+                                <span className="text-sm font-medium">{t('Reservation fee (workers and vehicle charges)')}</span>
+                                <span className="font-semibold">{parseFloat(booking.tax as any).toFixed(2)} €</span>
+                            </div>
+
+                            <li className="flex justify-between">
+                                <div>
+                                    <span>{t('Transport fee')}</span>
+                                </div>
+                                <div>
+                                    <span className="md:hidden"> = </span>
+                                    <span className="font-semibold">{`${booking.transport.toFixed(2)}€ `}</span>
+                                </div>
+                            </li>
+
+                            <li className="flex justify-between">
+                                <div>
+                                    <span>{t('Prestation cost')}</span>
+                                </div>
+                                <div>
+                                    <span className="md:hidden"> = </span>
+                                    <span className="font-semibold">{booking.durationCost.toFixed(2)}€</span>
+                                </div>
+                            </li>
                         </div>
 
-                        <div className="border-my-dark/20 my-4 border-t border-dashed" />
+                        <div className="border-my-dark/20 my-2 border-t border-dashed" />
 
                         <div>
                             <div className="flex justify-between">
                                 <span className="text-sm font-medium">{t('Total amount')}</span>
                                 <span className="font-semibold">{parseFloat(booking.amount as any).toFixed(2)} €</span>
                             </div>
-
-                            <div className="flex justify-between">
-                                <span className="text-sm font-medium">{t('Reservation fee (workers and vehicle charges)')}</span>
-                                <span className="font-semibold">{parseFloat(booking.tax as any).toFixed(2)} €</span>
-                            </div>
                         </div>
 
-                        <p className="mt-4 rounded-md bg-blue-50 p-2 text-sm text-blue-900">{t('booking.payment_notice')}</p>
+                        <p className="rounded-md bg-blue-50 p-2 text-sm text-blue-900">{t('booking.payment_notice')}</p>
                     </div>
                 </div>
             </div>

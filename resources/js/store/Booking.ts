@@ -148,5 +148,7 @@ export const createBookingInstance = (form: any, settings: any) => {
         car_transport: getCarTransport(form, settings),
         distance_paderborn: form.values.distance_paderborn,
         paderborn_transport: getPaderbornTransport(form, settings),
+        durationCost: getDurationCost(form, settings),
+        transport: getCarTransport(form, settings) + getPaderbornTransport(form, settings),
     };
 };

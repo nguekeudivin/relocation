@@ -1,4 +1,3 @@
-import Show from '@/components/ui/show';
 import useTranslation from '@/hooks/use-translation';
 import useAppStore from '@/store';
 import { getCarTax, getCarTransport, getDurationCost, getPaderbornTransport, getWorkerTax } from '@/store/Booking';
@@ -24,7 +23,7 @@ export default function BookingCostCard({ form }: { form: any }) {
         <div className="bg-gray-200 p-4">
             <h4 className="font-semibold">{t('Cost calculation')}</h4>
             <ul className="mt-2 text-sm">
-                <li className="flex justify-between">
+                {/* <li className="flex justify-between">
                     <div>
                         <span>{t('Workers tax')}</span>
                     </div>
@@ -48,7 +47,19 @@ export default function BookingCostCard({ form }: { form: any }) {
                             <span className="font-semibold">{`${carTax.toFixed(2)}€ `}</span>
                         </div>
                     </li>
-                </Show>
+                </Show> */}
+                <li className="flex justify-between">
+                    {carTax != 0 ? (
+                        <>
+                            <span>{t('Reversation fee (workers and vehicle taxes):')} </span>{' '}
+                            <span className="font-semibold">{tax.toFixed(2)}€ </span>
+                        </>
+                    ) : (
+                        <>
+                            <span>{t('Reversation fee (workers taxes)')} </span> <span className="font-semibold">{tax.toFixed(2)}€ </span>
+                        </>
+                    )}
+                </li>
 
                 <div className="my-1 border-t border-gray-300"></div>
 
@@ -75,19 +86,6 @@ export default function BookingCostCard({ form }: { form: any }) {
             </ul>
             <div className="border-primary-600 my-2 border-t border-dashed"></div>
             <ul className="text-sm">
-                <li className="flex justify-between">
-                    {carTax != 0 ? (
-                        <>
-                            <span>{t('Reversation fee (workers and vehicle taxes):')} </span>{' '}
-                            <span className="font-semibold">{tax.toFixed(2)}€ </span>
-                        </>
-                    ) : (
-                        <>
-                            <span>{t('Reversation fee (workers taxes)')} </span> <span className="font-semibold">{tax.toFixed(2)}€ </span>
-                        </>
-                    )}
-                </li>
-                <li className="my-1 border-t border-gray-300"></li>
                 <li className="flex justify-between">
                     <span>{t('Total cost of the service : ')} </span> <span className="font-semibold">{total.toFixed(2)}€ </span>
                 </li>

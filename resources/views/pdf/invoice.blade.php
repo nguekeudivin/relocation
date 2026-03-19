@@ -156,11 +156,11 @@
             </div>
         </div>
 
-        <p style="font-size: 12px; margin-top: 30px;">
+        <p style="font-size: 10px; margin-top: 30px;">
             Dieser Rechnungsbetrag enthält keine Umsatzsteuer gemäß §19 Abs. 1 UStG (Kleinunternehmerregelung).
         </p>
         
-        <p style="font-size: 13px; margin-top: 15px;">
+        <p style="font-size: 10px; margin-top: 15px;">
             <strong>Zahlungsbedingungen:</strong>
             Die Reservierungsgebühr muss spätestens 5 Tage vor dem geplanten Umzugstermin überwiesen werden.
             Der verbleibende Restbetrag ist unmittelbar nach Abschluss der Umzugsarbeiten direkt an die Umzugshelfer zu bezahlen.
