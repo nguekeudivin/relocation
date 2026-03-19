@@ -74,13 +74,22 @@
             Wir bedanken uns für Ihren Auftrag und das Vertrauen in unseren Umzugsservice.
             Der Umzug findet am {{ $date }} an der Adresse {{ $client_street }}, {{ $client_city }} statt.
         </p>
-        
-        <p style="font-size: 12px;">
-            Für Ihren Umzug stellen wir {{ $workers }} erfahrene Umzugshelfer sowie ein Transportfahrzeug ({{ $car_type }}) zur Verfügung.
-            Die geplante Einsatzdauer beträgt bis zu {{ $duration }} Arbeitsstunden.
-            Die Gesamtkosten für diese Umzugsleistung belaufen sich auf {{ number_format($total_service, 2) }} €.
-            Der Betrag beinhaltet bereits die Reservierungsgebühr zur Sicherung Ihres Umzugstermins.
-        </p>
+
+        @if($car_type == null)
+            <p style="font-size: 12px;">
+                Für Ihren Umzug stellen wir {{ $workers }} erfahrene Umzugshelfer zur Verfügung. 
+                Die geplante Einsatzdauer beträgt bis zu {{ $duration }} Arbeitsstunden. 
+                Die Gesamtkosten für diese Umzugsleistung belaufen sich auf {{ number_format($total_service, 2, ',', '.') }} €. 
+                Der Betrag beinhaltet bereits die Reservierungsgebühr zur Sicherung Ihres Umzugstermins.
+            </p>
+        @else 
+            <p style="font-size: 12px;">
+                Für Ihren Umzug stellen wir {{ $workers }} erfahrene Umzugshelfer sowie ein Transportfahrzeug ({{ $car_type }}) zur Verfügung. 
+                Die geplante Einsatzdauer beträgt bis zu {{ $duration }} Arbeitsstunden. 
+                Die Gesamtkosten für diese Umzugsleistung belaufen sich auf {{ number_format($total_service, 2, ',', '.') }} €. 
+                Der Betrag beinhaltet bereits die Reservierungsgebühr zur Sicherung Ihres Umzugstermins.
+            </p>
+        @endif
 
         <table class="items-table">
             <thead>

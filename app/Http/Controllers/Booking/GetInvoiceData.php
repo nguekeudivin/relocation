@@ -37,7 +37,7 @@ class GetInvoiceData
                 'transport'       => $booking->transport,
 
 
-                'car_type' => $booking->car_type == null ? '' : 'and a '.($booking->car_type == 'bus' ? t('bus') : t('van')),
+                'car_type' => $booking->car_type == null ? null : ($booking->car_type == 'bus' ? 'Bus' : 'Transporter'),
 
                 'email' => 'kenelly391@gmail.com',
                 'tel'   => '0151 47353235',
