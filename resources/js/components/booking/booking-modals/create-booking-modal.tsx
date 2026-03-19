@@ -20,8 +20,8 @@ export function CreateBookingModal() {
     const display = store.display;
     const isVisible = display.visible[name];
     //const toggleModal = () => display.toggle(name);
-    const [reachedSteps, setReachedSteps] = useState<number[]>([0, 1, 2, 3]);
-    const [step, setStep] = useState<number>(2);
+    const [reachedSteps, setReachedSteps] = useState<number[]>([0]);
+    const [step, setStep] = useState<number>(0);
     const modalRef = useRef<any>(undefined);
 
     const { t } = useTranslation();
