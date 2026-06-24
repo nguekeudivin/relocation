@@ -441,6 +441,11 @@
     "Moving out address": "Adresse de départ",
     "Moving in address": "Adresse d’arrivée",
     "Distance to Paderborn": "Distance jusqu’à Paderborn",
+    "Search for an address...": "Rechercher une adresse...",
+    "Distance Paderborn → departure": "Distance Paderborn → départ",
+    "Distance departure → arrival": "Distance départ → arrivée",
+    "location.how_it_works.title": "Locations",
+    "location.how_it_works.description": "Nous sommes basés à Paderborn. Notre équipe part de là pour se rendre à votre adresse de départ, emballe et charge soigneusement vos biens, puis les transporte vers votre nouvelle destination. Les distances affichées nous permettent de calculer les frais de déplacement pour votre déménagement.",
     "Reservation fee (workers and vehicle charges)": "Frais de réservation (main-d’œuvre et véhicule)",
 
     "First name": "Prénom",

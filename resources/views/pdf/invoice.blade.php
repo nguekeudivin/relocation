@@ -54,7 +54,6 @@
                     <div class="client-box">
                         <strong>{{ $client_name }}</strong><br>
                         {{ $client_street }}<br>
-                        {{ $client_city }} <br>
                     </div>
                 </td>
                 <td style="vertical-align: top;">
@@ -72,7 +71,7 @@
 
         <p style="font-size: 12px;">
             Wir bedanken uns für Ihren Auftrag und das Vertrauen in unseren Umzugsservice.
-            Der Umzug findet am {{ $date }} an der Adresse {{ $client_street }}, {{ $client_city }} statt.
+            Der Umzug findet am {{ $date }} an der Adresse {{ $client_street }} statt.
         </p>
 
         @if($car_type == null)

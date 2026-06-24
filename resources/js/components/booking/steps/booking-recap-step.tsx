@@ -47,21 +47,19 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                         <div className="mt-5 flex items-start gap-4">
                             <div className="flex flex-col items-center">
                                 <div className="bg-my-dark h-3 w-3 rounded-full" />
-                                <div className="bg-my-dark/30 my-2 h-20 w-0.5" />
+                                <div className="bg-my-dark/30 my-2 h-12 w-0.5" />
                                 <div className="border-my-dark h-3 w-3 rounded-full border-2 bg-white" />
                             </div>
 
                             <div className="flex-1 space-y-6">
                                 <div>
                                     <p className="text-my-dark/70 text-xs font-medium">{t('Moving out address')}</p>
-                                    <p className="text-my-dark font-semibold">{booking.origin.city}</p>
-                                    {booking.origin.street && <p className="text-sm text-gray-600">{booking.origin.street}</p>}
+                                    <p className="text-my-dark font-semibold">{booking.origin.address}</p>
                                 </div>
 
                                 <div>
                                     <p className="text-my-dark/70 text-xs font-medium">{t('Moving in address')}</p>
-                                    <p className="text-my-dark font-semibold">{booking.destination.city}</p>
-                                    {booking.destination.street && <p className="text-sm text-gray-600">{booking.destination.street}</p>}
+                                    <p className="text-my-dark font-semibold">{booking.destination.address}</p>
                                 </div>
                             </div>
                         </div>
@@ -275,8 +273,6 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
             </Show>
 
             <BookingRecapUserLogged loggedUser={loggedUser} setLoggedUser={setLoggedUser} form={form} submit={submit} />
-
-            <div className="h-8 md:h-20" />
         </>
     );
 }

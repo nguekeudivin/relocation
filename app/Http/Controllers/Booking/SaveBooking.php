@@ -38,15 +38,15 @@ class SaveBooking
         }
 
         $origin = Address::create([
-            'city'   => $data['from_city'],
-            'street' => $data['from_street'],
-            'postal_code' => $data['from_postal_code']
+            'address' => $data['from_address'],
+            'lat'     => $data['from_lat'] ?? null,
+            'lng'     => $data['from_lng'] ?? null,
         ]);
 
         $destination = Address::create([
-            'city'   => $data['to_city'],
-            'street' => $data['to_street'],
-            'postal_code' => $data['to_postal_code']
+            'address' => $data['to_address'],
+            'lat'     => $data['to_lat'] ?? null,
+            'lng'     => $data['to_lng'] ?? null,
         ]);
 
         $user = null;

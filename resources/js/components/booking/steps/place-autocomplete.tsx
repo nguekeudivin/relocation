@@ -30,5 +30,11 @@ export default function PlaceAutocomplete({ placeholder, onSelect }: Props) {
         };
     }, [places, onSelect]);
 
-    return <input ref={inputRef} placeholder={placeholder} className="w-full rounded border px-3 py-2" />;
+    return (
+        <input
+            ref={inputRef}
+            placeholder={placeholder}
+            className="focus:ring-secondary-300 block w-full border border-gray-300 bg-transparent p-2 text-sm text-gray-900 focus:border-transparent focus:ring-2 focus:outline-none"
+        />
+    );
 }

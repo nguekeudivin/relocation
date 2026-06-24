@@ -53,35 +53,6 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
         }
     }, [form.values.car_type, form.values.date, settings]);
 
-    async function getRoadDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
-        const url = `https://router.project-osrm.org/route/v1/driving/${lon1},${lat1};${lon2},${lat2}?overview=false`;
-        const response = await fetch(url);
-        const data = await response.json();
-        // OSRM returns distance in meters
-        const distanceKm = data.routes[0].distance / 1000;
-        return distanceKm;
-    }
-
-    function computeDistance() {
-        getRoadDistance(
-            parseFloat(form.values.from.lt),
-            parseFloat(form.values.from.lg),
-            parseFloat(form.values.to.lt),
-            parseFloat(form.values.to.lg),
-        ).then((dist) => {
-            form.setValue('distance', dist);
-        });
-    }
-
-    function computePaderbornDistance() {
-        const paderBorn = { n: 'Paderborn', cp: '33104', lg: '8.757301', lt: '51.719601' };
-        getRoadDistance(parseFloat(form.values.from.lt), parseFloat(form.values.from.lg), parseFloat(paderBorn.lt), parseFloat(paderBorn.lt)).then(
-            (dist) => {
-                form.setValue('distance_paderborn', dist);
-            },
-        );
-    }
-
     return (
         <>
             <h3 className="text-lg font-semibold">{t('Provide details about the service')}</h3>
@@ -113,16 +84,6 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                         value={form.values.duration}
                         onChange={form.handleChange}
                     />
-                    <div>
-                        <InputField
-                            name="distance_paderborn"
-                            type="number"
-                            label={t('What is the distance between the pickup place and Paderborn?')}
-                            value={form.values.distance_paderborn}
-                            onChange={form.handleChange}
-                        />
-                        <small className="text-xs text-gray-600">{t('You pay transport if you are outside Paderborn')}</small>
-                    </div>
                 </div>
 
                 <div className="col-span-2">
@@ -146,13 +107,6 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
 
                     <Show when={form.values.car_type != undefined}>
                         <div className="mt-4 space-y-4">
-                            <InputField
-                                name="distance"
-                                type="number"
-                                label={t('How long is the distance between the moving out address and the moving in address in km ?')}
-                                value={form.values.distance}
-                                onChange={form.handleChange}
-                            />
                             <InputLabel>{t('Which type of vehicle do you need?')}</InputLabel>
                             <div className="flex gap-2">
                                 <button

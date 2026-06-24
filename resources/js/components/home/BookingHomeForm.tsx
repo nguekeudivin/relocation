@@ -1,13 +1,14 @@
-import cities from '@/config/cities.json';
 import { useSimpleForm } from '@/hooks/use-simple-form';
 import useTranslation from '@/hooks/use-translation';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '../ui/button';
-import { SelectField, TextAreaField } from '../ui/form';
+import { TextAreaField } from '../ui/form';
 
 export default function BookingHomeForm() {
     const form = useSimpleForm({
         date: '',
+        from_address: '',
+        to_address: '',
     });
     const { t } = useTranslation();
     return (
@@ -15,30 +16,24 @@ export default function BookingHomeForm() {
             <div className="col-span-2">
                 <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
                     <aside className="space-y-4 bg-gray-200 p-6">
-                        <h3 className="font-semibold"> Move From</h3>
-                        <SelectField
-                            onChange={form.handleChange}
-                            options={cities.map((item) => ({ label: item, value: item }))}
-                            label={t('City')}
-                            value={form.values.from_city}
-                        />
+                        <h3 className="font-semibold">{t('Move From')}</h3>
                         <TextAreaField
-                            name="from_street"
+                            name="from_address"
                             onChange={form.handleChange}
-                            label={t('Address')}
+                            label={t('Moving out address')}
                             rows={2}
-                            value={form.values.from_street}
+                            value={form.values.from_address}
                         />
                     </aside>
                     <aside className="bg-primary-50 space-y-4 p-6">
-                        <h3 className="font-semibold"> to</h3>
-                        <SelectField
+                        <h3 className="font-semibold">{t('Move To')}</h3>
+                        <TextAreaField
+                            name="to_address"
                             onChange={form.handleChange}
-                            options={cities.map((item) => ({ label: item, value: item }))}
-                            label={t('City')}
-                            value={form.values.to_city}
+                            label={t('Moving in address')}
+                            rows={2}
+                            value={form.values.to_address}
                         />
-                        <TextAreaField name="to_street" onChange={form.handleChange} label={t('Address')} rows={2} value={form.values.to_street} />
                     </aside>
                 </div>
                 <div className="mt-8">

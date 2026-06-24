@@ -43,11 +43,11 @@ export function CompleteBookingModal() {
                 <div className="mt-4 w-full space-y-2 rounded bg-blue-50 px-4 py-3 text-sm font-medium text-blue-700">
                     <div className="flex justify-between">
                         <span>{t('Pick-up')}</span>
-                        <span className="font-semibold">{booking.origin.city}</span>
+                        <span className="font-semibold">{booking.origin.address}</span>
                     </div>
                     <div className="flex justify-between">
                         <span>{t('Delivery')}</span>
-                        <span className="font-semibold">{booking.destination.city}</span>
+                        <span className="font-semibold">{booking.destination.address}</span>
                     </div>
                     <div className="flex justify-between border-t border-blue-200 pt-2">
                         <span>

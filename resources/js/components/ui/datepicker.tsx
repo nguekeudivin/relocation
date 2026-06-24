@@ -106,7 +106,7 @@ export default function DatePicker({ date, limitLeft, limitRight, disabledDates 
     }
 
     return (
-        <div className={cn('w-[400px] bg-white p-4', className)}>
+        <div className={cn('w-[450px] bg-white p-8', className)}>
             <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <h2 className="font-semibold">{t(currentDate.toLocaleString('default', { month: 'long' }))}</h2>

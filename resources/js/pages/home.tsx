@@ -1,12 +1,10 @@
-import { BookingSuccessModal } from '@/components/booking/booking-modals/booking-success-modal';
-import { CreateBookingModal } from '@/components/booking/booking-modals/create-booking-modal';
 import Logo from '@/components/common/Logo';
 import ChangeLanguage from '@/components/shared/change-language';
 import TermsModal from '@/components/terms/terms-modal';
 import { Button } from '@/components/ui/button';
 import useTranslation from '@/hooks/use-translation';
 import useAppStore from '@/store';
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { BadgePercent, Caravan, Clock, LampDesk, NotebookPen, Package } from 'lucide-react';
 
 export default function Welcome() {
@@ -15,9 +13,6 @@ export default function Welcome() {
 
     return (
         <>
-            <CreateBookingModal />
-            <BookingSuccessModal />
-
             {/* --- NAV --- */}
             <nav className="absolute top-0 w-full bg-transparent px-4 py-6 md:px-0">
                 <div className="bg-[]"></div>
@@ -30,9 +25,9 @@ export default function Welcome() {
                         </div>
                     </div>
                     <div className="mt-4 flex items-center gap-4 md:mt-0">
-                        <Button className="hidden md:inline-flex" onClick={() => store.display.show('create_booking')}>
-                            {t('Book a prestation')}
-                        </Button>
+                        <Link href="/booking" className="hidden md:inline-flex">
+                            <Button>{t('Book a prestation')}</Button>
+                        </Link>
 
                         <Link href="/login" className="hidden md:inline-flex">
                             <Button color="dark">{t('Account')}</Button>
@@ -63,9 +58,11 @@ export default function Welcome() {
                                 )}
                             </p>
 
-                            <Button onClick={() => store.display.show('create_booking')} className="px-8 py-3 text-lg">
-                                {t('Book a prestation')}
-                            </Button>
+                            <Link href="/booking">
+                                <Button className="px-8 py-3 text-lg">
+                                    {t('Book a prestation')}
+                                </Button>
+                            </Link>
 
                             <div>
                                 <Link href="/login" className="md:hidden">
@@ -122,11 +119,9 @@ export default function Welcome() {
                                 icon: Caravan,
                             },
                         ].map((item, index) => (
-                            <div
+                            <Link
                                 key={index}
-                                onClick={() => {
-                                    store.display.show('create_booking');
-                                }}
+                                href="/booking"
                                 className="hover:bg-primary-500 relative h-48 bg-white p-8 transition hover:text-white md:h-64"
                             >
                                 <h3 className="w-4/5 text-xl uppercase">{item.title}</h3>
@@ -135,7 +130,7 @@ export default function Welcome() {
                                     <item.icon className="h-12 w-12 stroke-1" />
                                 </div>
                                 <div className="absolute top-8 right-8 text-3xl font-semibold text-gray-300">{`0${index + 1}`}</div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>
@@ -213,9 +208,11 @@ export default function Welcome() {
                                 <p className="font-semibold">{t('for your relocation')}</p>
                             </h4>
 
-                            <Button onClick={() => store.display.show('create_booking')} className="mt-12 px-8 py-3 text-lg">
-                                {t('Book a prestation')}
-                            </Button>
+                            <Link href="/booking">
+                                <Button className="mt-12 px-8 py-3 text-lg">
+                                    {t('Book a prestation')}
+                                </Button>
+                            </Link>
                         </aside>
 
                         <aside>

@@ -9,9 +9,9 @@ class Address extends Model
     protected $fillable = [
         'country',
         'state',
-        'city',
-        'street',
-        'postal_code'
+        'address',
+        'lat',
+        'lng',
     ];
 
     protected $appends = [
@@ -20,13 +20,6 @@ class Address extends Model
 
     public function getFullAddressAttribute(): string
     {
-        return collect([
-            $this->street,
-            $this->postal_code ? $this->postal_code . ' ' . $this->city : $this->city,
-            $this->state,
-            $this->country
-        ])
-        ->filter() 
-        ->implode(', '); 
+        return $this->address ?? '';
     }
 }

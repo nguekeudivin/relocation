@@ -31,12 +31,10 @@ class GetBookings extends Controller
                 $q->where('observation', 'like', "%{$keyword}%")
                   ->orWhere('email', 'like', "%{$keyword}%")
                   ->orWhereHas('origin', fn($o) => $o
-                      ->where('city', 'like', "%{$keyword}%")
-                      ->orWhere('street', 'like', "%{$keyword}%")
+                      ->where('address', 'like', "%{$keyword}%")
                   )
                   ->orWhereHas('destination', fn($d) => $d
-                      ->where('city', 'like', "%{$keyword}%")
-                      ->orWhere('street', 'like', "%{$keyword}%")
+                      ->where('address', 'like', "%{$keyword}%")
                   );
             });
         }

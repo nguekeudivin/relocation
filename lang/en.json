@@ -443,6 +443,11 @@
     "Moving out address": "Moving out address",
     "Moving in address": "Moving in address",
     "Distance to Paderborn": "Distance to Paderborn",
+    "Search for an address...": "Search for an address...",
+    "Distance Paderborn → departure": "Distance Paderborn → departure",
+    "Distance departure → arrival": "Distance departure → arrival",
+    "location.how_it_works.title": "Locations",
+    "location.how_it_works.description": "We are based in Paderborn. Our team departs from there to reach your moving-out address, carefully packs and loads your belongings, and transports them to your new location. The distances shown help us calculate the call-out fees for your move.",
 
     "Reservation fee (workers and vehicle charges)": "Reservation fee (workers and vehicle charges)",
 

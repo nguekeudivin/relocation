@@ -52,57 +52,57 @@ export default function BookingDateStep({ form, showError = true }: Props) {
         <>
             <h3 className="text-lg font-semibold">{t('When and at what time ?')}</h3>
             <Show when={showError}>{store.errors.render()}</Show>
-            <div className="mt-4 grid w-full grid-cols-1 gap-4 md:grid-cols-5 md:gap-12">
-                <div className="text-sm md:col-span-3">
-                    <DatePicker
-                        className="w-auto p-0"
-                        limitLeft={new Date()}
-                        date={date}
-                        disabledDates={[]}
-                        onPick={(pickedDate) => {
-                            if (form.values.time) {
-                                pickedDate.setHours(form.values.time.getHours());
-                                pickedDate.setMinutes(form.values.time.getMinutes());
-                            }
-                            form.setValue('date', pickedDate);
-                            setDate(pickedDate.toISOString().split('T')[0]);
-                        }}
-                    />
+            <div className="mt-4 bg-white p-4">
+                <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-5 md:gap-12">
+                    <div className="text-sm md:col-span-3">
+                        <DatePicker
+                            className="w-auto p-0"
+                            limitLeft={new Date()}
+                            date={date}
+                            disabledDates={[]}
+                            onPick={(pickedDate) => {
+                                if (form.values.time) {
+                                    pickedDate.setHours(form.values.time.getHours());
+                                    pickedDate.setMinutes(form.values.time.getMinutes());
+                                }
+                                form.setValue('date', pickedDate);
+                                setDate(pickedDate.toISOString().split('T')[0]);
+                            }}
+                        />
+                    </div>
+
+                    <Show when={times.length > 0}>
+                        <ul className="grid grid-cols-3 gap-4 md:col-span-2 md:grid-cols-3">
+                            {times.map((item, index) => {
+                                let isEqual = false;
+                                if (form.values.time) {
+                                    isEqual = item.getHours() == form.values.time.getHours() && item.getMinutes() == form.values.time.getMinutes();
+                                }
+                                return (
+                                    <li
+                                        key={`time${index}`}
+                                        onClick={() => {
+                                            const dateObj = new Date(form.values.date);
+                                            dateObj.setHours(item.getHours());
+                                            dateObj.setMinutes(item.getMinutes());
+                                            form.setValue('date', dateObj);
+                                            form.setValue('time', item);
+                                        }}
+                                        className={cn(
+                                            'inline-flex cursor-pointer items-center justify-center border border-gray-200 px-4 py-2 text-center text-sm',
+                                            {
+                                                'bg-primary-500 border-primary-500 text-white': isEqual,
+                                            },
+                                        )}
+                                    >
+                                        {format(item, 'HH:mm')}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </Show>
                 </div>
-
-                <Show when={times.length > 0}>
-                    <ul className="grid grid-cols-3 gap-4 md:col-span-2 md:grid-cols-3">
-                        {times.map((item, index) => {
-                            let isEqual = false;
-                            if (form.values.time) {
-                                isEqual = item.getHours() == form.values.time.getHours() && item.getMinutes() == form.values.time.getMinutes();
-                            }
-                            return (
-                                <li
-                                    key={`time${index}`}
-                                    onClick={() => {
-                                        const dateObj = new Date(form.values.date);
-                                        dateObj.setHours(item.getHours());
-                                        dateObj.setMinutes(item.getMinutes());
-                                        form.setValue('date', dateObj);
-                                        form.setValue('time', item);
-                                    }}
-                                    className={cn(
-                                        'inline-flex cursor-pointer items-center justify-center border border-gray-200 px-4 py-2 text-center text-sm',
-                                        {
-                                            'bg-primary-500 border-primary-500 text-white': isEqual,
-                                        },
-                                    )}
-                                >
-                                    {format(item, 'HH:mm')}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </Show>
             </div>
-
-            <div className="h-8 md:h-20"></div>
         </>
     );
 }

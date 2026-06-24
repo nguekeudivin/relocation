@@ -34,6 +34,10 @@ Route::get('/', function () {
    return Inertia::render('home');
 });
 
+Route::get('/booking', function () {
+    return Inertia::render('booking');
+});
+
 Route::get('/terms', function(){
     return Inertia::render('home');
 });

@@ -11,8 +11,8 @@ es wurde eine neue Umzugsbuchung erstellt. Der Kunde wird in Kuerze die Reservie
 @component('mail::panel')
 **Kunde:** {{ $booking->first_name.' '.$booking->last_name }}  
 **E-Mail:** {{ $booking->email ?? $booking->user?->email }}  
-**Auszugsadresse:** {{ $booking->origin?->city }}{{ $booking->origin?->street ? ' - ' . $booking->origin->street : '' }}  
-**Einzugsadresse:** {{ $booking->destination?->city }}{{ $booking->destination?->street ? ' - ' . $booking->destination->street : '' }}  
+**Auszugsadresse:** {{ $booking->origin?->address }}  
+**Einzugsadresse:** {{ $booking->destination?->address }}  
 **Datum & Uhrzeit:** {{ $booking->date?->translatedFormat('d.m.Y H:i') }}
 @endcomponent
 

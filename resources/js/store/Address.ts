@@ -2,7 +2,7 @@ interface Address {
     id: number;
     country: string;
     state: string;
-    city: string;
-    street: string;
-    name: string;
+    address: string;
+    lat: number | null;
+    lng: number | null;
 }

@@ -22,15 +22,10 @@ export default function MyProfilePage() {
     const { t, formatDate } = useTranslation();
 
     const form = useSimpleForm({
-        //
         date: new Date(booking.date),
         time: new Date(booking.date),
-        // Location.
-        from_city: booking.origin.city,
-        from_street: booking.origin.street,
-        to_city: booking.destination.city,
-        to_street: booking.destination.street,
-        //
+        from_address: booking.origin.address ?? '',
+        to_address: booking.destination.address ?? '',
         workers: booking.workers,
         car_type: booking.car_type,
         duration: booking.duration,
@@ -48,7 +43,7 @@ export default function MyProfilePage() {
         store.booking
             .update(
                 booking.id,
-                pick(form.values, ['date', 'from_city', 'from_street', 'to_city', 'to_street', 'workers', 'car_type', 'duration', 'transport_price']),
+                pick(form.values, ['date', 'from_address', 'to_address', 'workers', 'car_type', 'duration', 'transport_price']),
             )
             .then(() => {
                 store.display.show('edit_booking_success');
@@ -141,13 +136,11 @@ export default function MyProfilePage() {
                                 <div className="flex-1 space-y-6">
                                     <div>
                                         <p className="text-my-dark/70 text-xs font-medium">{t('Pick-up')}</p>
-                                        <p className="text-my-dark font-semibold">{form.values.from_city}</p>
-                                        <p className="text-sm text-gray-600">{form.values.from_street}</p>
+                                        <p className="text-my-dark font-semibold">{form.values.from_address}</p>
                                     </div>
                                     <div>
                                         <p className="text-my-dark/70 text-xs font-medium">{t('Delivery')}</p>
-                                        <p className="text-my-dark font-semibold">{form.values.to_city}</p>
-                                        <p className="text-sm text-gray-600">{form.values.to_street}</p>
+                                        <p className="text-my-dark font-semibold">{form.values.to_address}</p>
                                     </div>
                                 </div>
                             </div>

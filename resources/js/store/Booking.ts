@@ -127,12 +127,10 @@ export const getDurationCost = (form: any, settings: any) => {
 export const createBookingInstance = (form: any, settings: any) => {
     return {
         origin: {
-            city: form.values.from_city,
-            street: form.values.from_street,
+            address: form.values.from_address,
         },
         destination: {
-            city: form.values.to_city,
-            street: form.values.to_street,
+            address: form.values.to_address,
         },
         workers: form.values.workers,
         duration: form.values.duration,

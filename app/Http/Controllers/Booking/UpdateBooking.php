@@ -18,11 +18,13 @@ class UpdateBooking extends Controller
     {
 
         $data = $request->validate([
-            'date'           => 'required', 
-            'from_city'      => 'required',      
-            'to_city'        => 'required',
-            'from_street'    => 'required',
-            'to_street'      => 'required',
+            'date'           => 'required',
+            'from_address'   => 'required',
+            'to_address'     => 'required',
+            'from_lat'       => 'nullable|numeric',
+            'from_lng'       => 'nullable|numeric',
+            'to_lat'         => 'nullable|numeric',
+            'to_lng'         => 'nullable|numeric',
             'workers'        => 'required|integer|min:1|max:100',
             'car_type'       => ['nullable', Rule::in(['bus', 'van'])],
             'duration'       => 'required|numeric|min:2',
@@ -35,13 +37,15 @@ class UpdateBooking extends Controller
         $carsCost     = isset($data['car_type']) ?  $data['transport_price'] : 0;
 
         $booking->origin->update([
-            'city'   => $data['from_city'],
-            'street' => $data['from_street'],
+            'address' => $data['from_address'],
+            'lat'     => $data['from_lat'] ?? null,
+            'lng'     => $data['from_lng'] ?? null,
         ]);
 
         $booking->destination->update([
-            'city'   => $data['to_city'],
-            'street' => $data['to_street'],
+            'address' => $data['to_address'],
+            'lat'     => $data['to_lat'] ?? null,
+            'lng'     => $data['to_lng'] ?? null,
         ]);
 
         $booking->update([

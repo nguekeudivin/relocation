@@ -57,13 +57,11 @@ export default function BookingCard({ booking, header, mode }: Props) {
                         <div className="flex-1 space-y-6">
                             <div>
                                 <p className="text-my-dark/70 text-xs font-medium">{t('Pick-up')}</p>
-                                <p className="text-my-dark font-semibold">{booking.origin.city}</p>
-                                {booking.origin.street && <p className="text-sm text-gray-600">{booking.origin.street}</p>}
+                                <p className="text-my-dark font-semibold">{booking.origin.address}</p>
                             </div>
                             <div>
                                 <p className="text-my-dark/70 text-xs font-medium">{t('Delivery')}</p>
-                                <p className="text-my-dark font-semibold">{booking.destination.city}</p>
-                                {booking.destination.street && <p className="text-sm text-gray-600">{booking.destination.street}</p>}
+                                <p className="text-my-dark font-semibold">{booking.destination.address}</p>
                             </div>
                         </div>
                     </div>

@@ -457,6 +457,11 @@
     "home.safe_card_3.second": "uns um den Rest",
     "Moving out address": "Auszugsadresse",
     "Moving in address": "Einzugsadresse",
+    "Search for an address...": "Adresse suchen...",
+    "Distance Paderborn → departure": "Entfernung Paderborn → Auszug",
+    "Distance departure → arrival": "Entfernung Auszug → Einzug",
+    "location.how_it_works.title": "Locations",
+    "location.how_it_works.description": "Wir sind in Paderborn ansässig. Unser Team fährt von dort zu Ihrer Auszugsadresse, verpackt und lädt Ihre Möbel sorgfältig ein und transportiert sie zu Ihrem neuen Zielort. Die angezeigten Entfernungen helfen uns bei der Berechnung der Anfahrtskosten für Ihren Umzug.",
 
     "bus": "Bus",
     "van": "Transporter",

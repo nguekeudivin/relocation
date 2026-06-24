@@ -45,11 +45,11 @@ export function ConfirmBookingModal() {
                 <div className="mt-4 w-full space-y-2 rounded bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
                     <div className="flex justify-between">
                         <span>{t('Pick-up')}</span>
-                        <span className="font-semibold">{booking.origin.city}</span>
+                        <span className="font-semibold">{booking.origin.address}</span>
                     </div>
                     <div className="flex justify-between">
                         <span>{t('Delivery')}</span>
-                        <span className="font-semibold">{booking.destination.city}</span>
+                        <span className="font-semibold">{booking.destination.address}</span>
                     </div>
                     <div className="flex justify-between border-t border-green-200 pt-2">
                         <span>

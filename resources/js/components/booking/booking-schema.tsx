@@ -3,12 +3,8 @@ import { z } from 'zod';
 
 export const CreateBookingFormSchema = (t: any, formValues: any) => [
     z.object({
-        from_city: z.string({ required_error: t(`Pick-up city  is required.`) }).min(1, t(`Pick-up city  is required.`)),
-        from_street: z.string({ required_error: t(`Pick-up street is required.`) }).min(1, t(`Pick-up street is required.`)),
-        from_postal_code: z.string({ required_error: t(`Pick-up postal code is required.`) }).min(1, t(`Pick-up postal code is required.`)),
-        to_city: z.string({ required_error: t(`Delivery city is required.`) }).min(1, t(`Delivery city is required.`)),
-        to_street: z.string({ required_error: t(`Delivery street is required.`) }).min(1, t(`Delivery street is required.`)),
-        to_postal_code: z.string({ required_error: t(`Delivery postal code is required.`) }).min(1, t(`Delivery postal code is required.`)),
+        from_address: z.string({required_error: t('Moving out address is required')}).min(1, t(`Moving out address is required`)),
+        to_address: z.string({required_error: t('Moving in address is required')}).min(1, t(`Moving in address is required`)),
     }),
     z.object({
         date: z
@@ -56,12 +52,6 @@ export const CreateBookingFormSchema = (t: any, formValues: any) => [
                 }),
             ),
 
-        distance: z.coerce.number({ invalid_type_error: t('Distance must be a number') }).refine(
-            (distance) => {
-                return formValues.car_type != undefined && parseFloat(formValues.distance) >= 1;
-            },
-            (distance) => ({ message: t('The distance must be at least 1km') }),
-        ),
         duration: z.coerce
             .number({
                 required_error: t('Duration is required'),
@@ -128,13 +118,8 @@ export const createEditBookingSchema = (t: any, formValues: any) => {
             invalid_type_error: t('Invalid time'),
         }),
 
-        from_city: z.string().min(1, t('Pick-up city required')),
-
-        from_street: z.string().min(1, t('Pick-up Street is required')),
-
-        to_city: z.string().min(1, t('Delivery city required')),
-
-        to_street: z.string().min(1, t('Delivery Street is required')),
+        from_address: z.string({required_error: t('Moving out address is required')}).min(1, t(`Moving out address is required`)),
+        to_address: z.string({required_error: t('Moving in address is required')}).min(1, t(`Moving in address is required`)),
 
         workers: z.coerce
             .number({ invalid_type_error: t('Number of workers must be a number') })
