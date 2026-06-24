@@ -53,6 +53,35 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
         }
     }, [form.values.car_type, form.values.date, settings]);
 
+    async function getRoadDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+        const url = `https://router.project-osrm.org/route/v1/driving/${lon1},${lat1};${lon2},${lat2}?overview=false`;
+        const response = await fetch(url);
+        const data = await response.json();
+        // OSRM returns distance in meters
+        const distanceKm = data.routes[0].distance / 1000;
+        return distanceKm;
+    }
+
+    function computeDistance() {
+        getRoadDistance(
+            parseFloat(form.values.from.lt),
+            parseFloat(form.values.from.lg),
+            parseFloat(form.values.to.lt),
+            parseFloat(form.values.to.lg),
+        ).then((dist) => {
+            form.setValue('distance', dist);
+        });
+    }
+
+    function computePaderbornDistance() {
+        const paderBorn = { n: 'Paderborn', cp: '33104', lg: '8.757301', lt: '51.719601' };
+        getRoadDistance(parseFloat(form.values.from.lt), parseFloat(form.values.from.lg), parseFloat(paderBorn.lt), parseFloat(paderBorn.lt)).then(
+            (dist) => {
+                form.setValue('distance_paderborn', dist);
+            },
+        );
+    }
+
     return (
         <>
             <h3 className="text-lg font-semibold">{t('Provide details about the service')}</h3>
@@ -109,6 +138,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                                     store.errors.reset();
                                 } else {
                                     form.setValue('car_type', 'van');
+                                    //computeDistance();
                                 }
                             }}
                         />

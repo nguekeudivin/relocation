@@ -7,7 +7,7 @@ interface AutocompleteProps {
     name: string;
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    onSelect: (city: string) => void;
+    onSelect: (city: any) => void;
     placeholder?: string;
     error?: string;
 }
@@ -40,9 +40,9 @@ export const AutocompleteCityInput = ({ name, value, onChange, onSelect, placeho
         setIsOpen(results.length > 0);
     };
 
-    const handleSelect = (city: string) => {
-        setKeyword(city);
-        onSelect({ target: { name, value: city } } as any);
+    const handleSelect = (city: any) => {
+        setKeyword(city.n);
+        onSelect(city);
         setIsOpen(false);
     };
 
@@ -71,7 +71,7 @@ export const AutocompleteCityInput = ({ name, value, onChange, onSelect, placeho
                 value={keyword}
                 onChange={(e) => {
                     handleSearch(e.target.value);
-                    onChange(e);
+                    //onChange(e);
                 }}
                 onFocus={() => keyword.trim() && setIsOpen(filteredCities.length > 0)}
                 placeholder={placeholder}
@@ -90,7 +90,7 @@ export const AutocompleteCityInput = ({ name, value, onChange, onSelect, placeho
                         <button
                             key={`${city}${index}`}
                             type="button"
-                            onClick={() => handleSelect(city.n)}
+                            onClick={() => handleSelect(city)}
                             className="hover:bg-primary-50 hover:text-primary-700 block w-full px-4 py-2 text-left text-sm"
                         >
                             {city.n}

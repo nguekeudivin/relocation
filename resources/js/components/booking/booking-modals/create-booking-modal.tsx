@@ -26,63 +26,67 @@ export function CreateBookingModal() {
 
     const { t } = useTranslation();
 
-    const form = useSimpleForm({
-        date: new Date(),
-        time: undefined,
-        from_city: '',
-        from_postal_code: '',
-        from_street: '',
-        to_city: '',
-        to_street: '',
-        to_postal_code: '',
-        workers: 2,
-        car_type: undefined,
-        duration: 2,
-        amount: 0,
-        distance: 0,
-        distance_paderborn: 0,
-        transport_price: 0,
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone_number: '',
-        password: '',
-        with_account: true,
-        user_id: undefined,
-        accept: false,
-    });
-
     // const form = useSimpleForm({
-    //     date: new Date('2025-04-10'),
+    //     date: new Date(),
     //     time: undefined,
-
-    //     from_city: 'Berlin',
-    //     from_street: 'Alexanderplatz 5',
-    //     from_postal_code: '12345',
-
-    //     to_city: 'Hamburg',
-    //     to_street: 'Reeperbahn 120',
-    //     to_postal_code: '12345',
-
+    //     from_city: '',
+    //     from_postal_code: '',
+    //     from_street: '',
+    //     to_city: '',
+    //     to_street: '',
+    //     to_postal_code: '',
     //     workers: 2,
-    //     car_type: 'van',
-    //     distance: 0,
+    //     car_type: undefined,
     //     duration: 2,
-    //     distance_paderborn: 10,
-    //     amount: 300,
-    //     transport_price: 150,
-
-    //     first_name: 'Marie',
-    //     last_name: 'Keller',
-    //     email: 'marie.keller@example.com',
-    //     phone_number: '+49 151 2345678',
-    //     address: '',
-    //     password: 'password',
-
-    //     with_account: false,
+    //     amount: 0,
+    //     distance: 0,
+    //     distance_paderborn: 0,
+    //     transport_price: 0,
+    //     first_name: '',
+    //     last_name: '',
+    //     email: '',
+    //     phone_number: '',
+    //     password: '',
+    //     with_account: true,
     //     user_id: undefined,
-    //     accept: true,
+    //     accept: false,
+    //     to: { n: '', lg: '', lt: '' },
+    //     from: { n: '', lg: '', lt: '' },
     // });
+
+    const form = useSimpleForm({
+        date: new Date('2025-04-10'),
+        time: undefined,
+
+        from_city: 'Abtsteinach',
+        from_street: 'Alexanderplatz 5',
+        from_postal_code: '12345',
+
+        to_city: 'Bad Aibling',
+        to_street: 'Reeperbahn 120',
+        to_postal_code: '12345',
+
+        workers: 2,
+        car_type: 'van',
+        distance: 0,
+        duration: 2,
+        distance_paderborn: 10,
+        amount: 300,
+        transport_price: 150,
+
+        first_name: 'Marie',
+        last_name: 'Keller',
+        email: 'marie.keller@example.com',
+        phone_number: '+49 151 2345678',
+        address: '',
+        password: 'password',
+
+        with_account: false,
+        user_id: undefined,
+        accept: true,
+        from: { n: 'Abtsteinach', cp: '69518', lg: '8.786237', lt: '49.544051' },
+        to: { n: 'Bastorf', cp: '18230', lg: '11.697671', lt: '54.125959' },
+    });
 
     useEffect(() => {
         store.setting.fetch({});
@@ -269,7 +273,33 @@ export function CreateBookingModal() {
                             <BookingRecapStep form={form} submit={submit} />
                         </Show>
 
-                        <div className="left-8 flex gap-4 md:absolute md:bottom-6">
+                        {/* <div className="left-8 flex gap-4 md:absolute md:bottom-6">
+                            <Show when={step < 3}>
+                                {step > 0 && (
+                                    <Button color="outline" onClick={prevStep}>
+                                        {t('Back')} <ChevronLeft className="h-4 w-4" />
+                                    </Button>
+                                )}
+
+                                <Button color="dark" onClick={nextStep}>
+                                    {t('Continue')} <ChevronRight className="h-4 w-4" />
+                                </Button>
+                            </Show>
+                            {step == 3 && (
+                                <>
+                                    <Button color="outline" onClick={prevStep}>
+                                        {t('Back')} <ChevronLeft className="h-4 w-4" />
+                                    </Button>
+
+                                    {!store.display.visible.hide_submit && (
+                                        <Button color="dark" onClick={submit} loading={store.loading.status.booking}>
+                                            {t('Submit')} <ChevronRight className="h-4 w-4" />
+                                        </Button>
+                                    )}
+                                </>
+                            )}
+                        </div> */}
+                        <div className="left-8 flex gap-4">
                             <Show when={step < 3}>
                                 {step > 0 && (
                                     <Button color="outline" onClick={prevStep}>
