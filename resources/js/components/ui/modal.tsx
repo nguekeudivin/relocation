@@ -24,13 +24,19 @@ interface Props {
     className?: string;
     header?: React.ReactNode;
     footer?: ModalFooterProps;
+    onClose?: () => void;
 }
 
-export const Modal = ({ name, children, title, className, header, footer }: Props) => {
+export const Modal = ({ name, children, title, className, header, footer, onClose }: Props) => {
     const store = useAppStore();
     const display = store.display;
     const isVisible = display.visible[name];
-    const toggleModal = () => display.toggle(name);
+    const toggleModal = () => {
+        if (isVisible && onClose) {
+            onClose();
+        }
+        display.toggle(name);
+    };
 
     // 🔒 Lock body scroll when modal is open
     useEffect(() => {

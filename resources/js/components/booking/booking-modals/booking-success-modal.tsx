@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import useTranslation from '@/hooks/use-translation';
 import useAppStore from '@/store';
+import { router } from '@inertiajs/react';
 import { CheckCircle2, FileText } from 'lucide-react';
 
 export function BookingSuccessModal() {
@@ -17,8 +18,12 @@ export function BookingSuccessModal() {
         }
     };
 
+    const handleClose = () => {
+        router.visit('/');
+    };
+
     return (
-        <Modal title={t('Booking confirmation')} name={name} className="max-w-[500px]">
+        <Modal title={t('Booking confirmation')} name={name} className="max-w-[500px]" onClose={handleClose}>
             <div className="flex flex-col items-center py-4 text-center">
                 <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
                     <CheckCircle2 className="h-10 w-10 text-green-600" />
