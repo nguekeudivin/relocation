@@ -27,8 +27,8 @@ export const BookingStatusColors: any = {
 };
 
 export const BookingCarTypeMap: any = {
-    van: 'van',
-    bus: 'bus',
+    van: 'Mini LKW 3,5 Tonnen Peugeot Boxer 3.5t Koffer',
+    bus: 'Transporter Peugeot Boxer L3H2',
 };
 
 export const BookingTableColumns = ({ onView, onEdit, onDelete }: { onView?: any; onEdit?: any; onDelete?: any }) => {

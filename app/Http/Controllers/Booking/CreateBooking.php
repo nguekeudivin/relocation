@@ -25,13 +25,14 @@ class CreateBooking extends Controller
             'to_lng'         => 'nullable|numeric',
             'first_name'     => 'required',
             'last_name'      => 'required',
+            'address'        => 'required|string|max:255',
             'email'          => 'required|email',
             'distance'       => 'required|numeric',
             'distance_paderborn' => 'required|numeric',
             'workers'        => 'required|integer|min:1|max:100',
             'car_type'       => ['nullable', Rule::in(['bus', 'van'])],
             'duration'       => 'required|numeric|min:2',
-            'transport_price' => 'required'
+            'transport_price' => 'nullable|numeric'
         ]);
 
         $validated['user_id'] = $request->input("user_id");

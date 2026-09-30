@@ -71,7 +71,7 @@
 
         <p style="font-size: 12px;">
             Wir bedanken uns für Ihren Auftrag und das Vertrauen in unseren Umzugsservice.
-            Der Umzug findet am {{ $date }} an der Adresse {{ $client_street }} statt.
+            Der Umzug findet am {{ $date }} an der Adresse {{ $origin_address }} statt.
         </p>
 
         @if($car_type == null)

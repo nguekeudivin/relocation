@@ -30,6 +30,7 @@ class RegisteredUserController extends Controller
             'phone_number' => 'required|max:255|unique:users,phone_number',
             'last_name' => 'required|string|max:255',
             'password' => ['required'],
+            'booking.address' => 'required_with:booking|string|max:255',
         ]);
 
         DB::beginTransaction(); // <-- FIXED

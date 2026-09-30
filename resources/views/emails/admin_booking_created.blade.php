@@ -13,6 +13,7 @@ es wurde eine neue Umzugsbuchung erstellt. Der Kunde wird in Kuerze die Reservie
 **E-Mail:** {{ $booking->email ?? $booking->user?->email }}  
 **Auszugsadresse:** {{ $booking->origin?->address }}  
 **Einzugsadresse:** {{ $booking->destination?->address }}  
+**Rechnungsadresse:** {{ $booking->address }}  
 **Datum & Uhrzeit:** {{ $booking->date?->translatedFormat('d.m.Y H:i') }}
 @endcomponent
 

@@ -19,8 +19,9 @@ class GetInvoiceData
                 'echeance'     => $booking->date->subDays(5)->format('d.m.Y'), // Due 5 days before service [cite: 8]
                 
                 'client_name'  => trim(($booking->first_name ?? '') . ' ' . ($booking->last_name ?? '')) ?: ($booking->user->full_name ?? $booking->email),
-                'client_street'=> $booking->origin->address ?? 'N/A',
+                'client_street'=> $booking->address ?: ($booking->origin->address ?? 'N/A'),
                 'client_city'  => '',
+                'origin_address' => $booking->origin->address ?? 'N/A',
                 
                 'date' => $booking->date->format('d.m.Y'),
                 'workers'      => $booking->workers,
@@ -37,7 +38,7 @@ class GetInvoiceData
                 'transport'       => $booking->transport,
 
 
-                'car_type' => $booking->car_type == null ? null : ($booking->car_type == 'bus' ? 'Bus' : 'Transporter'),
+                'car_type' => $booking->car_type == null ? null : ($booking->car_type == 'bus' ? 'Transporter Peugeot Boxer L3H2' : 'Mini LKW 3,5 Tonnen Peugeot Boxer 3.5t Koffer'),
 
                 'email' => 'kenelly391@gmail.com',
                 'tel'   => '0151 47353235',

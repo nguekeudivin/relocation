@@ -15,7 +15,6 @@ export default function BookingCostCard({ form }: { form: any }) {
 
     const durationCost = getDurationCost(form, settings);
 
-    const transport = carTransport + paderbornTransport;
     const total = workerTax + carTax + carTransport + paderbornTransport + durationCost;
     const tax = workerTax + carTax;
 
@@ -63,13 +62,28 @@ export default function BookingCostCard({ form }: { form: any }) {
 
                 <div className="my-1 border-t border-gray-300"></div>
 
+                {carTransport > 0 && (
+                    <>
+                        <li className="flex justify-between">
+                            <div>
+                                <span>{t('Vehicle cost')}</span>
+                            </div>
+                            <div>
+                                <span className="md:hidden"> = </span>
+                                <span className="font-semibold">{`${carTransport.toFixed(2)}€ `}</span>
+                            </div>
+                        </li>
+                        <div className="my-1 border-t border-gray-300"></div>
+                    </>
+                )}
+
                 <li className="flex justify-between">
                     <div>
-                        <span>{t('Transport fee')}</span>
+                        <span>{t('Call-out fee')}</span>
                     </div>
                     <div>
                         <span className="md:hidden"> = </span>
-                        <span className="font-semibold">{`${transport.toFixed(2)}€ `}</span>
+                        <span className="font-semibold">{`${paderbornTransport.toFixed(2)}€ `}</span>
                     </div>
                 </li>
                 <div className="my-1 border-t border-gray-300"></div>

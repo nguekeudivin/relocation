@@ -1,9 +1,9 @@
+import useTranslation from '@/hooks/use-translation';
+import useAppStore from '@/store';
 import { AdvancedMarker, APIProvider, Map } from '@vis.gl/react-google-maps';
 import { useEffect, useState } from 'react';
 import PlaceAutocomplete from './place-autocomplete';
 import RouteRenderer from './route-renderer';
-import useAppStore from '@/store';
-import useTranslation from '@/hooks/use-translation';
 
 const API_KEY = 'AIzaSyD3PITTwBkMx8IzrnVpIm2H2ywvKsTVy30';
 const MAP_ID = '393332a91128db2695d4ee31';
@@ -113,7 +113,7 @@ export default function BookingLocationStep({ form }: any) {
             <APIProvider apiKey={API_KEY} libraries={['places']}>
                 <div className="space-y-4">
                     <div className="rounded-md bg-blue-50 p-4 text-sm text-blue-900">
-                        <p className="font-semibold text-lg">{t('location.how_it_works.title')}</p>
+                        <p className="text-lg font-semibold">{t('location.how_it_works.title')}</p>
                         <p className="mt-1">{t('location.how_it_works.description')}</p>
                     </div>
 
@@ -164,12 +164,7 @@ export default function BookingLocationStep({ form }: any) {
                     </div>
 
                     <div className="h-[450px] overflow-hidden rounded-lg border">
-                        <Map
-                            mapId={MAP_ID}
-                            defaultZoom={6}
-                            defaultCenter={{ lat: PADERBORN.lat, lng: PADERBORN.lng }}
-                            gestureHandling="greedy"
-                        >
+                        <Map mapId={MAP_ID} defaultZoom={6} defaultCenter={{ lat: PADERBORN.lat, lng: PADERBORN.lng }} gestureHandling="greedy">
                             <AdvancedMarker position={{ lat: PADERBORN.lat, lng: PADERBORN.lng }} />
                             {origin && <AdvancedMarker position={{ lat: origin.lat, lng: origin.lng }} />}
                             {destination && <AdvancedMarker position={{ lat: destination.lat, lng: destination.lng }} />}
@@ -181,7 +176,7 @@ export default function BookingLocationStep({ form }: any) {
                         {paderbornDistance && (
                             <div className="rounded bg-blue-50 p-4">
                                 <div>
-                                    <strong>{t('Distance Paderborn → departure')}:</strong> {paderbornDistance}
+                                    <strong>{t('Distance to moving point')}:</strong> {paderbornDistance}
                                 </div>
                             </div>
                         )}
@@ -189,7 +184,7 @@ export default function BookingLocationStep({ form }: any) {
                         {movingDistance && (
                             <div className="rounded bg-green-50 p-4">
                                 <div>
-                                    <strong>{t('Distance departure → arrival')}:</strong> {movingDistance}
+                                    <strong>{t('Distance between the pickup location and the destination')}:</strong> {movingDistance}
                                 </div>
                             </div>
                         )}

@@ -10,6 +10,7 @@ import { User } from '@/store/User';
 import { usePage } from '@inertiajs/react';
 import { Bus, Clock, Map, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { BookingCarTypeMap } from '../booking-meta';
 import BookingRecapUserLogged from '../booking-recap-user-logged';
 
 export default function BookingRecapStep({ form, submit }: { form: any; submit: any }) {
@@ -25,6 +26,7 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
             form.setValue('first_name', auth.user.first_name);
             form.setValue('last_name', auth.user.last_name);
             form.setValue('email', auth.user.email);
+            form.setValue('address', auth.user.address ?? '');
             setLoggedUser(auth.user);
             store.display.show('hide_submit');
         }
@@ -71,7 +73,7 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                             {booking.car_type && (
                                 <div className="flex items-center gap-3">
                                     <Bus className="text-my-dark/70 h-5 w-5" />
-                                    <span className="text-my-dark font-medium capitalize">{booking.car_type === 'bus' ? t('bus') : t('van')}</span>
+                                    <span className="text-my-dark font-medium">{t(BookingCarTypeMap[booking.car_type])}</span>
                                 </div>
                             )}
 
@@ -112,13 +114,25 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                                 <span className="font-semibold">{parseFloat(booking.tax as any).toFixed(2)} €</span>
                             </div>
 
+                            <Show when={booking.car_transport > 0}>
+                                <li className="flex justify-between">
+                                    <div>
+                                        <span>{t('Vehicle cost')}</span>
+                                    </div>
+                                    <div>
+                                        <span className="md:hidden"> = </span>
+                                        <span className="font-semibold">{`${booking.car_transport.toFixed(2)}€ `}</span>
+                                    </div>
+                                </li>
+                            </Show>
+
                             <li className="flex justify-between">
                                 <div>
-                                    <span>{t('Transport fee')}</span>
+                                    <span>{t('Call-out fee')}</span>
                                 </div>
                                 <div>
                                     <span className="md:hidden"> = </span>
-                                    <span className="font-semibold">{`${booking.transport.toFixed(2)}€ `}</span>
+                                    <span className="font-semibold">{`${booking.paderborn_transport.toFixed(2)}€ `}</span>
                                 </div>
                             </li>
 
@@ -189,14 +203,6 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                             label={t('Email address')}
                             error={store.errors.values.email}
                         />
-
-                        {/* <InputField
-                            name="address"
-                            value={form.values.address}
-                            onChange={form.handleChange}
-                            label={t('Full Address')}
-                            error={store.errors.values.address}
-                        /> */}
                     </div>
                 </Show>
 
@@ -226,14 +232,6 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                             error={store.errors.values.email}
                         />
 
-                        {/* <InputField
-                            name="address"
-                            value={form.values.address}
-                            onChange={form.handleChange}
-                            label={t('Full Address')}
-                            error={store.errors.values.address}
-                        /> */}
-
                         <div>
                             <label className="mb-1.5 block text-sm font-medium text-gray-900">{t('Phone number')}</label>
                             <PhoneNumberField
@@ -242,6 +240,17 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                                 error={store.errors.values.phone_number}
                             />
                         </div>
+
+                        {/* Billing address */}
+                        <InputField
+                            className="col-span-2"
+                            name="address"
+                            value={form.values.address}
+                            onChange={form.handleChange}
+                            label={t('Billing address')}
+                            placeholder={t('Enter full address (street, number, floor...)')}
+                            error={store.errors.values.address}
+                        />
 
                         <InputField
                             name="password"
@@ -253,6 +262,19 @@ export default function BookingRecapStep({ form, submit }: { form: any; submit: 
                             error={store.errors.values.password}
                         />
                     </div>
+                </Show>
+
+                {/* Billing address (guest only — the account form renders it above the password field) */}
+                <Show when={!form.values.with_account}>
+                    <InputField
+                        className="mt-4"
+                        name="address"
+                        value={form.values.address}
+                        onChange={form.handleChange}
+                        label={t('Billing address')}
+                        placeholder={t('Enter full address (street, number, floor...)')}
+                        error={store.errors.values.address}
+                    />
                 </Show>
 
                 {/* Consent */}

@@ -2,6 +2,7 @@ import useTranslation from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import useAppStore from '@/store';
 import { Button } from '../ui/button';
+import { InputField } from '../ui/form';
 import ToggleSwitch from '../ui/form/toggle-switch';
 import Show from '../ui/show';
 
@@ -18,6 +19,17 @@ export default function BookingRecapUserLogged({ form, loggedUser, setLoggedUser
 
     return (
         <Show when={!!loggedUser}>
+            {/* Billing address */}
+            <InputField
+                className="mt-4"
+                name="address"
+                value={form.values.address}
+                onChange={form.handleChange}
+                label={t('Billing address')}
+                placeholder={t('Enter full address (street, number, floor...)')}
+                error={store.errors.values.address}
+            />
+
             {/* Consent (you probably still want consent even when logged in) */}
             <div
                 className={cn('mt-6', {

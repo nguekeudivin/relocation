@@ -88,6 +88,11 @@ export default function BookingPage() {
             return 0;
         }
 
+        if (!form.values.address || !form.values.address.trim()) {
+            store.errors.set('address', t('Billing address is required'));
+            return 0;
+        }
+
         const data = {
             booking: pick(form.values, [
                 'date',
@@ -108,6 +113,7 @@ export default function BookingPage() {
                 'user_id',
                 'first_name',
                 'last_name',
+                'address',
             ]),
             ...pick(form.values, ['first_name', 'last_name', 'phone_number', 'email', 'password']),
         };

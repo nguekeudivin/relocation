@@ -27,6 +27,7 @@ export interface Booking {
     token: string;
     first_name: string;
     last_name: string;
+    address?: string | null;
 }
 
 interface BookingStore extends ResourceStore<Booking> {
@@ -91,14 +92,22 @@ export const useBooking = createResourceStore<Booking, BookingStore>('bookings',
     },
 }));
 
-export const getTransportBasePrice = (form: any, settings: any, isWeekday: any) => {
-    if (form.values.car_type == 'van') {
-        return isWeekday ? settings.van_price_weekday : settings.van_price_weekend;
-    } else if (form.values.car_type == 'bus') {
-        return isWeekday ? settings.bus_price_weekday : settings.bus_price_weekend;
+// Vehicle flat rate (forfait) based on the booking duration:
+// <= 4h → <type>_price_4h, > 4h → <type>_price_day × ceil(duration / 24)
+export const getVehicleFlatRate = (form: any, settings: any) => {
+    const carType = form.values.car_type;
+    if (carType == undefined) {
+        return 0;
     }
 
-    return 0;
+    const hours = parseFloat(numberValueOrZero(form.values.duration)) || 0;
+
+    if (hours <= 4) {
+        return parseFloat(settings[`${carType}_price_4h`]);
+    }
+
+    const days = Math.ceil(hours / 24);
+    return days * parseFloat(settings[`${carType}_price_day`]);
 };
 
 export const getWorkerTax = (form: any, settings: any) => {
@@ -111,8 +120,7 @@ export const getCarTax = (form: any, settings: any) => {
 
 export const getCarTransport = (form: any, settings: any) => {
     return form.values.car_type != undefined
-        ? parseFloat(numberValueOrZero(form.values.transport_price)) +
-              parseFloat(settings.fee_per_km) * parseInt(numberValueOrZero(form.values.distance)) * 2
+        ? getVehicleFlatRate(form, settings) + parseFloat(settings.fee_per_km) * parseInt(numberValueOrZero(form.values.distance)) * 2
         : 0;
 };
 

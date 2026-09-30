@@ -2,6 +2,8 @@
 namespace App\Mail;
 
 use App\Http\Controllers\Booking\GetInvoiceData;
+use App\Services\TokenService;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Attachment;
@@ -11,7 +13,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class BookingCreatedMail extends Mailable
+class BookingCreatedMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -44,6 +46,9 @@ class BookingCreatedMail extends Mailable
      */
     protected function withCommonData(): array
     {
+        // Le token dynamique ne survit pas à la sérialisation en queue — on le régénère à l'envoi.
+        $this->booking->token = $this->booking->token ?? TokenService::generate(['id' => $this->booking->id]);
+
         return [
             'booking'      => $this->booking,
             'user'         => $this->booking->user,

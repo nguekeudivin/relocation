@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingCreatedMail;
 use App\Services\TokenService;
+use App\Services\VehiclePricing;
 
 class SaveBooking
 {
@@ -26,7 +27,8 @@ class SaveBooking
 
         $durationCost = (float)$data['workers'] * (float)$settings['price_per_hour'] * (float)$data['duration'];
 
-        $carTransport  = (float)$data['transport_price'] + (float)$distance * (float)$settings['fee_per_km'] * 2;
+        $carFlatRate   = VehiclePricing::flatRate($data['car_type'] ?? null, (float)$data['duration'], $settings);
+        $carTransport  = $carFlatRate + (float)$distance * (float)$settings['fee_per_km'] * 2;
         $paderbornTransport = (float)$distancePaderborn * (float)$settings['fee_per_km'] * 2;
 
         $transport = $carTransport + $paderbornTransport;
@@ -69,6 +71,7 @@ class SaveBooking
             'email'          => $data['email'],
             'first_name'     => isset($data['first_name']) ? $data['first_name'] : null,
             'last_name'      => isset($data['last_name']) ? $data['last_name'] : null,
+            'address'        => $data['address'] ?? null,
             'amount'         => $durationCost + $carTax + $workerTax + $transport,
             'workers_tax'     => $workerTax,
             'car_tax'        => $carTax,

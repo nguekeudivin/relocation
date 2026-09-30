@@ -513,5 +513,18 @@
     "Provision of a moving service including :workers assistants :transport for a total duration of up to :duration working hours. The total cost of the service is :price €, which includes the initial booking fees required to secure the date.": "Prestation de service de déménagement comprenant : :workers assistants :transport pour une durée totale allant jusqu'à :duration heures de travail. Le coût total de la prestation est de :price €, incluant les frais de réservation initiaux nécessaires pour garantir la date.",
     "How long is the distance between the moving out address and the moving in address in km ?": "Quelle est la distance en km entre l’adresse de départ et l’adresse d’arrivée ?",
     "Distance must be a number": "La distance doit être un nombre",
-    "The distance must be at least 1km": "La distance doit être d'au moins 1 km"
+    "The distance must be at least 1km": "La distance doit être d'au moins 1 km",
+    "Distance to moving point": "Distance jusqu'au point de demenagement",
+    "Distance between the pickup location and the destination": "Entfernung zwischen dem Abholort und dem Ziel",
+    "Billing address": "Adresse de facturation",
+    "Billing address is required": "L'adresse de facturation est requise",
+    "Mini LKW 3,5 Tonnen": "Mini LKW 3,5 Tonnen",
+    "Peugeot Boxer 3.5t Koffer": "Peugeot Boxer 3.5t Koffer",
+    "Transporter": "Transporter",
+    "Peugeot Boxer L3H2": "Peugeot Boxer L3H2",
+    "Mini LKW 3,5 Tonnen Peugeot Boxer 3.5t Koffer": "Mini LKW 3,5 Tonnen Peugeot Boxer 3.5t Koffer",
+    "Transporter Peugeot Boxer L3H2": "Transporter Peugeot Boxer L3H2",
+    "Vehicle flat rate": "Forfait véhicule",
+    "Vehicle cost": "Coût du véhicule",
+    "Call-out fee": "Frais de déplacement"
 }

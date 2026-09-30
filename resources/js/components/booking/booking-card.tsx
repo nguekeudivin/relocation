@@ -1,4 +1,4 @@
-import { BookingStatusColors, BookingStatusMap } from '@/components/booking/booking-meta';
+import { BookingCarTypeMap, BookingStatusColors, BookingStatusMap } from '@/components/booking/booking-meta';
 import { Button } from '@/components/ui/button';
 import Show from '@/components/ui/show';
 import useTranslation from '@/hooks/use-translation';
@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import useAppStore from '@/store';
 import { Booking } from '@/store/Booking';
 import { Link } from '@inertiajs/react';
-import { Bus, Check, Clock, FileText, Map, Trash, UserIcon, Users } from 'lucide-react';
+import { Bus, Check, Clock, FileText, Map, MapPin, Trash, UserIcon, Users } from 'lucide-react';
 import { ReactNode } from 'react';
 import { Alert } from '../ui/alert';
 
@@ -40,6 +40,15 @@ export default function BookingCard({ booking, header, mode }: Props) {
                             <UserIcon className="h-4 w-4" />
                             <span className="font-bold">
                                 {booking.first_name} {booking.last_name}
+                            </span>
+                        </div>
+                    )}
+
+                    {mode == 'admin' && booking.address && (
+                        <div className="mt-1 flex items-center gap-2 text-sm text-gray-600">
+                            <MapPin className="h-4 w-4" />
+                            <span>
+                                {t('Billing address')}: {booking.address}
                             </span>
                         </div>
                     )}
@@ -112,10 +121,12 @@ export default function BookingCard({ booking, header, mode }: Props) {
                 {/* Partie droite : détails + prix */}
                 <div className="bg-my-gray relative flex-2 p-6">
                     <div className="space-y-2">
-                        <div className="flex items-center gap-3">
-                            <Bus className="text-my-dark/70 h-5 w-5" />
-                            <span className="text-my-dark font-medium capitalize">{booking.car_type === 'bus' ? t('bus') : t('van')}</span>
-                        </div>
+                        <Show when={!!booking.car_type}>
+                            <div className="flex items-center gap-3">
+                                <Bus className="text-my-dark/70 h-5 w-5" />
+                                <span className="text-my-dark font-medium">{t(BookingCarTypeMap[booking.car_type])}</span>
+                            </div>
+                        </Show>
 
                         <div className="flex items-center gap-3">
                             <Users className="text-my-dark/70 h-5 w-5" />

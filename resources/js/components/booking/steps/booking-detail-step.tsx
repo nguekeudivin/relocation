@@ -5,7 +5,7 @@ import Show from '@/components/ui/show';
 import useTranslation from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import useAppStore from '@/store';
-import { getTransportBasePrice } from '@/store/Booking';
+import { getVehicleFlatRate } from '@/store/Booking';
 import { addDays, getDay, isBefore, startOfDay } from 'date-fns';
 import { useEffect } from 'react';
 import BookingCostCard from './booking-cost-card';
@@ -36,7 +36,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
         const isWeekday = dayOfWeek >= 1 && dayOfWeek <= 4; // Mon–Thu
         const requiredDays = isWeekday ? 5 : 14;
 
-        const basePrice = getTransportBasePrice(form, settings, isWeekday);
+        const basePrice = getVehicleFlatRate(form, settings);
 
         const minAllowedDate = addDays(today, requiredDays);
 
@@ -51,7 +51,7 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
         } else {
             store.errors.reset();
         }
-    }, [form.values.car_type, form.values.date, settings]);
+    }, [form.values.car_type, form.values.date, form.values.duration, settings]);
 
     return (
         <>
@@ -120,7 +120,9 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                                     )}
                                 >
                                     <img src="/images/van.svg" />
-                                    <span className="text-sm font-medium">{t('3.5-ton Van')}</span>
+                                    <span className="text-sm font-medium">
+                                        {t('Mini LKW 3,5 Tonnen')} <strong>{t('Peugeot Boxer 3.5t Koffer')}</strong>
+                                    </span>
                                 </button>
 
                                 <button
@@ -134,7 +136,9 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                                     )}
                                 >
                                     <img src="/images/bus.svg" />
-                                    <span className="text-sm font-medium">{t('Minibus / Coaster')}</span>
+                                    <span className="text-sm font-medium">
+                                        {t('Transporter')} <strong>{t('Peugeot Boxer L3H2')}</strong>
+                                    </span>
                                 </button>
                             </div>
 
@@ -144,17 +148,13 @@ export default function BookingDetailStep({ form, showCost = true, showError = t
                                     {(() => {
                                         const day = getDay(new Date(form.values.date));
                                         const isWeekday = day >= 1 && day <= 4;
-                                        return isWeekday ? (
+                                        return (
                                             <p>
-                                                <strong>{t('Weekday job')}</strong> {'→'}
-                                                {`${getTransportBasePrice(form, settings, true)}€ + ${settings.fee_per_km}€/km`}
-                                                <span className="ml-2">({t('booking required 5 days in advance')})</span>
-                                            </p>
-                                        ) : (
-                                            <p>
-                                                <strong>{t('Weekend job')}</strong> {'→'}
-                                                {`${getTransportBasePrice(form, settings, false)}€ + ${settings.fee_per_km}€/km`}
-                                                <span className="ml-2">({t('booking required 14 days in advance')})</span>
+                                                <strong>{t('Vehicle flat rate')}</strong> {'→'}
+                                                {`${getVehicleFlatRate(form, settings)}€ + ${settings.fee_per_km}€/km`}
+                                                <span className="ml-2">
+                                                    ({t(isWeekday ? 'booking required 5 days in advance' : 'booking required 14 days in advance')})
+                                                </span>
                                             </p>
                                         );
                                     })()}

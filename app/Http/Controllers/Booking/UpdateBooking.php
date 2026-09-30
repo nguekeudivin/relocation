@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Booking;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Setting;
+use App\Services\VehiclePricing;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
@@ -28,13 +29,13 @@ class UpdateBooking extends Controller
             'workers'        => 'required|integer|min:1|max:100',
             'car_type'       => ['nullable', Rule::in(['bus', 'van'])],
             'duration'       => 'required|numeric|min:2',
-            'transport_price' => 'required'
+            'transport_price' => 'nullable|numeric'
         ]);
 
         $settings = Setting::all()->pluck('value', 'code');
         $workersCost  = $settings['worker_tax'] * $data['workers'];
         $durationCost = $settings['price_per_hour']    * $data['duration'];
-        $carsCost     = isset($data['car_type']) ?  $data['transport_price'] : 0;
+        $carsCost     = VehiclePricing::flatRate($data['car_type'] ?? null, (float)$data['duration'], $settings);
 
         $booking->origin->update([
             'address' => $data['from_address'],

@@ -14,6 +14,7 @@ class Booking extends Model
         'email',
         'first_name',
         'last_name',
+        'address',
         'date',
         'origin_id',
         'destination_id',

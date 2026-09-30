@@ -501,5 +501,17 @@
     "View Invoice": "View Invoice",
     "Best regards,": "Best regards,",
     "B. Arnold": "B. Arnold",
-    "Created and sent with :app.": "Created and sent with :app."
+    "Created and sent with :app.": "Created and sent with :app.",
+    "Distance between the pickup location and the destination": "Distance between the pickup location and the destination",
+    "Billing address": "Billing address",
+    "Billing address is required": "Billing address is required",
+    "Mini LKW 3,5 Tonnen": "Mini LKW 3,5 Tonnen",
+    "Peugeot Boxer 3.5t Koffer": "Peugeot Boxer 3.5t Koffer",
+    "Transporter": "Transporter",
+    "Peugeot Boxer L3H2": "Peugeot Boxer L3H2",
+    "Mini LKW 3,5 Tonnen Peugeot Boxer 3.5t Koffer": "Mini LKW 3,5 Tonnen Peugeot Boxer 3.5t Koffer",
+    "Transporter Peugeot Boxer L3H2": "Transporter Peugeot Boxer L3H2",
+    "Vehicle flat rate": "Vehicle flat rate",
+    "Vehicle cost": "Vehicle cost",
+    "Call-out fee": "Call-out fee"
 }
