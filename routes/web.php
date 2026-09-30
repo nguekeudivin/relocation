@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Booking\CompleteBooking;
 use App\Http\Controllers\Booking\ConfirmBooking;
-use App\Http\Controllers\Deploy\RunMigrations;
 
 use App\Http\Controllers\Booking\CreateBooking;
 
@@ -48,7 +47,6 @@ Route::get('/privacy', function(){
 });
 
 Route::get('/settings', GetSettings::class);
-Route::get('/deploy/migrate-fresh/{token}', RunMigrations::class);
 Route::post('/bookings', CreateBooking::class);
 Route::get('/invoice', GenerateInvoice::class)->name('invoice');
 
